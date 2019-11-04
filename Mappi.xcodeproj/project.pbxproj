@@ -12,6 +12,11 @@
 		72B114DD236FC6E1000F7EFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72B114DB236FC6E1000F7EFD /* Main.storyboard */; };
 		72B114DF236FC6E3000F7EFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72B114DE236FC6E3000F7EFD /* Assets.xcassets */; };
 		72B114E2236FC6E3000F7EFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72B114E0236FC6E3000F7EFD /* LaunchScreen.storyboard */; };
+		72B114EA23708C8C000F7EFD /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114E923708C8C000F7EFD /* MapViewController.swift */; };
+		72B114EC23708D31000F7EFD /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114EB23708D31000F7EFD /* FolderViewController.swift */; };
+		72B114EE23708D84000F7EFD /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114ED23708D84000F7EFD /* FriendsViewController.swift */; };
+		72B114F023708FE0000F7EFD /* EditableFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114EF23708FE0000F7EFD /* EditableFolderView.swift */; };
+		72B114F223709023000F7EFD /* FriendFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114F123709023000F7EFD /* FriendFolderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +27,11 @@
 		72B114DE236FC6E3000F7EFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		72B114E1236FC6E3000F7EFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		72B114E3236FC6E3000F7EFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		72B114E923708C8C000F7EFD /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		72B114EB23708D31000F7EFD /* FolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
+		72B114ED23708D84000F7EFD /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
+		72B114EF23708FE0000F7EFD /* EditableFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableFolderView.swift; sourceTree = "<group>"; };
+		72B114F123709023000F7EFD /* FriendFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFolderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +66,11 @@
 			children = (
 				72B114D7236FC6E1000F7EFD /* AppDelegate.swift */,
 				72B114D9236FC6E1000F7EFD /* ViewController.swift */,
+				72B114EB23708D31000F7EFD /* FolderViewController.swift */,
+				72B114EF23708FE0000F7EFD /* EditableFolderView.swift */,
+				72B114F123709023000F7EFD /* FriendFolderView.swift */,
+				72B114ED23708D84000F7EFD /* FriendsViewController.swift */,
+				72B114E923708C8C000F7EFD /* MapViewController.swift */,
 				72B114DB236FC6E1000F7EFD /* Main.storyboard */,
 				72B114DE236FC6E3000F7EFD /* Assets.xcassets */,
 				72B114E0236FC6E3000F7EFD /* LaunchScreen.storyboard */,
@@ -135,7 +150,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72B114EC23708D31000F7EFD /* FolderViewController.swift in Sources */,
+				72B114EE23708D84000F7EFD /* FriendsViewController.swift in Sources */,
+				72B114F223709023000F7EFD /* FriendFolderView.swift in Sources */,
+				72B114F023708FE0000F7EFD /* EditableFolderView.swift in Sources */,
 				72B114DA236FC6E1000F7EFD /* ViewController.swift in Sources */,
+				72B114EA23708C8C000F7EFD /* MapViewController.swift in Sources */,
 				72B114D8236FC6E1000F7EFD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
