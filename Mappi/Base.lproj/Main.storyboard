@@ -144,7 +144,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="RxT-aF-KwX"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="folders" id="Jce-93-pp2"/>
+                    <tabBarItem key="tabBarItem" title="folders" image="folder" id="Jce-93-pp2"/>
                     <navigationItem key="navigationItem" id="1ON-4b-1UK"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nfH-3a-HqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -249,7 +249,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="k06-ge-1YP"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="map" largeContentSizeImage="map" id="Yw3-2I-lmt"/>
+                    <tabBarItem key="tabBarItem" title="map" image="map" largeContentSizeImage="map" id="Yw3-2I-lmt"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="HsS-tD-veP" id="p4a-tU-OYN"/>
@@ -276,11 +276,11 @@
             </objects>
             <point key="canvasLocation" x="2616" y="-556"/>
         </scene>
-        <!--Item-->
+        <!--folders-->
         <scene sceneID="FJv-QV-83r">
             <objects>
                 <navigationController id="haS-w2-epy" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="0Z7-ME-z7L"/>
+                    <tabBarItem key="tabBarItem" title="folders" image="folder" id="0Z7-ME-z7L"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nTg-x5-Jgx">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -312,11 +312,11 @@
             </objects>
             <point key="canvasLocation" x="993" y="510"/>
         </scene>
-        <!--Item-->
+        <!--friends-->
         <scene sceneID="hEk-fc-bQ0">
             <objects>
                 <navigationController id="Wwq-Gq-2Tn" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Ocl-2l-fjC"/>
+                    <tabBarItem key="tabBarItem" title="friends" image="people" id="Ocl-2l-fjC"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="U75-td-8MX">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -346,7 +346,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="my friends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iy6-K3-wRf">
-                                <rect key="frame" x="40" y="107" width="135" height="36"/>
+                                <rect key="frame" x="40" y="107" width="223" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                 <nil key="textColor"/>
@@ -361,7 +361,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ghA-qz-HUT"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="friends" id="Fi8-6u-nEC"/>
+                    <tabBarItem key="tabBarItem" title="friends" image="people" id="Fi8-6u-nEC"/>
                     <navigationItem key="navigationItem" id="CYJ-iK-jao"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dO9-eA-d4T" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -407,7 +407,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="21.333333969116211" height="21.333333969116211"/>
+        <image name="Image" width="16.666666030883789" height="16.666666030883789"/>
+        <image name="folder" width="25" height="25"/>
         <image name="map" width="32" height="32"/>
+        <image name="people" width="25" height="25"/>
     </resources>
 </document>
