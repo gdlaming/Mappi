@@ -227,7 +227,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4cH-Je-eiT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4682.608695652174" y="70.982142857142847"/>
+            <point key="canvasLocation" x="5592.753623188406" y="70.982142857142847"/>
         </scene>
         <!--Map Home Page-->
         <scene sceneID="AJj-Hq-3xo">
@@ -237,21 +237,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="search for places" translatesAutoresizingMaskIntoConstraints="NO" id="exY-bO-h8s">
-                                <rect key="frame" x="0.0" y="618" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UMa-Sl-52l">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <connections>
-                                    <outlet property="delegate" destination="Yfw-3n-Zdk" id="l9r-5d-yrm"/>
+                                    <outlet property="delegate" destination="Yfw-3n-Zdk" id="Jnt-ld-nhs"/>
                                 </connections>
-                            </searchBar>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="UMa-Sl-52l" firstAttribute="trailing" secondItem="k06-ge-1YP" secondAttribute="trailing" id="6QG-AH-mfF"/>
+                            <constraint firstItem="UMa-Sl-52l" firstAttribute="top" secondItem="k06-ge-1YP" secondAttribute="top" id="TKL-GO-knS"/>
+                            <constraint firstItem="UMa-Sl-52l" firstAttribute="leading" secondItem="k06-ge-1YP" secondAttribute="leading" id="c9P-Ut-aFE"/>
+                            <constraint firstItem="UMa-Sl-52l" firstAttribute="bottom" secondItem="k06-ge-1YP" secondAttribute="bottom" id="yc4-3p-VDc"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="k06-ge-1YP"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="map" image="map" largeContentSizeImage="map" id="Yw3-2I-lmt"/>
+                    <navigationItem key="navigationItem" id="Qy1-Gm-6Pt"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="mapView" destination="UMa-Sl-52l" id="CGG-G6-Lyz"/>
                         <outlet property="searchDisplayController" destination="HsS-tD-veP" id="p4a-tU-OYN"/>
                     </connections>
                 </viewController>
@@ -267,14 +272,13 @@
                 <searchDisplayController id="HsS-tD-veP">
                     <connections>
                         <outlet property="delegate" destination="Yfw-3n-Zdk" id="CUg-3T-NJw"/>
-                        <outlet property="searchBar" destination="exY-bO-h8s" id="8Gj-Ib-zfQ"/>
                         <outlet property="searchContentsController" destination="Yfw-3n-Zdk" id="SGO-Ms-Zlf"/>
                         <outlet property="searchResultsDataSource" destination="Yfw-3n-Zdk" id="TU0-xQ-btw"/>
                         <outlet property="searchResultsDelegate" destination="Yfw-3n-Zdk" id="mfP-So-i2t"/>
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="2616" y="-556"/>
+            <point key="canvasLocation" x="3526.0869565217395" y="-556.47321428571422"/>
         </scene>
         <!--folders-->
         <scene sceneID="FJv-QV-83r">
@@ -303,7 +307,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="Yfw-3n-Zdk" kind="relationship" relationship="viewControllers" id="bGS-BH-7XL"/>
+                        <segue destination="Tbi-KK-Eek" kind="relationship" relationship="viewControllers" id="bGS-BH-7XL"/>
                         <segue destination="haS-w2-epy" kind="relationship" relationship="viewControllers" id="Zgj-y7-Bwc"/>
                         <segue destination="Wwq-Gq-2Tn" kind="relationship" relationship="viewControllers" id="2iU-Ip-8kW"/>
                     </connections>
@@ -404,6 +408,25 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="4407" y="1535"/>
+        </scene>
+        <!--map-->
+        <scene sceneID="zzz-nW-N4b">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Tbi-KK-Eek" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="map" image="map" largeContentSizeImage="map" id="Yw3-2I-lmt"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qwB-Qy-R5n">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Yfw-3n-Zdk" kind="relationship" relationship="rootViewController" id="sGC-at-JXi"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="apc-Cq-hY7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2615.9420289855075" y="-556.47321428571422"/>
         </scene>
     </scenes>
     <resources>
