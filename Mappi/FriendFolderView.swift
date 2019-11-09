@@ -10,6 +10,7 @@ import UIKit
 
 class FriendFolderView: UIViewController {
 
+    @IBOutlet weak var folderView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
 

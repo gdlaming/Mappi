@@ -10,6 +10,7 @@ import UIKit
 
 class EditableFolderView: UIViewController {
 
+    @IBOutlet weak var folderView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
 

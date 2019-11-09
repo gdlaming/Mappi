@@ -101,7 +101,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="IqF-S3-Xqc">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="theCell" id="IqF-S3-Xqc">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IqF-S3-Xqc" id="Xg1-J0-cmD">
@@ -123,7 +123,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="OQJ-kp-cHO">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="theCell" id="OQJ-kp-cHO">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OQJ-kp-cHO" id="N0O-HE-eId">
@@ -146,6 +146,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="folders" image="folder" id="Jce-93-pp2"/>
                     <navigationItem key="navigationItem" id="1ON-4b-1UK"/>
+                    <connections>
+                        <outlet property="myFolders" destination="Nnm-hJ-Ng6" id="3xW-ED-IC3"/>
+                        <outlet property="sharedFolders" destination="8EL-gq-Y4n" id="xCg-ui-POI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nfH-3a-HqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -185,6 +189,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="nyc-L4-mtP"/>
                     </view>
+                    <connections>
+                        <outlet property="folderView" destination="ukd-vB-Nbw" id="NmB-go-7SG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Clu-hA-keS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -224,6 +231,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="lJR-0n-gep"/>
                     </view>
+                    <connections>
+                        <outlet property="folderView" destination="6Gp-H2-xtL" id="AHJ-rk-giH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4cH-Je-eiT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -439,6 +449,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="friends" image="people" id="Fi8-6u-nEC"/>
                     <navigationItem key="navigationItem" id="CYJ-iK-jao"/>
+                    <connections>
+                        <outlet property="friendView" destination="fnl-B6-Ho3" id="kYB-Yp-adl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dO9-eA-d4T" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

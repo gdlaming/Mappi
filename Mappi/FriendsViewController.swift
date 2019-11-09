@@ -10,6 +10,7 @@ import UIKit
 
 class FriendsViewController: UIViewController {
 
+    @IBOutlet weak var friendView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
