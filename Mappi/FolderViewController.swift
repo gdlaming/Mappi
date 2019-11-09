@@ -16,7 +16,37 @@ class FolderViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
+    func loadDatabase(){
+        
+        tableView.reloadData()
+        
+        let thepath = Bundle.main.path(forResource: "movies", ofType: "db")
+        let contactDB = FMDatabase(path: thepath)
+        
+        if !(contactDB.open()) {
+            print("Unable to open database")
+            return
+        } else {
+            do{
+                
+                let results = try contactDB.executeQuery("select * from movies", values:nil)
+                
+                while(results.next()) {
+                    let someName = results.string(forColumn: "title")
+                    print("movie title is \(String(describing: someName));")
+                    myArray.append(someName!)
+                    tableView.reloadData()
+                    
+                    
+                    
+                }
+            } catch let error as NSError {
+                print("failed \(error)")
+                
+            }
+        }
+        
+    }
     /*
     // MARK: - Navigation
 

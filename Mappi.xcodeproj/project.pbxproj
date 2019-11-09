@@ -18,6 +18,7 @@
 		72B114EE23708D84000F7EFD /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114ED23708D84000F7EFD /* FriendsViewController.swift */; };
 		72B114F023708FE0000F7EFD /* EditableFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114EF23708FE0000F7EFD /* EditableFolderView.swift */; };
 		72B114F223709023000F7EFD /* FriendFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114F123709023000F7EFD /* FriendFolderView.swift */; };
+		72EB6B162377312300911F02 /* mappi in Resources */ = {isa = PBXBuildFile; fileRef = 72EB6B152377312300911F02 /* mappi */; };
 		72F391BC2371F70D00AE575D /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72F391BB2371F70D00AE575D /* Media.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		72B114ED23708D84000F7EFD /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		72B114EF23708FE0000F7EFD /* EditableFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableFolderView.swift; sourceTree = "<group>"; };
 		72B114F123709023000F7EFD /* FriendFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFolderView.swift; sourceTree = "<group>"; };
+		72EB6B152377312300911F02 /* mappi */ = {isa = PBXFileReference; lastKnownFileType = file; name = mappi; path = ../../../mappi; sourceTree = "<group>"; };
 		72F391BB2371F70D00AE575D /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,6 +64,7 @@
 			children = (
 				72B114D6236FC6E1000F7EFD /* Mappi */,
 				72B114D5236FC6E1000F7EFD /* Products */,
+				72EB6B152377312300911F02 /* mappi */,
 				721B688D2370D5C1006230C6 /* josefin-sans */,
 			);
 			sourceTree = "<group>";
@@ -151,6 +154,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72EB6B162377312300911F02 /* mappi in Resources */,
 				721B688E2370D5C1006230C6 /* josefin-sans in Resources */,
 				72B114E2236FC6E3000F7EFD /* LaunchScreen.storyboard in Resources */,
 				721B68942370D855006230C6 /* JosefinSans-Light.ttf in Resources */,
