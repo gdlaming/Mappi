@@ -18,7 +18,13 @@
 		72B114EE23708D84000F7EFD /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114ED23708D84000F7EFD /* FriendsViewController.swift */; };
 		72B114F023708FE0000F7EFD /* EditableFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114EF23708FE0000F7EFD /* EditableFolderView.swift */; };
 		72B114F223709023000F7EFD /* FriendFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114F123709023000F7EFD /* FriendFolderView.swift */; };
-		72EB6B162377312300911F02 /* mappi in Resources */ = {isa = PBXBuildFile; fileRef = 72EB6B152377312300911F02 /* mappi */; };
+		72EB6B162377312300911F02 /* mappi.db in Resources */ = {isa = PBXBuildFile; fileRef = 72EB6B152377312300911F02 /* mappi.db */; };
+		72EB6B2323773AF100911F02 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 72EB6B1923773AF000911F02 /* FMDatabase.m */; };
+		72EB6B2423773AF100911F02 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 72EB6B1A23773AF000911F02 /* FMDatabasePool.m */; };
+		72EB6B2523773AF100911F02 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 72EB6B1B23773AF000911F02 /* FMDatabaseAdditions.m */; };
+		72EB6B2623773AF100911F02 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 72EB6B2023773AF100911F02 /* FMResultSet.m */; };
+		72EB6B2723773AF100911F02 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 72EB6B2223773AF100911F02 /* FMDatabaseQueue.m */; };
+		72EB6B2A23773B2A00911F02 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 72EB6B2923773B2A00911F02 /* libsqlite3.tbd */; };
 		72F391BC2371F70D00AE575D /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72F391BB2371F70D00AE575D /* Media.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -36,7 +42,20 @@
 		72B114ED23708D84000F7EFD /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		72B114EF23708FE0000F7EFD /* EditableFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableFolderView.swift; sourceTree = "<group>"; };
 		72B114F123709023000F7EFD /* FriendFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFolderView.swift; sourceTree = "<group>"; };
-		72EB6B152377312300911F02 /* mappi */ = {isa = PBXFileReference; lastKnownFileType = file; name = mappi; path = ../../../mappi; sourceTree = "<group>"; };
+		72EB6B152377312300911F02 /* mappi.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = mappi.db; path = ../../../mappi.db; sourceTree = "<group>"; };
+		72EB6B1723773AEF00911F02 /* Mappi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mappi-Bridging-Header.h"; sourceTree = "<group>"; };
+		72EB6B1823773AF000911F02 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		72EB6B1923773AF000911F02 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		72EB6B1A23773AF000911F02 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		72EB6B1B23773AF000911F02 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		72EB6B1C23773AF000911F02 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		72EB6B1D23773AF000911F02 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		72EB6B1E23773AF000911F02 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		72EB6B1F23773AF100911F02 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		72EB6B2023773AF100911F02 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		72EB6B2123773AF100911F02 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		72EB6B2223773AF100911F02 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		72EB6B2923773B2A00911F02 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		72F391BB2371F70D00AE575D /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -45,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72EB6B2A23773B2A00911F02 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,8 +84,21 @@
 			children = (
 				72B114D6236FC6E1000F7EFD /* Mappi */,
 				72B114D5236FC6E1000F7EFD /* Products */,
-				72EB6B152377312300911F02 /* mappi */,
+				72EB6B152377312300911F02 /* mappi.db */,
+				72EB6B1823773AF000911F02 /* FMDatabase.h */,
+				72EB6B1923773AF000911F02 /* FMDatabase.m */,
+				72EB6B1C23773AF000911F02 /* FMDatabaseAdditions.h */,
+				72EB6B1B23773AF000911F02 /* FMDatabaseAdditions.m */,
+				72EB6B1E23773AF000911F02 /* FMDatabasePool.h */,
+				72EB6B1A23773AF000911F02 /* FMDatabasePool.m */,
+				72EB6B1D23773AF000911F02 /* FMDatabaseQueue.h */,
+				72EB6B2223773AF100911F02 /* FMDatabaseQueue.m */,
+				72EB6B2123773AF100911F02 /* FMDB.h */,
+				72EB6B1F23773AF100911F02 /* FMResultSet.h */,
+				72EB6B2023773AF100911F02 /* FMResultSet.m */,
 				721B688D2370D5C1006230C6 /* josefin-sans */,
+				72EB6B1723773AEF00911F02 /* Mappi-Bridging-Header.h */,
+				72EB6B2823773B2A00911F02 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,6 +127,14 @@
 				72F391BB2371F70D00AE575D /* Media.xcassets */,
 			);
 			path = Mappi;
+			sourceTree = "<group>";
+		};
+		72EB6B2823773B2A00911F02 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				72EB6B2923773B2A00911F02 /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +169,7 @@
 				TargetAttributes = {
 					72B114D3236FC6E1000F7EFD = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -154,7 +196,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72EB6B162377312300911F02 /* mappi in Resources */,
+				72EB6B162377312300911F02 /* mappi.db in Resources */,
 				721B688E2370D5C1006230C6 /* josefin-sans in Resources */,
 				72B114E2236FC6E3000F7EFD /* LaunchScreen.storyboard in Resources */,
 				721B68942370D855006230C6 /* JosefinSans-Light.ttf in Resources */,
@@ -174,9 +216,14 @@
 				72B114EE23708D84000F7EFD /* FriendsViewController.swift in Sources */,
 				72B114F223709023000F7EFD /* FriendFolderView.swift in Sources */,
 				72B114F023708FE0000F7EFD /* EditableFolderView.swift in Sources */,
+				72EB6B2423773AF100911F02 /* FMDatabasePool.m in Sources */,
+				72EB6B2723773AF100911F02 /* FMDatabaseQueue.m in Sources */,
 				72B114DA236FC6E1000F7EFD /* ViewController.swift in Sources */,
 				72B114EA23708C8C000F7EFD /* MapViewController.swift in Sources */,
 				72B114D8236FC6E1000F7EFD /* AppDelegate.swift in Sources */,
+				72EB6B2623773AF100911F02 /* FMResultSet.m in Sources */,
+				72EB6B2323773AF100911F02 /* FMDatabase.m in Sources */,
+				72EB6B2523773AF100911F02 /* FMDatabaseAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,6 +369,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Mappi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -330,6 +378,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cse438.Mappi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Mappi-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -339,6 +389,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Mappi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -347,6 +398,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cse438.Mappi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Mappi-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

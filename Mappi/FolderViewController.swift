@@ -20,10 +20,9 @@ class FolderViewController: UIViewController {
         
         tableView.reloadData()
         
-        let thepath = Bundle.main.path(forResource: "movies", ofType: "db")
-        let contactDB = FMDatabase(path: thepath)
+        let folderDB = Bundle.main.path(forResource: "mappi", ofType: "db")
         
-        if !(contactDB.open()) {
+        if !(folderDB.open()) {
             print("Unable to open database")
             return
         } else {
