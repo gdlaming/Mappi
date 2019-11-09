@@ -16,18 +16,25 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadDatabase(myFolders)
+       // loadDatabase(myFolders)
         myFolders.dataSource = self
         myFolders.delegate = self
         myFolders.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
+        sharedFolders.dataSource = self
+        sharedFolders.delegate = self
+        sharedFolders.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
         self.myFolders.reloadData()
+        self.sharedFolders.reloadData()
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return myArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let myCell = tableView.dequeueReusableCell(withIdentifier: "theCell")! as UITableViewCell
         myCell.textLabel!.text = myArray[indexPath.row]
         return myCell
@@ -35,12 +42,13 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
     override func viewWillAppear(_ animated: Bool) {
         myArray = []
         loadDatabase(myFolders)
-        loadDatabase(sharedFolders)
+      //  loadDatabase(sharedFolders)
         
     }
 
     func loadDatabase(_ folderView: UITableView){
         
+       
         folderView.reloadData()
         
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
