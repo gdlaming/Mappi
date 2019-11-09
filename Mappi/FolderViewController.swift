@@ -18,17 +18,18 @@ class FolderViewController: UIViewController {
     
     func loadDatabase(){
         
-        tableView.reloadData()
-        
-        let folderDB = Bundle.main.path(forResource: "mappi", ofType: "db")
-        
+       // tableView.reloadData()
+        /*
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
+
         if !(folderDB.open()) {
             print("Unable to open database")
             return
         } else {
             do{
                 
-                let results = try contactDB.executeQuery("select * from movies", values:nil)
+                let results = try folderDB.executeQuery("select * from movies", values:nil)
                 
                 while(results.next()) {
                     let someName = results.string(forColumn: "title")
@@ -44,6 +45,7 @@ class FolderViewController: UIViewController {
                 
             }
         }
+ */
         
     }
     /*
