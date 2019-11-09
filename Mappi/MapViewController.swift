@@ -15,6 +15,12 @@ protocol HandleMapSearch {
 
 class MapViewController: UIViewController {
 
+    @IBOutlet weak var dimView: UIView!
+    @IBOutlet weak var menuView: UITableView!
+    
+    @IBOutlet weak var sideMenuButton: UIBarButtonItem!
+    @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
+    
     let locationManager = CLLocationManager()
     var resultSearchController:UISearchController? = nil
     
@@ -47,19 +53,44 @@ class MapViewController: UIViewController {
         searchResultsTable.mapView = mapView
         
         searchResultsTable.handleMapSearchDelegate = self
+        
+        //hamburger menu
+        menuView.isHidden = true
+        dimView.alpha = 0
+        dimView.isHidden = true
+        dimView.addGestureRecognizer(tapGestureRecognizer)
     }
     
+//hamburger menu functions - need to make class for these functions so open and close can be called in multiple instances (touch search bar should close menu)
+    @IBAction func sideButtonPressed(_ sender: Any) {
+        self.dimView.isHidden = false
+//        self.navigationController?.isNavigationBarHidden = true
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+            self.dimView.alpha = 0.9
+            self.menuView.isHidden = false
+            
+        }, completion: { (complete) in
+//            self.panGesture.isEnabled = false
+        })
     }
-    */
 
+    @IBAction func closeMenu(_ sender: Any) {
+        menuView.isHidden = true
+//        self.navigationController?.isNavigationBarHidden = false
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.view.layoutIfNeeded()
+            self.dimView.alpha = 0
+            
+        }, completion: { (complete) in
+//            self.panGesture.isEnabled = true
+            self.dimView.isHidden = true
+        })
+    }
+    
+    
 }
 
 extension MapViewController: CLLocationManagerDelegate {
