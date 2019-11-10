@@ -108,6 +108,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="I9R-08-WY7" kind="show" id="ZXs-pN-67O"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -130,6 +133,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="qHJ-Ej-EWt" kind="show" id="6oK-it-N1y"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -520,4 +526,8 @@
         <image name="map" width="32" height="32"/>
         <image name="people" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ZXs-pN-67O"/>
+        <segue reference="6oK-it-N1y"/>
+    </inferredMetricsTieBreakers>
 </document>

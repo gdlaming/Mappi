@@ -43,7 +43,6 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
         myArray = []
         loadDatabase(myFolders)
       //  loadDatabase(sharedFolders)
-        
     }
 
     func loadDatabase(_ folderView: UITableView){
