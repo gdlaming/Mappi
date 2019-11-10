@@ -10,7 +10,7 @@
 		721B688E2370D5C1006230C6 /* josefin-sans in Resources */ = {isa = PBXBuildFile; fileRef = 721B688D2370D5C1006230C6 /* josefin-sans */; };
 		721B68942370D855006230C6 /* JosefinSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721B68932370D855006230C6 /* JosefinSans-Light.ttf */; };
 		72B114D8236FC6E1000F7EFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114D7236FC6E1000F7EFD /* AppDelegate.swift */; };
-		72B114DA236FC6E1000F7EFD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114D9236FC6E1000F7EFD /* ViewController.swift */; };
+		72B114DA236FC6E1000F7EFD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114D9236FC6E1000F7EFD /* LoginViewController.swift */; };
 		72B114DD236FC6E1000F7EFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72B114DB236FC6E1000F7EFD /* Main.storyboard */; };
 		72B114E2236FC6E3000F7EFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72B114E0236FC6E3000F7EFD /* LaunchScreen.storyboard */; };
 		72B114EA23708C8C000F7EFD /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114E923708C8C000F7EFD /* MapViewController.swift */; };
@@ -34,7 +34,7 @@
 		721B68932370D855006230C6 /* JosefinSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Light.ttf"; path = "josefin-sans/JosefinSans-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		72B114D4236FC6E1000F7EFD /* Mappi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mappi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72B114D7236FC6E1000F7EFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		72B114D9236FC6E1000F7EFD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		72B114D9236FC6E1000F7EFD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		72B114DC236FC6E1000F7EFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		72B114E1236FC6E3000F7EFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		72B114E3236FC6E3000F7EFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -117,7 +117,7 @@
 			children = (
 				721B68922370D827006230C6 /* Fonts */,
 				72B114D7236FC6E1000F7EFD /* AppDelegate.swift */,
-				72B114D9236FC6E1000F7EFD /* ViewController.swift */,
+				72B114D9236FC6E1000F7EFD /* LoginViewController.swift */,
 				72B114EB23708D31000F7EFD /* FolderViewController.swift */,
 				72B114EF23708FE0000F7EFD /* EditableFolderView.swift */,
 				72B114F123709023000F7EFD /* FriendFolderView.swift */,
@@ -222,7 +222,7 @@
 				72B114F023708FE0000F7EFD /* EditableFolderView.swift in Sources */,
 				72EB6B2423773AF100911F02 /* FMDatabasePool.m in Sources */,
 				72EB6B2723773AF100911F02 /* FMDatabaseQueue.m in Sources */,
-				72B114DA236FC6E1000F7EFD /* ViewController.swift in Sources */,
+				72B114DA236FC6E1000F7EFD /* LoginViewController.swift in Sources */,
 				72B114EA23708C8C000F7EFD /* MapViewController.swift in Sources */,
 				72B114D8236FC6E1000F7EFD /* AppDelegate.swift in Sources */,
 				72EB6B2623773AF100911F02 /* FMResultSet.m in Sources */,
