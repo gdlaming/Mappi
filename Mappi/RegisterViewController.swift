@@ -16,38 +16,27 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var password1: UITextField!
     @IBOutlet weak var password2: UITextField!
     @IBOutlet weak var submit: UIButton!
+    @IBOutlet weak var login: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func checkButton(_ sender: Any) {
-        //need to check:
+        //TODO: need to check:
             //if all the fields are filled out
             //if the username is unique
             //if the passwords match
-        //if everything checks out, return to login page
-       //  let vc = LoginViewController()
-        
+        //if everything checks out, alert the user that
+        //  registration was successful and return to login page
         
         let ac = UIAlertController(title: "Successful Registration!", message: "Please login now" , preferredStyle: .alert)
         ac.addAction(UIAlertAction(title:"Login", style: .default, handler:nil))
         present(ac, animated:true, completion: nil)
+        
         //TODO: take back to login page
             //could use a segue or present view controller
         
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

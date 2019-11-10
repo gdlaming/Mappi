@@ -72,6 +72,21 @@
                                     <action selector="checkButton:" destination="xrs-dK-Kiq" eventType="touchUpInside" id="Joe-24-Ldn"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="us2-eT-PuC">
+                                <rect key="frame" x="190" y="816" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="login"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="QId-C4-7XH"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="already have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1eR-B0-uQP">
+                                <rect key="frame" x="111" y="789" width="194" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="iMG-fw-I0f"/>
@@ -79,6 +94,7 @@
                     <connections>
                         <outlet property="firstName" destination="n1m-Px-cT3" id="yIz-tY-VOe"/>
                         <outlet property="lastName" destination="aQ9-Az-taH" id="QuW-ij-uKP"/>
+                        <outlet property="login" destination="us2-eT-PuC" id="3qq-Dp-kT2"/>
                         <outlet property="password1" destination="lb6-M6-voV" id="XEI-MI-dgN"/>
                         <outlet property="password2" destination="Qdi-NS-Pso" id="HpL-oo-dQ7"/>
                         <outlet property="submit" destination="dCD-Ai-NtO" id="jiy-Nv-72o"/>
