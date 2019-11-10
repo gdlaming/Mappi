@@ -85,7 +85,6 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
                 return
             } else {
                 do{
-                    
                     let query = "delete from folders where name=?"
                     try folderDB.executeUpdate(query, values: [myArray[indexPath.row]])
                     myArray.remove(at: indexPath.row)

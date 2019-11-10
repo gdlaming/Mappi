@@ -19,12 +19,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GMo-gD-bFM">
-                                <rect key="frame" x="165" y="511" width="84" height="43"/>
+                                <rect key="frame" x="165" y="511" width="84" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <fontDescription key="fontDescription" name="MyanmarSangamMN-Bold" family="Myanmar Sangam MN" pointSize="17"/>
                                 <state key="normal" title="LOGIN"/>
                                 <connections>
+                                    <action selector="checkButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ctz-qn-mme"/>
                                     <segue destination="sTF-hq-c2T" kind="show" id="4Kf-52-Ysx"/>
                                 </connections>
                             </button>
@@ -64,6 +65,11 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="loginButton" destination="GMo-gD-bFM" id="UuY-zU-g8r"/>
+                        <outlet property="password" destination="TE1-7m-JVe" id="p10-KG-lal"/>
+                        <outlet property="username" destination="8sC-vQ-98J" id="iCZ-Pj-XYB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
