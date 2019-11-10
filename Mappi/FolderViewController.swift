@@ -34,7 +34,6 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let myCell = tableView.dequeueReusableCell(withIdentifier: "theCell")! as UITableViewCell
         myCell.textLabel!.text = myArray[indexPath.row]
         return myCell
@@ -46,7 +45,6 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
     }
 
     func loadDatabase(_ folderView: UITableView){
-        
        
         folderView.reloadData()
         

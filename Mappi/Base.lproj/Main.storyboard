@@ -117,7 +117,7 @@
                                 <rect key="frame" x="165" y="511" width="84" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                                <fontDescription key="fontDescription" name="MyanmarSangamMN-Bold" family="Myanmar Sangam MN" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                 <state key="normal" title="LOGIN"/>
                                 <connections>
                                     <action selector="checkButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ctz-qn-mme"/>
