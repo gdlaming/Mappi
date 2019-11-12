@@ -25,9 +25,7 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
         sharedFolders.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
         self.myFolders.reloadData()
         self.sharedFolders.reloadData()
-        
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return myArray.count
