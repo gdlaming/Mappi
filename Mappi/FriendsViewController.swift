@@ -10,6 +10,9 @@ import UIKit
 
 class FriendsViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
     
+    var friends: [String] = ["todd","cole","janegor","leela201","caleb","GILLIAN!!!!!!!!!8734832393023u7SSSSAAAAAAAAAAA"]
+
+    
     @IBOutlet weak var friendView: UITableView!
     var myArray = [String]()
 
@@ -18,8 +21,27 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
         friendView.dataSource = self
         friendView.delegate = self
         friendView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
+        friends.sort()
+        
         self.friendView.reloadData()
     }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "hello"
+        
+        //design for headers
+        
+        label.backgroundColor = UIColor.yellow
+        
+        //
+        //
+        return label
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          return myArray.count
@@ -27,11 +49,13 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = tableView.dequeueReusableCell(withIdentifier: "theCell")! as UITableViewCell
+        
         myCell.textLabel!.text = myArray[indexPath.row]
+             myCell.textLabel!.text = "\(indexPath.section) Row:\(indexPath.row)"
         return myCell
     }
     override func viewWillAppear(_ animated: Bool) {
-        myArray = []
+        myArray = friends
        // loadDatabase(myFolders)
     }
     
