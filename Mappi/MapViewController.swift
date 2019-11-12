@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 
+
 protocol HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark)
 }
@@ -59,10 +60,19 @@ class MapViewController: UIViewController {
         dimView.alpha = 0
         dimView.isHidden = true
         dimView.addGestureRecognizer(tapGestureRecognizer)
+        
+       //puts the table view in front of the search bar
+        // need to figure out how to do that for dimView
+        self.navigationController?.navigationBar.addSubview(menuView)
+       
     }
     
+    
+   
 //hamburger menu functions - need to make class for these functions so open and close can be called in multiple instances (touch search bar should close menu)
     @IBAction func sideButtonPressed(_ sender: Any) {
+        
+        
         self.dimView.isHidden = false
 //        self.navigationController?.isNavigationBarHidden = true
 
@@ -93,6 +103,7 @@ class MapViewController: UIViewController {
     
 }
 
+//current location
 extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
@@ -113,6 +124,7 @@ extension MapViewController: CLLocationManagerDelegate {
     }
 }
 
+//might need to rework this section, placing pins but i think somethings wrong w how I'm doing it
 extension MapViewController: HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark){
         // cache the pin
@@ -120,15 +132,31 @@ extension MapViewController: HandleMapSearch {
         // clear existing pins
         mapView.removeAnnotations(mapView.annotations)
         let annotation = MKPointAnnotation()
+//        let pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: String(annotation.hash))
         annotation.coordinate = placemark.coordinate
         annotation.title = placemark.name
-        if let city = placemark.locality,
-            let state = placemark.administrativeArea {
-            annotation.subtitle = "\(city) \(state)"
-        }
+        
+        //this section should make a button appear when you tap annotation but it's not sos
+        let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: String(annotation.hash))
+        
+        annotationView.isEnabled = true
+        annotationView.canShowCallout = true
+        
+        let btn = UIButton(type: .detailDisclosure)
+        annotationView.rightCalloutAccessoryView = btn
+        //end of section not working
+        
+        annotation.subtitle = "all notes"
+//        if let city = placemark.locality,
+//            let state = placemark.administrativeArea {
+//            annotation.subtitle = "\(city) \(state)"
+//        }
+
         mapView.addAnnotation(annotation)
+        
         let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let region = MKCoordinateRegion(center: placemark.coordinate, span: span)
         mapView.setRegion(region, animated: true)
     }
 }
+
