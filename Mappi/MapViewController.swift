@@ -155,6 +155,7 @@ extension MapViewController: CLLocationManagerDelegate {
 }
 
 //creates annotation based on search
+//also search seems pretty limited to locations close to current map view, confirm if this is ok
 extension MapViewController: HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark){
         // cache the pin
