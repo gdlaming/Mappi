@@ -14,7 +14,7 @@ protocol HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark)
 }
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var dimView: UIView!
     @IBOutlet weak var menuView: UITableView!
@@ -26,6 +26,7 @@ class MapViewController: UIViewController {
     var resultSearchController:UISearchController? = nil
     
     var selectedPin:MKPlacemark? = nil
+    let btnAdd = UIButton(type: .contactAdd)
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -63,7 +64,9 @@ class MapViewController: UIViewController {
         
        //puts the table view in front of the search bar
         // need to figure out how to do that for dimView
+        
         self.navigationController?.navigationBar.addSubview(menuView)
+        
        
     }
     
@@ -100,6 +103,33 @@ class MapViewController: UIViewController {
         })
     }
     
+    //more editing on creating the pin, all other pin content should be put in here i think
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is MKPointAnnotation else { return nil }
+        
+        let identifier = "Annotation"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView!.canShowCallout = true
+        } else {
+            annotationView!.annotation = annotation
+        }
+        
+        //adds button, clicking this should prompt some kind of way to add to existing list or start new list
+        
+        annotationView?.rightCalloutAccessoryView = btnAdd
+        
+        return annotationView
+    }
+    
+    //put code to add annotation view in this function
+    @objc
+    func clickBtnAdd() {
+        btnAdd.addTarget(self, action: #selector(clickBtnAdd), for: UIControl.Event.touchUpInside)
+        
+    }
     
 }
 
@@ -124,36 +154,30 @@ extension MapViewController: CLLocationManagerDelegate {
     }
 }
 
-//might need to rework this section, placing pins but i think somethings wrong w how I'm doing it
+//creates annotation based on search
 extension MapViewController: HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark){
         // cache the pin
         selectedPin = placemark
-        // clear existing pins
+        
+        // clear existing pins, may want to remove this
         mapView.removeAnnotations(mapView.annotations)
+        
+        //creates annotation based on placemark info
         let annotation = MKPointAnnotation()
-//        let pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: String(annotation.hash))
         annotation.coordinate = placemark.coordinate
         annotation.title = placemark.name
         
-        //this section should make a button appear when you tap annotation but it's not sos
-        let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: String(annotation.hash))
-        
-        annotationView.isEnabled = true
-        annotationView.canShowCallout = true
-        
-        let btn = UIButton(type: .detailDisclosure)
-        annotationView.rightCalloutAccessoryView = btn
-        //end of section not working
-        
-        annotation.subtitle = "all notes"
-//        if let city = placemark.locality,
-//            let state = placemark.administrativeArea {
-//            annotation.subtitle = "\(city) \(state)"
-//        }
+        //annotation.subtitle = "content if there's something else we want to show other than city state"
+        if let city = placemark.locality,
+            let state = placemark.administrativeArea {
+            annotation.subtitle = "\(city) \(state)"
+        }
 
+        //adds annotation to map
         mapView.addAnnotation(annotation)
         
+        //zoom in on selected pin
         let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let region = MKCoordinateRegion(center: placemark.coordinate, span: span)
         mapView.setRegion(region, animated: true)
