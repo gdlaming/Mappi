@@ -33,7 +33,6 @@ class FriendFolderView: UIViewController,  UITableViewDataSource, UITableViewDel
     override func viewWillAppear(_ animated: Bool) {
         myArray = []
         loadDatabase()
-        //  loadDatabase(sharedFolders)
     }
     func loadDatabase(){
         

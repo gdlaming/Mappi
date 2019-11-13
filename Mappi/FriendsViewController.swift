@@ -22,7 +22,6 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
         friendView.delegate = self
         friendView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
         friends.sort()
-        
         self.friendView.reloadData()
     }
     
