@@ -123,7 +123,8 @@ func executeUpdate(_ array: inout [String], _ indexPath: IndexPath) -> [String]{
         array.remove(at: indexPath.row)
         let ac = UIAlertController(title: "Item deleted", message: "" , preferredStyle: .alert)
         ac.addAction(UIAlertAction(title:"Return", style: .default, handler:nil))
-        self.present(ac, animated:true, completion:nil)
+        //self.present(ac, animated:true, completion:nil)
+        //need to fix
         return array
     }
     catch let error as NSError {
