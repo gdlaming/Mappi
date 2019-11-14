@@ -55,6 +55,9 @@ class ViewController: UIViewController {
                         //check password -- WE SHOULD HASH PASSWORDS IF WE HAVE TIME
                         let thePassword = results.string(forColumn: "password")
                         if (thePassword == password){
+                            let id = results.string(forColumn: "userID")
+                            UserDefaults.standard.set(username, forKey: "username")
+                            UserDefaults.standard.set(id, forKey: "id")
                             return true
                         }
                     }

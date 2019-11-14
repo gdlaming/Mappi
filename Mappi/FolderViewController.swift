@@ -54,7 +54,7 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
         loadDatabase(myFolders)
         myArray2 = []
         loadDatabase(sharedFolders)
-      //  loadDatabase(sharedFolders)
+        //TODO: need to make these queries different so we are pulling different data
     }
 
     func loadDatabase(_ folderView: UITableView){
@@ -103,6 +103,7 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
                     return
                 } else {
                     if tableView == self.myFolders{
+                      
                         myArray1 = executeUpdate(&myArray1, indexPath)
                     }
                     else{
