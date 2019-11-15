@@ -12,7 +12,8 @@ class FriendFolderView: UIViewController,  UITableViewDataSource, UITableViewDel
 
     @IBOutlet weak var folderView: UITableView!
     var myArray = [String]()
-
+   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         folderView.dataSource = self
@@ -20,6 +21,7 @@ class FriendFolderView: UIViewController,  UITableViewDataSource, UITableViewDel
         folderView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
         self.folderView.reloadData()
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return myArray.count
         
@@ -35,7 +37,7 @@ class FriendFolderView: UIViewController,  UITableViewDataSource, UITableViewDel
         loadDatabase()
     }
     func loadDatabase(){
-        var friendArray = [String]()
+        var friendArray = [Int]()
         
         folderView.reloadData()
         
@@ -56,8 +58,8 @@ class FriendFolderView: UIViewController,  UITableViewDataSource, UITableViewDel
                     let curUserID = results.string(forColumn: "userID")
                     let id = UserDefaults.standard.string(forKey: "id")!
                     if (curUserID == id){
-                        let friendID = results.string(forColumn: "friendID")
-                        friendArray.append(friendID!)
+                        let friendID = results.int(forColumn: "friendID")
+                        friendArray.append(Int(friendID))
                     }
                     
                         //folderView.reloadData()
@@ -70,8 +72,26 @@ class FriendFolderView: UIViewController,  UITableViewDataSource, UITableViewDel
             }
         }
     }
-    func findFriends(_ friendArray: [String]){
-        
+    func findFriends(_ friendArray: [Int]){
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
+        if !(folderDB.open()) {
+            print("Unable to open database")
+            return
+        } else {
+            do{
+                for i in friendArray{
+                    let query = "select username from users where userID=?"
+                    try folderDB.executeUpdate(query, values: friendArray[i])
+                    myArray.append(query)
+                }
+               
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+                
+            }
+        }
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
