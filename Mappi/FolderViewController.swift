@@ -118,13 +118,18 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
 func executeUpdates(_ array: inout [String], _ indexPath: IndexPath) -> [String]{
     let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
     let folderDB = FMDatabase(path: thepath)
-    do{
+    if !(folderDB.open()) {
+        print("Unable to open database")
+        return array
+    }
+    else {
+        do{
         let query = "delete from folders where name=?"
         try folderDB.executeUpdate(query, values: [array[indexPath.row]])
         array.remove(at: indexPath.row)
-        let ac = UIAlertController(title: "Item deleted", message: "" , preferredStyle: .alert)
+        let ac = UIAlertController(title: "Invalid Credentials", message: "Please check your username and password" , preferredStyle: .alert)
         ac.addAction(UIAlertAction(title:"Return", style: .default, handler:nil))
-        //self.present(ac, animated:true, completion:nil)
+       // present(ac, animated:true, completion:nil)
         //need to fix
         return array
     }
@@ -133,6 +138,7 @@ func executeUpdates(_ array: inout [String], _ indexPath: IndexPath) -> [String]
         print("failed \(error)")
     }
     return array
+}
 }
     /*
     // MARK: - Navigation
