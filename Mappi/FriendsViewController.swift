@@ -55,8 +55,6 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
     override func viewWillAppear(_ animated: Bool) {
         myArray = []
         loadDatabase()
-       // myArray = friends
-       // loadDatabase(myFolders)
     }
     
     func findFriends(_ friendArray: [Int]){
@@ -68,14 +66,16 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
         } else {
             do{
                 for friendID in friendArray{
-                    let query = "select username from users where userID=?"
+                    let query = "select * from users where userID=?"
                     let f = try folderDB.executeQuery(query, values: [friendID])
                     while(f.next()){
-                        let id = f.string(forColumn: "username")
-                            print("friend username: \(id!)")
-                            myArray.append(id!)
+                        let first = f.string(forColumn: "firstName")
+                        let last = f.string(forColumn: "lastName")
+                            //print("friend name: \(first!) \(last!)")
+                        let name: String = first! + " " + last!
+                            myArray.append(name)
                     }
-                   // myArray.append(f.data(forColumnIndex: 0))
+                  
                 }
             }
             catch let error as NSError {
@@ -101,17 +101,14 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
                 let results = try folderDB.executeQuery("select * from friends", values:nil)
                 
                 while(results.next()) {
-                    
-                    
-                    // need to have some conditional
+
                     let curUserID = results.string(forColumn: "userID")
                     let id = UserDefaults.standard.string(forKey: "id")!
                     if (curUserID == id){
                         let friendID = results.int(forColumn: "friendID")
                         friendArray.append(Int(friendID))
                     }
-                    
-                    //folderView.reloadData()
+
                 }
                 findFriends(friendArray)
             }
@@ -126,13 +123,14 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
                 //then, need to look up display name based on userID from the
                 //user table. Add those names to the array to be displayed.
     }
-    
+    }
 
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
         if editingStyle == .delete {
             print(myArray[indexPath.row])
-            
+            var friendID = 0
             let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
             let folderDB = FMDatabase(path: thepath)
             
@@ -146,7 +144,18 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
                     //remove the friendship from the friends table based on the user id
                     //that we looked up and the user id of the current user
                         //(stored in user defaults)
-                    /*try folderDB.executeUpdate(query, values: /*insert vals*/)
+                    let first = myArray[indexPath.row].split(separator: " ")
+                    let last = first[1]
+                    print("first \(first) last \(last)")
+                    let query = "select userID from users where firstName=?"
+                    let f = try folderDB.executeQuery(query, values: [first])
+                    while(f.next()){
+                        friendID = Int(f.int(forColumn: "userID"))
+                        print("friend id: \(friendID)")
+                    }
+                    let id = UserDefaults.standard.string(forKey: "id")!
+                    let query1 = "delete from friends where userID=? and friendID=?"
+                    try folderDB.executeUpdate(query1, values: [id, friendID])
                     myArray.remove(at: indexPath.row)
                     let ac = UIAlertController(title: "Item deleted", message: "" , preferredStyle: .alert)
                     ac.addAction(UIAlertAction(title:"Return", style: .default, handler:nil))
@@ -156,12 +165,12 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
                 } catch let error as NSError {
                     print("error!")
                     print("failed \(error)")
-                }*/
+                }
             }
             tableView.reloadData()
         }
         }
     
     }
-}
-}
+
+
