@@ -67,13 +67,16 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
             return
         } else {
             do{
-                for friend in friendArray{
+                for friendID in friendArray{
                     let query = "select username from users where userID=?"
-                    let f = try folderDB.executeQuery(query, values: [friend])
-                    print("friend query: \(query)")
+                    let f = try folderDB.executeQuery(query, values: [friendID])
+                    while(f.next()){
+                        let id = f.string(forColumn: "username")
+                            print("friend username: \(id!)")
+                            myArray.append(id!)
+                    }
                    // myArray.append(f.data(forColumnIndex: 0))
                 }
-                
             }
             catch let error as NSError {
                 print("failed \(error)")
