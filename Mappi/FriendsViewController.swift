@@ -11,26 +11,26 @@ import UIKit
 class FriendsViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
     
     var friends: [String] = ["todd","cole","janegor","leela201","caleb","GILLIAN!!!!!!!!!8734832393023u7SSSSAAAAAAAAAAA"]
-
+     var myArray = [String]()
     
     @IBOutlet weak var friendView: UITableView!
-    var myArray = [String]()
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
         friendView.dataSource = self
         friendView.delegate = self
         friendView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
-        friends.sort()
+       // friends.sort()
         self.friendView.reloadData()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return myArray.count
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        label.text = "hello"
+        //label.text = "hello"
         
         //design for headers
         
@@ -48,18 +48,38 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = tableView.dequeueReusableCell(withIdentifier: "theCell")! as UITableViewCell
-        
         myCell.textLabel!.text = myArray[indexPath.row]
-             myCell.textLabel!.text = "\(indexPath.section) Row:\(indexPath.row)"
+        //myCell.textLabel!.text = "\(indexPath.section) Row:\(indexPath.row)"
         return myCell
     }
     override func viewWillAppear(_ animated: Bool) {
-        myArray = friends
+        myArray = []
+        loadDatabase()
+       // myArray = friends
        // loadDatabase(myFolders)
     }
+    func loadDatabase(){
+        
+        friendView.reloadData()
+        
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
+        
+        if !(folderDB.open()) {
+            print("Unable to open database")
+            return
+        } else {
+            do{
+                //TODO: need to grab all the friendships of the current user
+                //(stored in user defaults)
+                //then, need to look up display name based on userID from the
+                //user table. Add those names to the array to be displayed.
+            }
+        }
+    }
+
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
         if editingStyle == .delete {
             print(myArray[indexPath.row])
             
@@ -76,8 +96,6 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
                     //remove the friendship from the friends table based on the user id
                     //that we looked up and the user id of the current user
                         //(stored in user defaults)
-                    
-                    
                     /*try folderDB.executeUpdate(query, values: /*insert vals*/)
                     myArray.remove(at: indexPath.row)
                     let ac = UIAlertController(title: "Item deleted", message: "" , preferredStyle: .alert)
@@ -92,28 +110,7 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
             }
             tableView.reloadData()
         }
-    }
-    
-    func loadDatabase(_ folderView: UITableView){
-        
-        folderView.reloadData()
-        
-        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
-        let folderDB = FMDatabase(path: thepath)
-        
-        if !(folderDB.open()) {
-            print("Unable to open database")
-            return
-        } else {
-            do{
-                //TODO: need to grab all the friendships of the current user
-                    //(stored in user defaults)
-                //then, need to look up display name based on userID from the
-                //user table. Add those names to the array to be displayed.
-            }
         }
-    }
-
     
-}
+    }
 }

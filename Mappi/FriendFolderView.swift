@@ -35,7 +35,7 @@ class FriendFolderView: UIViewController,  UITableViewDataSource, UITableViewDel
         loadDatabase()
     }
     func loadDatabase(){
-        
+        var friendArray = [String]()
         
         folderView.reloadData()
         
@@ -47,18 +47,22 @@ class FriendFolderView: UIViewController,  UITableViewDataSource, UITableViewDel
             return
         } else {
             do{
-                let results = try folderDB.executeQuery("select * from folders", values:nil)
+                let results = try folderDB.executeQuery("select * from friends", values:nil)
                 
                 while(results.next()) {
                     
                     
                     // need to have some conditional
-                    let someName = results.string(forColumn: "name")
-                    print("location name is \(String(describing: someName));")
-                    myArray.append(someName!)
-                    folderView.reloadData()
+                    let curUserID = results.string(forColumn: "userID")
+                    let id = UserDefaults.standard.string(forKey: "id")!
+                    if (curUserID == id){
+                        let friendID = results.string(forColumn: "friendID")
+                        friendArray.append(friendID!)
+                    }
                     
+                        //folderView.reloadData()
                 }
+                findFriends(friendArray)
             }
             catch let error as NSError {
                 print("failed \(error)")
@@ -66,7 +70,9 @@ class FriendFolderView: UIViewController,  UITableViewDataSource, UITableViewDel
             }
         }
     }
-    
+    func findFriends(_ friendArray: [String]){
+        
+    }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
