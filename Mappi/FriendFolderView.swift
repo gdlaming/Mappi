@@ -37,62 +37,9 @@ class FriendFolderView: UIViewController,  UITableViewDataSource, UITableViewDel
         loadDatabase()
     }
     func loadDatabase(){
-        var friendArray = [Int]()
         
-        folderView.reloadData()
-        
-        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
-        let folderDB = FMDatabase(path: thepath)
-        
-        if !(folderDB.open()) {
-            print("Unable to open database")
-            return
-        } else {
-            do{
-                let results = try folderDB.executeQuery("select * from friends", values:nil)
-                
-                while(results.next()) {
-                    
-                    
-                    // need to have some conditional
-                    let curUserID = results.string(forColumn: "userID")
-                    let id = UserDefaults.standard.string(forKey: "id")!
-                    if (curUserID == id){
-                        let friendID = results.int(forColumn: "friendID")
-                        friendArray.append(Int(friendID))
-                    }
-                    
-                        //folderView.reloadData()
-                }
-                findFriends(friendArray)
-            }
-            catch let error as NSError {
-                print("failed \(error)")
-                
-            }
-        }
     }
-    func findFriends(_ friendArray: [Int]){
-        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
-        let folderDB = FMDatabase(path: thepath)
-        if !(folderDB.open()) {
-            print("Unable to open database")
-            return
-        } else {
-            do{
-                for i in friendArray{
-                    let query = "select username from users where userID=?"
-                    try folderDB.executeUpdate(query, values: friendArray[i])
-                    myArray.append(query)
-                }
-               
-            }
-            catch let error as NSError {
-                print("failed \(error)")
-                
-            }
-        }
-    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {

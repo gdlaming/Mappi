@@ -104,10 +104,10 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
                 } else {
                     if tableView == self.myFolders{
                       
-                        myArray1 = executeUpdate(&myArray1, indexPath)
+                        myArray1 = executeUpdates(&myArray1, indexPath)
                     }
                     else{
-                        myArray2 = executeUpdate(&myArray2, indexPath)
+                        myArray2 = executeUpdates(&myArray2, indexPath)
                     }
                 }
                 tableView.reloadData()
@@ -115,7 +115,7 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
         }
     }
 
-func executeUpdate(_ array: inout [String], _ indexPath: IndexPath) -> [String]{
+func executeUpdates(_ array: inout [String], _ indexPath: IndexPath) -> [String]{
     let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
     let folderDB = FMDatabase(path: thepath)
     do{

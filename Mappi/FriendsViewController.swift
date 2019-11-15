@@ -58,7 +58,32 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
        // myArray = friends
        // loadDatabase(myFolders)
     }
+    
+    func findFriends(_ friendArray: [Int]){
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
+        if !(folderDB.open()) {
+            print("Unable to open database")
+            return
+        } else {
+            do{
+                for friend in friendArray{
+                    let query = "select username from users where userID=?"
+                    let f = try folderDB.executeQuery(query, values: [friend])
+                    print("friend query: \(query)")
+                   // myArray.append(f.data(forColumnIndex: 0))
+                }
+                
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+                
+            }
+        }
+    }
+    
     func loadDatabase(){
+        var friendArray = [Int]()
         
         friendView.reloadData()
         
@@ -70,13 +95,35 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
             return
         } else {
             do{
+                let results = try folderDB.executeQuery("select * from friends", values:nil)
+                
+                while(results.next()) {
+                    
+                    
+                    // need to have some conditional
+                    let curUserID = results.string(forColumn: "userID")
+                    let id = UserDefaults.standard.string(forKey: "id")!
+                    if (curUserID == id){
+                        let friendID = results.int(forColumn: "friendID")
+                        friendArray.append(Int(friendID))
+                    }
+                    
+                    //folderView.reloadData()
+                }
+                findFriends(friendArray)
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+                
+            }
+        
+        friendView.reloadData()
                 //TODO: need to grab all the friendships of the current user
                 //(stored in user defaults)
                 //then, need to look up display name based on userID from the
                 //user table. Add those names to the array to be displayed.
-            }
-        }
     }
+    
 
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -91,7 +138,7 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
                 return
             } else {
                 do{
-                    let query = "delete from friends where userID=? and userID2=?"
+                    //let query = "delete from friends where userID=? and userID2=?"
                     //TODO: need to lookup the user id based on the display name
                     //remove the friendship from the friends table based on the user id
                     //that we looked up and the user id of the current user
@@ -113,4 +160,5 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
         }
     
     }
+}
 }
