@@ -20,7 +20,7 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
         super.viewDidLoad()
         friendView.dataSource = self
         friendView.delegate = self
-        friendView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
+//        friendView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
        // friends.sort()
         self.friendView.reloadData()
     }
@@ -47,8 +47,12 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let myCell = tableView.dequeueReusableCell(withIdentifier: "theCell")! as UITableViewCell
+        let myCell = friendView.dequeueReusableCell(withIdentifier: "theCell", for: indexPath) as! FriendTableViewCell
+        print("entered method")
+//        let myCell = friendView.dequeueReusableCell(withIdentifier: "theCell")! as! FriendTableViewCell
+        print("setting text")
         myCell.textLabel!.text = myArray[indexPath.row]
+        print("set text")
         //myCell.textLabel!.text = "\(indexPath.section) Row:\(indexPath.row)"
         return myCell
     }
@@ -177,7 +181,12 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
         performSegue(withIdentifier: "friendViewSegue", sender: self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        <#code#>
+        if (segue.identifier == "friendViewSegue")
+        {
+            let friendVC = segue.destination as? FriendViewController
+            
+            friendVC?.labelName = selectedFriendName
+        }
     }
     
     }

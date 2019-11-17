@@ -563,11 +563,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="p8j-w6-Fpr">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="theCell" id="p8j-w6-Fpr" customClass="FriendTableViewCell" customModule="Mappi" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p8j-w6-Fpr" id="kLo-oP-VcR">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="376" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -633,19 +633,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xM-DP-B2I">
-                                <rect key="frame" x="167" y="346" width="81" height="71"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xM-DP-B2I">
+                                <rect key="frame" x="0.0" y="138" width="414" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wE5-QP-Ocj">
+                                <rect key="frame" x="0.0" y="219" width="414" height="216"/>
+                            </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X68-89-tg1">
+                                <rect key="frame" x="100" y="455" width="214" height="30"/>
+                                <state key="normal" title="Share"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="8xM-DP-B2I" firstAttribute="leading" secondItem="7j9-z1-cKE" secondAttribute="leading" id="4Al-Hb-PEV"/>
+                            <constraint firstItem="8xM-DP-B2I" firstAttribute="top" secondItem="7j9-z1-cKE" secondAttribute="top" constant="50" id="FbJ-Zj-zyc"/>
+                            <constraint firstItem="wE5-QP-Ocj" firstAttribute="trailing" secondItem="7j9-z1-cKE" secondAttribute="trailing" id="LXr-RM-U6k"/>
+                            <constraint firstItem="wE5-QP-Ocj" firstAttribute="leading" secondItem="7j9-z1-cKE" secondAttribute="leading" id="SRi-0R-HMN"/>
+                            <constraint firstItem="7j9-z1-cKE" firstAttribute="trailing" secondItem="X68-89-tg1" secondAttribute="trailing" constant="100" id="XXD-m4-raf"/>
+                            <constraint firstItem="X68-89-tg1" firstAttribute="leading" secondItem="7j9-z1-cKE" secondAttribute="leading" constant="100" id="c5A-TH-e3v"/>
+                            <constraint firstItem="wE5-QP-Ocj" firstAttribute="top" secondItem="8xM-DP-B2I" secondAttribute="bottom" constant="40" id="gwp-nu-x6h"/>
+                            <constraint firstItem="X68-89-tg1" firstAttribute="top" secondItem="wE5-QP-Ocj" secondAttribute="bottom" constant="20" id="h5d-Aw-nm9"/>
+                            <constraint firstItem="7j9-z1-cKE" firstAttribute="trailing" secondItem="8xM-DP-B2I" secondAttribute="trailing" id="lUb-jm-kEf"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="7j9-z1-cKE"/>
                     </view>
                     <connections>
+                        <outlet property="mapPicker" destination="wE5-QP-Ocj" id="rYZ-N7-aQr"/>
                         <outlet property="nameLabel" destination="8xM-DP-B2I" id="ovb-vh-N9C"/>
+                        <outlet property="shareButton" destination="X68-89-tg1" id="oOq-nW-RaZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uhk-ut-ohy" userLabel="First Responder" sceneMemberID="firstResponder"/>
