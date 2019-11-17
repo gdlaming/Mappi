@@ -28,6 +28,7 @@
 		72EB6B2C2377AEEE00911F02 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB6B2B2377AEEE00911F02 /* RegisterViewController.swift */; };
 		72F391BC2371F70D00AE575D /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72F391BB2371F70D00AE575D /* Media.xcassets */; };
 		8C44A36A23738AD8001A4AB0 /* SearchResultsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C44A36923738AD8001A4AB0 /* SearchResultsTable.swift */; };
+		ED089E422381B22C00EF54A9 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED089E412381B22C00EF54A9 /* FriendViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		72EB6B2B2377AEEE00911F02 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		72F391BB2371F70D00AE575D /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		8C44A36923738AD8001A4AB0 /* SearchResultsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTable.swift; sourceTree = "<group>"; };
+		ED089E412381B22C00EF54A9 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 				72B114ED23708D84000F7EFD /* FriendsViewController.swift */,
 				72B114E923708C8C000F7EFD /* MapViewController.swift */,
 				72B114DB236FC6E1000F7EFD /* Main.storyboard */,
+				ED089E412381B22C00EF54A9 /* FriendViewController.swift */,
 				8C44A36923738AD8001A4AB0 /* SearchResultsTable.swift */,
 				72B114E0236FC6E3000F7EFD /* LaunchScreen.storyboard */,
 				72B114E3236FC6E3000F7EFD /* Info.plist */,
@@ -227,6 +230,7 @@
 				72EB6B2723773AF100911F02 /* FMDatabaseQueue.m in Sources */,
 				72B114DA236FC6E1000F7EFD /* LoginViewController.swift in Sources */,
 				72B114EA23708C8C000F7EFD /* MapViewController.swift in Sources */,
+				ED089E422381B22C00EF54A9 /* FriendViewController.swift in Sources */,
 				72EB6B2C2377AEEE00911F02 /* RegisterViewController.swift in Sources */,
 				72B114D8236FC6E1000F7EFD /* AppDelegate.swift in Sources */,
 				72EB6B2623773AF100911F02 /* FMResultSet.m in Sources */,

@@ -562,6 +562,16 @@
                                 <rect key="frame" x="0.0" y="151" width="414" height="606"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="p8j-w6-Fpr">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p8j-w6-Fpr" id="kLo-oP-VcR">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -571,6 +581,7 @@
                     <navigationItem key="navigationItem" id="CYJ-iK-jao"/>
                     <connections>
                         <outlet property="friendView" destination="fnl-B6-Ho3" id="kYB-Yp-adl"/>
+                        <segue destination="M8U-Uv-RUa" kind="show" identifier="friendViewSegue" id="ppT-yH-R8m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dO9-eA-d4T" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -613,6 +624,33 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="4407" y="1535"/>
+        </scene>
+        <!--Friend View Controller-->
+        <scene sceneID="1QV-LK-c4N">
+            <objects>
+                <viewController id="M8U-Uv-RUa" customClass="FriendViewController" customModule="Mappi" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OKr-RS-iFn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xM-DP-B2I">
+                                <rect key="frame" x="167" y="346" width="81" height="71"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="7j9-z1-cKE"/>
+                    </view>
+                    <connections>
+                        <outlet property="nameLabel" destination="8xM-DP-B2I" id="ovb-vh-N9C"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uhk-ut-ohy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3988.4057971014495" y="2185.7142857142858"/>
         </scene>
         <!--map-->
         <scene sceneID="zzz-nW-N4b">

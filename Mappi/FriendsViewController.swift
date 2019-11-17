@@ -10,7 +10,7 @@ import UIKit
 
 class FriendsViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
     
-    var friends: [String] = ["todd","cole","janegor","leela201","caleb","GILLIAN!!!!!!!!!8734832393023u7SSSSAAAAAAAAAAA"]
+//    var friends: [String] = ["todd","cole","janegor","leela201","caleb","GILLIAN!!!!!!!!!8734832393023u7SSSSAAAAAAAAAAA"]
      var myArray = [String]()
     
     @IBOutlet weak var friendView: UITableView!
@@ -170,6 +170,15 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
             tableView.reloadData()
         }
         }
+    var selectedFriendName = ""
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedFriendName = myArray[indexPath.item]
+        
+        performSegue(withIdentifier: "friendViewSegue", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        <#code#>
+    }
     
     }
 
