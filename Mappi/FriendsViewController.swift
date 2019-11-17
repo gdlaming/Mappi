@@ -30,11 +30,10 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        //label.text = "hello"
+        label.text = "share folders"
         
         //design for headers
         
-        label.backgroundColor = UIColor.yellow
         
         //
         //
