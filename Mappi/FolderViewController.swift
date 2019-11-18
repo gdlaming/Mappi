@@ -13,17 +13,19 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
     @IBOutlet weak var myFolders: UITableView!
     @IBOutlet weak var sharedFolders: UITableView!
     var myArray1 = [String]()
+    var myArray1IDs = [Int]()
     var myArray2 = [String]()
+    var myArray2IDs = [Int]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
        // loadDatabase(myFolders)
         myFolders.dataSource = self
         myFolders.delegate = self
-        myFolders.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
+//        myFolders.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
         sharedFolders.dataSource = self
         sharedFolders.delegate = self
-        sharedFolders.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
+//        sharedFolders.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
         self.myFolders.reloadData()
         self.sharedFolders.reloadData()
     }
@@ -38,12 +40,12 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.myFolders{
-            let myCell = tableView.dequeueReusableCell(withIdentifier: "theCell")! as UITableViewCell
+            let myCell = tableView.dequeueReusableCell(withIdentifier: "myFoldersCell")! as! FolderTableViewCell
             myCell.textLabel!.text = myArray1[indexPath.row]
             return myCell
         }
         else { //sharedFolders tableview
-            let myCell = tableView.dequeueReusableCell(withIdentifier: "theCell")! as UITableViewCell
+            let myCell = tableView.dequeueReusableCell(withIdentifier: "sharedCell")! as! FolderTableViewCell
             myCell.textLabel!.text = myArray2[indexPath.row]
             return myCell
         }
@@ -73,11 +75,15 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
                 
                 while(results.next()) {
                     let someName = results.string(forColumn: "name")
+                    let someID = results.int(forColumn: "folderID")
                     print("location name is \(String(describing: someName));")
                     if folderView == self.myFolders{
                         myArray1.append(someName!)
+                        myArray1IDs.append(Int(someID))
                     }
-                    else { myArray2.append(someName!)}
+                    else { myArray2.append(someName!)
+                        myArray2IDs.append(Int(someID))
+                    }
                     folderView.reloadData()
                     
                 }
@@ -139,14 +145,39 @@ func executeUpdates(_ array: inout [String], _ indexPath: IndexPath) -> [String]
     }
     return array
 }
-}
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
+    var selectedFolderName = ""
+
+    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if (segue.identifier == "sharedSegue")
+    {
+        let sharedFolderVC = segue.destination as? SharedFolderViewController
+        selectedFolderName = "broccolui"
+        sharedFolderVC?.iDLabelName = selectedFolderName
+    }
+        if (segue.identifier == "mySegue")
+        {
+            let sharedFolderVC = segue.destination as? SharedFolderViewController
+             selectedFolderName = "broccolui"
+            sharedFolderVC?.iDLabelName = selectedFolderName
+        }
+        
+    }
+}
+
+
+
+
+
+
+    /*
+     MARK: - Navigation
+
+     In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+         Get the new view controller using segue.destination.
+         Pass the selected object to the new view controller.
     }
     */
 

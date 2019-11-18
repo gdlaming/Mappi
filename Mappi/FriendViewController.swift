@@ -16,6 +16,9 @@ class FriendViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return myArray.count
     }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return myArray[row]
+    }
     
 
     
@@ -34,7 +37,9 @@ class FriendViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     override func viewDidLoad() {
         super.viewDidLoad()
         updateValues()
-        mapPicker.delegate = self
+        self.mapPicker.delegate = self
+        self.mapPicker.dataSource = self
+        loadDatabase()
         self.mapPicker.reloadAllComponents()
 //        findFolders(<#T##folderArray: [Int]##[Int]#>)
         // Do any additional setup after loading the view.
@@ -93,12 +98,12 @@ class FriendViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                     let f = try folderDB.executeQuery(query, values: [folderID])
                     while(f.next()){
                         let folder = f.string(forColumn: "name")
-                print (String(folder!))
+//                print (String(folder!))
                         //print("friend name: \(first!) \(last!)")
 //                        let name: String = first! + " " + last!
                         myArray.append("test1")
                         myArray.append("test 2")
-                        myArray.append(String(folder!))
+//                        myArray.append(String(folder!))
                     }
                     
                 }
