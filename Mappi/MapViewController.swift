@@ -30,6 +30,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    //hardcode array
+    var places:[[MKPointAnnotation]] = []
+    var folder1:[MKPointAnnotation] = []
+//    var places:[[MKPointAnnotation]] = []
     
     override func viewDidLoad() {
         //will need to go into this and run some stuff in the background probably
@@ -65,13 +69,34 @@ class MapViewController: UIViewController, MKMapViewDelegate {
        //puts the table view in front of the search bar
         // need to figure out how to do that for dimView
         
+    
         self.navigationController?.navigationBar.addSubview(menuView)
-        
        
+        hardCodePins()
+    }
+   
+    func hardCodePins() {
+       
+        
+        let annotation0 = MKPointAnnotation()
+        annotation0.coordinate = CLLocationCoordinate2D(latitude: 38.6476,longitude: -90.3108)
+        folder1.append(annotation0)
+        
+        let annotation1 = MKPointAnnotation()
+        annotation1.coordinate = CLLocationCoordinate2D(latitude: 39.6476,longitude: -89.3108)
+        folder1.append(annotation1)
+        
+        let annotation2 = MKPointAnnotation()
+         annotation2.coordinate = CLLocationCoordinate2D(latitude: 30.6476,longitude: -87.3108)
+        folder1.append(annotation2)
+        
+        places.append(folder1)
+        
+        mapView.addAnnotation(folder1[0])
+        mapView.addAnnotation(folder1[1])
+        mapView.addAnnotation(folder1[2])
     }
     
-    
-   
 //hamburger menu functions - need to make class for these functions so open and close can be called in multiple instances (touch search bar should close menu)
     @IBAction func sideButtonPressed(_ sender: Any) {
         
@@ -167,6 +192,7 @@ extension MapViewController: HandleMapSearch {
         //creates annotation based on placemark info
         let annotation = MKPointAnnotation()
         annotation.coordinate = placemark.coordinate
+        print(annotation.coordinate)
         annotation.title = placemark.name
         
         //annotation.subtitle = "content if there's something else we want to show other than city state"
