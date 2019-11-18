@@ -32,6 +32,7 @@
 		ED089E442381B60000EF54A9 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED089E432381B60000EF54A9 /* FriendTableViewCell.swift */; };
 		ED089E462382411500EF54A9 /* FolderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED089E452382411500EF54A9 /* FolderTableViewCell.swift */; };
 		ED089E482382421800EF54A9 /* SharedFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED089E472382421800EF54A9 /* SharedFolderViewController.swift */; };
+		ED089E4C2383564600EF54A9 /* SearchForFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED089E4B2383564600EF54A9 /* SearchForFriendsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,7 @@
 		ED089E432381B60000EF54A9 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		ED089E452382411500EF54A9 /* FolderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderTableViewCell.swift; sourceTree = "<group>"; };
 		ED089E472382421800EF54A9 /* SharedFolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFolderViewController.swift; sourceTree = "<group>"; };
+		ED089E4B2383564600EF54A9 /* SearchForFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchForFriendsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				ED089E452382411500EF54A9 /* FolderTableViewCell.swift */,
 				72B114EF23708FE0000F7EFD /* EditableFolderView.swift */,
 				72B114F123709023000F7EFD /* FriendFolderView.swift */,
+				ED089E4B2383564600EF54A9 /* SearchForFriendsViewController.swift */,
 				ED089E432381B60000EF54A9 /* FriendTableViewCell.swift */,
 				72B114ED23708D84000F7EFD /* FriendsViewController.swift */,
 				72B114E923708C8C000F7EFD /* MapViewController.swift */,
@@ -238,6 +241,7 @@
 				72EB6B2423773AF100911F02 /* FMDatabasePool.m in Sources */,
 				ED089E482382421800EF54A9 /* SharedFolderViewController.swift in Sources */,
 				72EB6B2723773AF100911F02 /* FMDatabaseQueue.m in Sources */,
+				ED089E4C2383564600EF54A9 /* SearchForFriendsViewController.swift in Sources */,
 				72B114DA236FC6E1000F7EFD /* LoginViewController.swift in Sources */,
 				ED089E462382411500EF54A9 /* FolderTableViewCell.swift in Sources */,
 				72B114EA23708C8C000F7EFD /* MapViewController.swift in Sources */,

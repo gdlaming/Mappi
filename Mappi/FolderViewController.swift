@@ -75,14 +75,15 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
                 
                 while(results.next()) {
                     let someName = results.string(forColumn: "name")
-                    let someID = results.int(forColumn: "folderID")
+//                    let someID = results.int(forColumn: "folderID")
                     print("location name is \(String(describing: someName));")
                     if folderView == self.myFolders{
                         myArray1.append(someName!)
-                        myArray1IDs.append(Int(someID))
+//                        myArray1IDs.append(Int(someID))
                     }
-                    else { myArray2.append(someName!)
-                        myArray2IDs.append(Int(someID))
+                    else {
+                        myArray2.append(someName!)
+//                        myArray2IDs.append(Int(someID))
                     }
                     folderView.reloadData()
                     
@@ -158,9 +159,9 @@ func executeUpdates(_ array: inout [String], _ indexPath: IndexPath) -> [String]
     }
         if (segue.identifier == "mySegue")
         {
-            let sharedFolderVC = segue.destination as? SharedFolderViewController
+            let sharedFolderVC = segue.destination as? EditableFolderView
              selectedFolderName = "broccolui"
-            sharedFolderVC?.iDLabelName = selectedFolderName
+            sharedFolderVC?.folderName = selectedFolderName
         }
         
     }

@@ -342,6 +342,7 @@
                     </view>
                     <connections>
                         <outlet property="folderView" destination="6Gp-H2-xtL" id="AHJ-rk-giH"/>
+                        <outlet property="nameOfFolder" destination="FRV-DJ-nyy" id="WWb-d3-ixx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4cH-Je-eiT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -573,10 +574,10 @@
             </objects>
             <point key="canvasLocation" x="3489.8550724637685" y="1534.8214285714284"/>
         </scene>
-        <!--View Controller-->
+        <!--Search For Friends View Controller-->
         <scene sceneID="gX4-L6-NYS">
             <objects>
-                <viewController id="n3S-8s-yFb" sceneMemberID="viewController">
+                <viewController id="n3S-8s-yFb" customClass="SearchForFriendsViewController" customModule="Mappi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Wp1-zU-4HU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -594,6 +595,7 @@
                         <viewLayoutGuide key="safeArea" id="HAX-5t-4Dp"/>
                     </view>
                     <connections>
+                        <outlet property="searchBar" destination="HhE-W1-uqv" id="YDA-tz-Xnl"/>
                         <outlet property="searchDisplayController" destination="Fbo-Oh-lWe" id="Lyf-vu-MIC"/>
                     </connections>
                 </viewController>

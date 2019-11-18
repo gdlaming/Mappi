@@ -36,10 +36,10 @@ class FriendViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadDatabase()
         updateValues()
         self.mapPicker.delegate = self
         self.mapPicker.dataSource = self
-        loadDatabase()
         self.mapPicker.reloadAllComponents()
 //        findFolders(<#T##folderArray: [Int]##[Int]#>)
         // Do any additional setup after loading the view.
@@ -101,9 +101,12 @@ class FriendViewController: UIViewController, UIPickerViewDelegate, UIPickerView
 //                print (String(folder!))
                         //print("friend name: \(first!) \(last!)")
 //                        let name: String = first! + " " + last!
-                        myArray.append("test1")
-                        myArray.append("test 2")
-//                        myArray.append(String(folder!))
+                        
+                        myArray.append("places i've cried")
+                        myArray.append("best shoe stores")
+                        myArray.append(String(folder ?? "name"))
+                        
+                        
                     }
                     
                 }

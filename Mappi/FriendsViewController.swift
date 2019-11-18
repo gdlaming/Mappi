@@ -28,18 +28,18 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        label.text = "share folders"
-        
-        //design for headers
-        
-        
-        //
-        //
-        return label
-    }
-    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+////        let label = UILabel()
+////        label.text = "share folders"
+//        
+//        //design for headers
+//        
+//        
+//        //
+//        //
+//        return label
+//    }
+//    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          return myArray.count

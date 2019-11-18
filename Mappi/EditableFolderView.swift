@@ -10,7 +10,15 @@ import UIKit
 
 class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDelegate {
    
-
+    @IBOutlet weak var nameOfFolderLabel: UILabel!
+    var folderName = ""
+    
+    
+    
+    func updateValues(){
+        nameOfFolderLabel.text = folderName
+    }
+    
     @IBOutlet weak var folderView: UITableView!
      var myArray = [String]()
     
@@ -20,7 +28,8 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
         folderView.dataSource = self
         folderView.delegate = self
         folderView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
-        self.folderView.reloadData()
+        updateValues()
+//        self.folderView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -35,7 +44,7 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
     }
     override func viewWillAppear(_ animated: Bool) {
         myArray = []
-        loadDatabase()
+//        loadDatabase()
         //  loadDatabase(sharedFolders)
     }
     
