@@ -26,15 +26,14 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return myArray.count
+        return 1
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        //label.text = "hello"
+        label.text = "share folders"
         
         //design for headers
         
-        label.backgroundColor = UIColor.yellow
         
         //
         //
