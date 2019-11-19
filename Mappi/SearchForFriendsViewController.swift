@@ -8,15 +8,26 @@
 
 import UIKit
 
-class SearchForFriendsViewController: UIViewController {
+class SearchForFriendsViewController: UIViewController, UISearchBarDelegate{
 
     @IBOutlet weak var searchBar: UISearchBar!
+    var query = ""
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.searchBar.delegate = self
         // Do any additional setup after loading the view.
     }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        query = searchBar.text!
+        fetchDataFromSearch()
+    }
+    
+    func fetchDataFromSearch(){
+        print(query)
+    }
 
     /*
     // MARK: - Navigation
