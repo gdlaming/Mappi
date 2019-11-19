@@ -33,6 +33,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //hardcode array
     var places:[[MKPointAnnotation]] = []
     var folder1:[MKPointAnnotation] = []
+    var currentFolder:[MKPointAnnotation] = []
+    var currentSearchedPin:MKPointAnnotation?
 //    var places:[[MKPointAnnotation]] = []
     
     override func viewDidLoad() {
@@ -69,32 +71,38 @@ class MapViewController: UIViewController, MKMapViewDelegate {
        //puts the table view in front of the search bar
         // need to figure out how to do that for dimView
         
-    
+        hardCodePins()
         self.navigationController?.navigationBar.addSubview(menuView)
        
-        hardCodePins()
+        
     }
    
+    //3 locations hardcoded into "folder1" - right now you should be able to search for another location and add it
+    //right now view doesn't expand to include all pins so these just fit within view as it is. need to change this.
     func hardCodePins() {
        
-        
         let annotation0 = MKPointAnnotation()
         annotation0.coordinate = CLLocationCoordinate2D(latitude: 38.6476,longitude: -90.3108)
+        annotation0.title = "ann0"
         folder1.append(annotation0)
         
         let annotation1 = MKPointAnnotation()
-        annotation1.coordinate = CLLocationCoordinate2D(latitude: 39.6476,longitude: -89.3108)
+        annotation1.coordinate = CLLocationCoordinate2D(latitude: 38.6277,longitude: -90.3127)
+        annotation1.title = "ann1"
         folder1.append(annotation1)
         
         let annotation2 = MKPointAnnotation()
-         annotation2.coordinate = CLLocationCoordinate2D(latitude: 30.6476,longitude: -87.3108)
+         annotation2.coordinate = CLLocationCoordinate2D(latitude: 38.6557,longitude: -90.3022)
+        annotation2.title = "ann2"
         folder1.append(annotation2)
         
         places.append(folder1)
+        currentFolder = folder1
         
         mapView.addAnnotation(folder1[0])
         mapView.addAnnotation(folder1[1])
         mapView.addAnnotation(folder1[2])
+        
     }
     
 //hamburger menu functions - need to make class for these functions so open and close can be called in multiple instances (touch search bar should close menu)
@@ -142,18 +150,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             annotationView!.annotation = annotation
         }
         
-        //adds button, clicking this should prompt some kind of way to add to existing list or start new list
-        
+        //adds button, clicking this should prompt some kind of way to add to existing list or start new list. right now it just adds to the existing hardcoded list. maybe put button in menu view to add new folder?
         annotationView?.rightCalloutAccessoryView = btnAdd
+        btnAdd.addTarget(self, action: #selector(clickBtnAdd), for: .touchUpInside)
         
         return annotationView
     }
     
-    //put code to add annotation view in this function
+    //adds searched location to array, need to account for trying to add same location multiple times
     @objc
-    func clickBtnAdd() {
-        btnAdd.addTarget(self, action: #selector(clickBtnAdd), for: UIControl.Event.touchUpInside)
-        
+    func clickBtnAdd(sender: UIButton!) {
+        folder1.append(currentSearchedPin!)
+        for point in folder1 {
+            print(point.title)
+        }
     }
     
 }
@@ -201,11 +211,16 @@ extension MapViewController: HandleMapSearch {
             annotation.subtitle = "\(city) \(state)"
         }
 
+        currentSearchedPin = annotation
         //adds annotation to map
         mapView.addAnnotation(annotation)
         
+        let span:MKCoordinateSpan
         //zoom in on selected pin
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        //need to get this to change when multiple pins on page
+        span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        
+        
         let region = MKCoordinateRegion(center: placemark.coordinate, span: span)
         mapView.setRegion(region, animated: true)
     }
