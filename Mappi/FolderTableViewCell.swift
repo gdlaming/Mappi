@@ -10,6 +10,15 @@ import UIKit
 
 class FolderTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var colorLabel: UILabel!
+    
+    @IBOutlet weak var visitedButton: UIButton!
+    @IBOutlet weak var placeTitleLabel: UILabel!
+    
+    @IBOutlet weak var placeDescriptionText: UITextView!
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,5 +29,7 @@ class FolderTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    
 
 }

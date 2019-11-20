@@ -22,7 +22,8 @@ class FriendViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
 
     
-    var myArray = [String]()
+//    var myArray = [String]()
+    var myArray = ["places ive cried","fav diners","12334567"]
     @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet weak var mapPicker: UIPickerView!
@@ -36,11 +37,14 @@ class FriendViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadDatabase()
-        updateValues()
+        
         self.mapPicker.delegate = self
         self.mapPicker.dataSource = self
-        self.mapPicker.reloadAllComponents()
+
+             updateValues()
+                self.mapPicker.reloadAllComponents()
+//        loadDatabase()
+   
 //        findFolders(<#T##folderArray: [Int]##[Int]#>)
         // Do any additional setup after loading the view.
     }

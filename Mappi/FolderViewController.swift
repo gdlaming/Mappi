@@ -40,16 +40,44 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.myFolders{
-            let myCell = tableView.dequeueReusableCell(withIdentifier: "myFoldersCell")! as! FolderTableViewCell
+            let myCell = tableView.dequeueReusableCell(withIdentifier: "myFoldersCell")! 
             myCell.textLabel!.text = myArray1[indexPath.row]
             return myCell
         }
         else { //sharedFolders tableview
-            let myCell = tableView.dequeueReusableCell(withIdentifier: "sharedCell")! as! FolderTableViewCell
+            let myCell = tableView.dequeueReusableCell(withIdentifier: "sharedCell")! 
             myCell.textLabel!.text = myArray2[indexPath.row]
             return myCell
         }
        
+        
+    }
+    var selectedFolderName = ""
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == self.myFolders{
+            selectedFolderName = myArray1[indexPath.item]
+            performSegue(withIdentifier: "mySegue", sender: self)
+        }
+        else{
+            selectedFolderName = myArray2[indexPath.item]
+            performSegue(withIdentifier: "sharedSegue", sender: self)
+        }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "sharedSegue")
+        {
+            print("entering segue")
+            let sharedFolderVC = segue.destination as? SharedFolderViewController
+            //        sharedFolderVC?.iDLabelName = selectedFolderName
+        }
+        if (segue.identifier == "mySegue")
+        {
+            print("entering segue")
+            let sharedFolderVC = segue.destination as? EditableFolderView
+            sharedFolderVC?.folderName = selectedFolderName
+        }
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         myArray1 = []
@@ -148,24 +176,10 @@ func executeUpdates(_ array: inout [String], _ indexPath: IndexPath) -> [String]
 }
 
     
-    var selectedFolderName = ""
+   
 
-    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if (segue.identifier == "sharedSegue")
-    {
-        let sharedFolderVC = segue.destination as? SharedFolderViewController
-        selectedFolderName = "broccolui"
-        sharedFolderVC?.iDLabelName = selectedFolderName
-    }
-        if (segue.identifier == "mySegue")
-        {
-            let sharedFolderVC = segue.destination as? EditableFolderView
-             selectedFolderName = "broccolui"
-            sharedFolderVC?.folderName = selectedFolderName
-        }
-        
-    }
-}
+
+//}
 
 
 
@@ -183,3 +197,4 @@ func executeUpdates(_ array: inout [String], _ indexPath: IndexPath) -> [String]
     */
 
 
+}

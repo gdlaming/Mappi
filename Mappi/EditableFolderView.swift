@@ -10,10 +10,27 @@ import UIKit
 
 class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDelegate {
    
+    @IBOutlet weak var placesTable: UITableView!
     @IBOutlet weak var nameOfFolderLabel: UILabel!
-    var folderName = ""
+    var folderName = "foldername"
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let myCell = placesTable.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! FolderTableViewCell
+        print("entered method")
+        //        let myCell = friendView.dequeueReusableCell(withIdentifier: "theCell")! as! FriendTableViewCell
+        print("setting text")
+//        myCell.textLabel!.text = myArray[indexPath.row]
+        print("set text")
+        //myCell.textLabel!.text = "\(indexPath.section) Row:\(indexPath.row)"
+        return myCell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 156
+    }
     
     func updateValues(){
         nameOfFolderLabel.text = folderName
@@ -25,23 +42,26 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+  
+
+
         folderView.dataSource = self
         folderView.delegate = self
         folderView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
         updateValues()
-//        self.folderView.reloadData()
+        self.folderView.reloadData()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myArray.count
-
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let myCell = tableView.dequeueReusableCell(withIdentifier: "theCell")! as UITableViewCell
-        myCell.textLabel!.text = myArray[indexPath.row]
-        return myCell
-    }
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return myArray.count
+//
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let myCell = tableView.dequeueReusableCell(withIdentifier: "theCell")! as UITableViewCell
+//        myCell.textLabel!.text = myArray[indexPath.row]
+//        return myCell
+//    }
     override func viewWillAppear(_ animated: Bool) {
         myArray = []
 //        loadDatabase()
