@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3CB2FB0E2383CE60001DA5D3 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB2FB0D2383CE60001DA5D3 /* ContainerViewController.swift */; };
+		3CB2FB102383D6C2001DA5D3 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB2FB0F2383D6C2001DA5D3 /* MenuController.swift */; };
+		3CB2FB122383D8C0001DA5D3 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB2FB112383D8C0001DA5D3 /* Protocols.swift */; };
+		3CB2FB162383DDDD001DA5D3 /* SideMenuOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB2FB152383DDDD001DA5D3 /* SideMenuOptionCell.swift */; };
 		721B688E2370D5C1006230C6 /* josefin-sans in Resources */ = {isa = PBXBuildFile; fileRef = 721B688D2370D5C1006230C6 /* josefin-sans */; };
 		721B68942370D855006230C6 /* JosefinSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721B68932370D855006230C6 /* JosefinSans-Light.ttf */; };
 		72B114D8236FC6E1000F7EFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114D7236FC6E1000F7EFD /* AppDelegate.swift */; };
@@ -36,6 +40,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3CB2FB0D2383CE60001DA5D3 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		3CB2FB0F2383D6C2001DA5D3 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		3CB2FB112383D8C0001DA5D3 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		3CB2FB152383DDDD001DA5D3 /* SideMenuOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuOptionCell.swift; sourceTree = "<group>"; };
 		721B688D2370D5C1006230C6 /* josefin-sans */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "josefin-sans"; sourceTree = "<group>"; };
 		721B68932370D855006230C6 /* JosefinSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Light.ttf"; path = "josefin-sans/JosefinSans-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		72B114D4236FC6E1000F7EFD /* Mappi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mappi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +93,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3CB2FB142383D956001DA5D3 /* SideMenuStuff */ = {
+			isa = PBXGroup;
+			children = (
+				3CB2FB112383D8C0001DA5D3 /* Protocols.swift */,
+				3CB2FB0D2383CE60001DA5D3 /* ContainerViewController.swift */,
+				3CB2FB0F2383D6C2001DA5D3 /* MenuController.swift */,
+				3CB2FB152383DDDD001DA5D3 /* SideMenuOptionCell.swift */,
+			);
+			path = SideMenuStuff;
+			sourceTree = "<group>";
+		};
 		721B68922370D827006230C6 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +146,7 @@
 		72B114D6236FC6E1000F7EFD /* Mappi */ = {
 			isa = PBXGroup;
 			children = (
+				3CB2FB142383D956001DA5D3 /* SideMenuStuff */,
 				721B68922370D827006230C6 /* Fonts */,
 				72B114D7236FC6E1000F7EFD /* AppDelegate.swift */,
 				72EB6B2B2377AEEE00911F02 /* RegisterViewController.swift */,
@@ -234,7 +254,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				72B114EC23708D31000F7EFD /* FolderViewController.swift in Sources */,
+				3CB2FB162383DDDD001DA5D3 /* SideMenuOptionCell.swift in Sources */,
+				3CB2FB102383D6C2001DA5D3 /* MenuController.swift in Sources */,
 				72B114EE23708D84000F7EFD /* FriendsViewController.swift in Sources */,
+				3CB2FB122383D8C0001DA5D3 /* Protocols.swift in Sources */,
+				3CB2FB0E2383CE60001DA5D3 /* ContainerViewController.swift in Sources */,
 				72B114F223709023000F7EFD /* FriendFolderView.swift in Sources */,
 				8C44A36A23738AD8001A4AB0 /* SearchResultsTable.swift in Sources */,
 				72B114F023708FE0000F7EFD /* EditableFolderView.swift in Sources */,

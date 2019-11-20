@@ -358,23 +358,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UMa-Sl-52l">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <connections>
                                     <outlet property="delegate" destination="Yfw-3n-Zdk" id="Jnt-ld-nhs"/>
                                 </connections>
                             </mapView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nAd-oF-pqi" userLabel="dimView">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZZV-pF-ywI">
-                                        <rect key="frame" x="0.0" y="0.0" width="296" height="725"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </tableView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -385,20 +373,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="k06-ge-1YP"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Qy1-Gm-6Pt">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="ME2-g7-i4h">
-                            <connections>
-                                <action selector="sideButtonPressed:" destination="Yfw-3n-Zdk" id="Hit-pn-26c"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Qy1-Gm-6Pt"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="dimView" destination="nAd-oF-pqi" id="Tr6-8r-eaB"/>
                         <outlet property="mapView" destination="UMa-Sl-52l" id="CGG-G6-Lyz"/>
-                        <outlet property="menuView" destination="ZZV-pF-ywI" id="ZJU-Ud-J7G"/>
                         <outlet property="searchDisplayController" destination="HsS-tD-veP" id="p4a-tU-OYN"/>
-                        <outlet property="sideMenuButton" destination="ME2-g7-i4h" id="l47-EW-42G"/>
                         <outlet property="tapGestureRecognizer" destination="L23-hu-mdV" id="XeR-Bs-QIg"/>
                     </connections>
                 </viewController>
@@ -406,7 +385,6 @@
                 <tapGestureRecognizer id="L23-hu-mdV">
                     <connections>
                         <action selector="closeMenu:" destination="Yfw-3n-Zdk" id="eLh-Yh-7n4"/>
-                        <outlet property="delegate" destination="nAd-oF-pqi" id="AGq-YR-YjF"/>
                     </connections>
                 </tapGestureRecognizer>
                 <searchDisplayController id="Hrq-az-48x">
@@ -426,7 +404,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="3526.0869565217395" y="-556.47321428571422"/>
+            <point key="canvasLocation" x="2754" y="-481"/>
         </scene>
         <!--Search Results Table-->
         <scene sceneID="XJ2-Fh-0gZ">
@@ -470,7 +448,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ntr-k8-rji" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4360" y="-552"/>
+            <point key="canvasLocation" x="3799" y="-481"/>
         </scene>
         <!--folders-->
         <scene sceneID="FJv-QV-83r">
@@ -499,14 +477,14 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="Tbi-KK-Eek" kind="relationship" relationship="viewControllers" id="bGS-BH-7XL"/>
-                        <segue destination="haS-w2-epy" kind="relationship" relationship="viewControllers" id="Zgj-y7-Bwc"/>
+                        <segue destination="WlG-1m-FXu" kind="relationship" relationship="viewControllers" id="6As-Gu-A9A"/>
                         <segue destination="Wwq-Gq-2Tn" kind="relationship" relationship="viewControllers" id="2iU-Ip-8kW"/>
+                        <segue destination="haS-w2-epy" kind="relationship" relationship="viewControllers" id="Zgj-y7-Bwc"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UdX-Py-YIR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="993" y="510"/>
+            <point key="canvasLocation" x="864" y="361"/>
         </scene>
         <!--friends-->
         <scene sceneID="hEk-fc-bQ0">
@@ -658,24 +636,21 @@
             </objects>
             <point key="canvasLocation" x="3988.4057971014495" y="2185.7142857142858"/>
         </scene>
-        <!--map-->
-        <scene sceneID="zzz-nW-N4b">
+        <!--Map-->
+        <scene sceneID="sjS-jE-IbV">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Tbi-KK-Eek" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="map" image="map" largeContentSizeImage="map" id="Yw3-2I-lmt"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qwB-Qy-R5n">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Yfw-3n-Zdk" kind="relationship" relationship="rootViewController" id="sGC-at-JXi"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="apc-Cq-hY7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="WlG-1m-FXu" customClass="ContainerViewController" customModule="Mappi" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WXC-wL-S1E">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="iu3-Rs-Hu1"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Map" image="map" id="OCq-Hi-wiN"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="38A-f1-dEA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2615.9420289855075" y="-556.47321428571422"/>
+            <point key="canvasLocation" x="1597" y="-481"/>
         </scene>
     </scenes>
     <resources>
