@@ -29,6 +29,14 @@ class FriendViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var mapPicker: UIPickerView!
     @IBOutlet weak var shareButton: UIButton!
     
+    @IBAction func shareButton(_ sender: Any) {
+        let alert = UIAlertController(title: "Shared folder with \(labelName)", message: "Hope they're ready to explore!", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Okay!", style: .default, handler: nil))
+
+        
+        self.present(alert, animated: true)
+    }
     
     var labelName = ""
     
