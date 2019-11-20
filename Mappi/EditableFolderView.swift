@@ -20,6 +20,10 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = placesTable.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! FolderTableViewCell
+        myCell.colorLabel.backgroundColor = UIColor.green
+        myCell.placeTitleLabel.text = "My favorite place"
+        myCell.placeDescriptionText.text = "You can do all sorts of fun things"
+        
         print("entered method")
         //        let myCell = friendView.dequeueReusableCell(withIdentifier: "theCell")! as! FriendTableViewCell
         print("setting text")
