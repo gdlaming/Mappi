@@ -14,133 +14,86 @@ class FriendViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return myArray.count
+        return folderArray.count
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return myArray[row]
+        return folderArray[row]
     }
-    
-
-    
-//    var myArray = [String]()
-    var myArray = ["places ive cried","fav diners","12334567"]
+ 
+    var labelName = ""
+    var folderArray = [String]()
+    var folderIDs = [Int]()
     @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet weak var mapPicker: UIPickerView!
     @IBOutlet weak var shareButton: UIButton!
     
     @IBAction func shareButton(_ sender: Any) {
+        let thisFolderIndex = mapPicker.selectedRow(inComponent: 0)
+        let thisFolderID = folderIDs[thisFolderIndex]
+        print("thisFolderID = \(thisFolderID)")
+        shareFolder(labelName, thisFolderID)
+        
         let alert = UIAlertController(title: "Shared folder with \(labelName)", message: "Hope they're ready to explore!", preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "Okay!", style: .default, handler: nil))
-
-        
+        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
         self.present(alert, animated: true)
     }
     
-    var labelName = ""
-    
-    func updateValues(){
-        nameLabel.text = labelName
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        findFolders()
         self.mapPicker.delegate = self
         self.mapPicker.dataSource = self
 
-             updateValues()
-                self.mapPicker.reloadAllComponents()
-//        loadDatabase()
-   
-//        findFolders(<#T##folderArray: [Int]##[Int]#>)
-        // Do any additional setup after loading the view.
-    }
-    func loadDatabase(){
-        var friendArray = [Int]()
-        
-        mapPicker.reloadAllComponents()
-        
-        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
-        let folderDB = FMDatabase(path: thepath)
-        
-        if !(folderDB.open()) {
-            print("Unable to open database")
-            return
-        } else {
-            do{
-                let results = try folderDB.executeQuery("select * from friends", values:nil)
-                
-                while(results.next()) {
-                    
-                    let curUserID = results.string(forColumn: "userID")
-                    let id = UserDefaults.standard.string(forKey: "id")!
-                    if (curUserID == id){
-                        let friendID = results.int(forColumn: "friendID")
-                        friendArray.append(Int(friendID))
-                    }
-                    
-                }
-                findFolders(friendArray)
-            }
-            catch let error as NSError {
-                print("failed \(error)")
-                
-            }
-            
-            mapPicker.reloadAllComponents()
-            //TODO: need to grab all the friendships of the current user
-            //(stored in user defaults)
-            //then, need to look up display name based on userID from the
-            //user table. Add those names to the array to be displayed.
-        }
+        nameLabel.text = labelName
+
+        self.mapPicker.reloadAllComponents()
     }
 
-    func findFolders(_ folderArray: [Int]){
+    // pull my folders from db
+    func findFolders(){
+
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
         let folderDB = FMDatabase(path: thepath)
         if !(folderDB.open()) {
             print("Unable to open database")
-            return
         } else {
             do{
-//                for friendID in folderArray{
-                for folderID in folderArray{
-                    let query = "select * from users where userID=?"
-                    let f = try folderDB.executeQuery(query, values: [folderID])
-                    while(f.next()){
-                        let folder = f.string(forColumn: "name")
-//                print (String(folder!))
-                        //print("friend name: \(first!) \(last!)")
-//                        let name: String = first! + " " + last!
-                        
-                        myArray.append("places i've cried")
-                        myArray.append("best shoe stores")
-                        myArray.append(String(folder ?? "name"))
-                        
-                        
-                    }
-                    
+                let query = "select * from folders where owner=?"
+                let myID = UserDefaults.standard.integer(forKey: "id")
+                let f = try folderDB.executeQuery(query, values: [myID])
+                while(f.next()){
+                    let folder = f.string(forColumn: "name")!
+                    let folderID = f.string(forColumn: "folderID")
+                    folderIDs.append(Int(folderID!)!)
+                    folderArray.append(folder)
                 }
-            }
-            catch let error as NSError {
+            } catch let error as NSError {
                 print("failed \(error)")
-                
             }
         }
     }
     
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // get userID of friend we share with
+    // insert folderID = ?, sharedUserID = ? to sharedFolders
+    func shareFolder(_ labelName : String, _ folderID : Int){
+        let first = labelName.split(separator: " ")[0]
+        let last = labelName.split(separator: " ")[1]
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
+        if !(folderDB.open()) {
+            print("Unable to open database")
+        } else {
+            do{
+                let f = try folderDB.executeQuery("select * from users where firstName=? and lastName=?", values: [first, last])
+                var sharedUserID = 0
+                while(f.next()){
+                    sharedUserID = Int(f.int(forColumn: "userID"))
+                }
+                try folderDB.executeUpdate("INSERT INTO sharedFolders (folderID, sharedUserID) VALUES (?, ?)", values:[folderID, sharedUserID])
+            } catch let error as NSError {
+                print("failed \(error)")
+            }
+        }
     }
-    */
-
 }

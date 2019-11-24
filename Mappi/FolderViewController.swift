@@ -49,8 +49,6 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
             myCell.textLabel!.text = myArray2[indexPath.row]
             return myCell
         }
-       
-        
     }
     var selectedFolderName = ""
 
@@ -81,16 +79,14 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
     }
     override func viewWillAppear(_ animated: Bool) {
         myArray1 = []
-        loadDatabase(myFolders)
+        loadMyFolders(myFolders)
         myArray2 = []
-        loadDatabase(sharedFolders)
+        loadSharedFolders(sharedFolders)
         //TODO: need to make these queries different so we are pulling different data
     }
 
-    func loadDatabase(_ folderView: UITableView){
-       
+    func loadMyFolders(_ folderView: UITableView){
         folderView.reloadData()
-        
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
         let folderDB = FMDatabase(path: thepath)
 
@@ -99,22 +95,17 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
             return
         } else {
             do{
-                let results = try folderDB.executeQuery("select * from folders", values:nil)
+                 let myID = UserDefaults.standard.integer(forKey: "id")
+                let results = try folderDB.executeQuery("select * from folders where owner=?", values:[myID])
                 
                 while(results.next()) {
                     let someName = results.string(forColumn: "name")
 //                    let someID = results.int(forColumn: "folderID")
                     print("location name is \(String(describing: someName));")
-                    if folderView == self.myFolders{
+                   
                         myArray1.append(someName!)
 //                        myArray1IDs.append(Int(someID))
-                    }
-                    else {
-                        myArray2.append(someName!)
-//                        myArray2IDs.append(Int(someID))
-                    }
                     folderView.reloadData()
-                    
                 }
             }
             catch let error as NSError {
@@ -123,8 +114,37 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
             }
         }
     }
- 
+    
+    func loadSharedFolders(_ folderView: UITableView){
+        folderView.reloadData()
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
         
+        if !(folderDB.open()) {
+            print("Unable to open database")
+            return
+        } else {
+            do{
+                let myID = UserDefaults.standard.integer(forKey: "id")
+                let results = try folderDB.executeQuery("select * from sharedFolders where sharedUserID=?", values:[myID])
+                
+                while(results.next()) {
+                    let folderID = Int(results.int(forColumn: "folderID"))
+                    let results2 = try folderDB.executeQuery("select * from folders where folderID=?", values: [folderID])
+                    while(results2.next()){
+                        let someName = results2.string(forColumn: "name")
+                        myArray2.append(someName!)
+                    }
+                    
+                    //myArray2IDs.append(Int(folderID))
+                    folderView.reloadData()
+                }
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+            }
+        }
+    }
         func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
             
             if editingStyle == .delete {
@@ -174,27 +194,5 @@ func executeUpdates(_ array: inout [String], _ indexPath: IndexPath) -> [String]
     }
     return array
 }
-
-    
-   
-
-
-//}
-
-
-
-
-
-
-    /*
-     MARK: - Navigation
-
-     In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-         Get the new view controller using segue.destination.
-         Pass the selected object to the new view controller.
-    }
-    */
-
 
 }
