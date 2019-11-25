@@ -8,27 +8,28 @@
 
 import UIKit
 
-class SharedFolderViewController: UIViewController {
+class SharedFolderViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet weak var placesTable: UITableView!
     @IBOutlet weak var IDLabel: UILabel!
+    @IBOutlet weak var placesTable: UITableView!
     
     @IBOutlet weak var folderView: UITableView!
-    
+    var places = [[String?]]()
     var folderName = ""
   
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  folderView.dataSource = self
-      //  folderView.delegate = self
-        folderView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
         IDLabel.text = folderName
+        places = getPlaces()
+        folderView.dataSource = self
+        folderView.delegate = self
+        folderView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell") 
+       
         self.folderView.reloadData()
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let myCell = placesTable.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! FolderTableViewCell
+        let myCell = placesTable.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! FriendTableViewCell
         
-        var places = getPlaces()
         myCell.colorLabel.backgroundColor = UIColor.blue
         print(places)
         myCell.placeTitleLabel.text = places[indexPath.item][0]!
@@ -40,7 +41,7 @@ class SharedFolderViewController: UIViewController {
         return 156
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return getPlaces().count
+        return places.count
     }
     
     func getPlaces() -> [[String?]]{

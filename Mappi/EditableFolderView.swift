@@ -13,15 +13,15 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var placesTable: UITableView!
     @IBOutlet weak var nameOfFolderLabel: UILabel!
     var folderName = ""
-    
+    var places = [[String?]]()
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return getPlaces().count
+        return places.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = placesTable.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! FolderTableViewCell
-        var places = getPlaces()
+        
         myCell.colorLabel.backgroundColor = UIColor.green
         print(places)
         myCell.placeTitleLabel.text = places[indexPath.item][0]!
@@ -33,20 +33,15 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
         return 156
     }
     
-    func updateValues(){
-        nameOfFolderLabel.text = folderName
-    }
-    
     @IBOutlet weak var folderView: UITableView!
-     var myArray = [String]()
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        nameOfFolderLabel.text = folderName
+        places = getPlaces()
         folderView.dataSource = self
         folderView.delegate = self
         folderView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
-        updateValues()
         self.folderView.reloadData()
     }
     
@@ -85,7 +80,7 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            print(myArray[indexPath.row])
+//            print(myArray[indexPath.row])
             
             let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
             let folderDB = FMDatabase(path: thepath)
@@ -96,8 +91,8 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
             } else {
                 do{
                     let query = "delete from folders where name=?"
-                    try folderDB.executeUpdate(query, values: [myArray[indexPath.row]])
-                    myArray.remove(at: indexPath.row)
+//                    try folderDB.executeUpdate(query, values: [myArray[indexPath.row]])
+//                    myArray.remove(at: indexPath.row)
                     let ac = UIAlertController(title: "Item deleted", message: "" , preferredStyle: .alert)
                     ac.addAction(UIAlertAction(title:"Return", style: .default, handler:nil))
                     present(ac, animated:true, completion:nil)
@@ -112,15 +107,4 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
             tableView.reloadData()
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
