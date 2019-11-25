@@ -12,24 +12,21 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
    
     @IBOutlet weak var placesTable: UITableView!
     @IBOutlet weak var nameOfFolderLabel: UILabel!
-    var folderName = "foldername"
+    var folderName = ""
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return getPlaces().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = placesTable.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! FolderTableViewCell
+        var places = getPlaces()
         myCell.colorLabel.backgroundColor = UIColor.green
-        myCell.placeTitleLabel.text = "My favorite place"
-        myCell.placeDescriptionText.text = "You can do all sorts of fun things"
-        
-        print("entered method")
-        //        let myCell = friendView.dequeueReusableCell(withIdentifier: "theCell")! as! FriendTableViewCell
-        print("setting text")
-//        myCell.textLabel!.text = myArray[indexPath.row]
-        print("set text")
-        //myCell.textLabel!.text = "\(indexPath.section) Row:\(indexPath.row)"
+        print(places)
+        myCell.placeTitleLabel.text = places[indexPath.item][0]!
+        myCell.placeDescriptionText.text = places[indexPath.item][1]!
+
         return myCell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -46,9 +43,6 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-  
-
-
         folderView.dataSource = self
         folderView.delegate = self
         folderView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
@@ -56,46 +50,28 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
         self.folderView.reloadData()
     }
     
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return myArray.count
-//
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let myCell = tableView.dequeueReusableCell(withIdentifier: "theCell")! as UITableViewCell
-//        myCell.textLabel!.text = myArray[indexPath.row]
-//        return myCell
-//    }
-    override func viewWillAppear(_ animated: Bool) {
-        myArray = []
-//        loadDatabase()
-        //  loadDatabase(sharedFolders)
-    }
-    
-    func loadDatabase(){
-        
-        
-        folderView.reloadData()
-        
+    func getPlaces() -> [[String?]]{
+        var places = [[String?]]()
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
-        let folderDB = FMDatabase(path: thepath)
+        let DB = FMDatabase(path: thepath)
         
-        if !(folderDB.open()) {
+        var folderID = 0
+        if !(DB.open()) {
             print("Unable to open database")
-            return
         } else {
             do{
-                let results = try folderDB.executeQuery("select * from folders", values:nil)
-                
+                let folderResults = try DB.executeQuery("select * from folders where name=?", values:[folderName])
+                while(folderResults.next()){
+                    folderID = Int(folderResults.int(forColumn: "folderID"))
+                }
+                let results = try DB.executeQuery("select * from places where folderID=?", values:[folderID])
                 while(results.next()) {
-                    
-                    
-                    // need to have some conditional
-                    let someName = results.string(forColumn: "name")
-                    print("location name is \(String(describing: someName));")
-                    myArray.append(someName!)
-                    folderView.reloadData()
-                    
+                    let placeName = results.string(forColumn: "locationName")
+                    let desc = results.string(forColumn: "description")
+                    let city = results.string(forColumn: "city")
+                    let state = results.string(forColumn: "state")
+                    let arr = [placeName, desc, city, state]
+                    places.append(arr)
                 }
             }
             catch let error as NSError {
@@ -103,6 +79,7 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
                 
             }
         }
+        return places
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
