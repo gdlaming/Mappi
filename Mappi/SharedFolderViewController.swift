@@ -12,44 +12,67 @@ class SharedFolderViewController: UIViewController {
 
     @IBOutlet weak var placesTable: UITableView!
     @IBOutlet weak var IDLabel: UILabel!
-  
     
-//    var iDLabelName = ""
-    func updateValues(){
-//        IDLabel.text = iDLabelName
-    }
+    @IBOutlet weak var folderView: UITableView!
+    
+    var folderName = ""
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-//        updateValues()
-
-        // Do any additional setup after loading the view.
+      //  folderView.dataSource = self
+      //  folderView.delegate = self
+        folderView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
+        IDLabel.text = folderName
+        self.folderView.reloadData()
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = placesTable.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! FolderTableViewCell
-        print("entered method")
-        //        let myCell = friendView.dequeueReusableCell(withIdentifier: "theCell")! as! FriendTableViewCell
-        print("setting text")
-        //        myCell.textLabel!.text = myArray[indexPath.row]
-        print("set text")
-        //myCell.textLabel!.text = "\(indexPath.section) Row:\(indexPath.row)"
+        
+        var places = getPlaces()
+        myCell.colorLabel.backgroundColor = UIColor.blue
+        print(places)
+        myCell.placeTitleLabel.text = places[indexPath.item][0]!
+        myCell.placeDescriptionText.text = places[indexPath.item][1]!
+
         return myCell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 156
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return getPlaces().count
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func getPlaces() -> [[String?]]{
+        var places = [[String?]]()
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let DB = FMDatabase(path: thepath)
+        
+        var folderID = 0
+        if !(DB.open()) {
+            print("Unable to open database")
+        } else {
+            do{
+                let folderResults = try DB.executeQuery("select * from folders where name=?", values:[folderName])
+                while(folderResults.next()){
+                    folderID = Int(folderResults.int(forColumn: "folderID"))
+                }
+                let results = try DB.executeQuery("select * from places where folderID=?", values:[folderID])
+                while(results.next()) {
+                    let placeName = results.string(forColumn: "locationName")
+                    let desc = results.string(forColumn: "description")
+                    let city = results.string(forColumn: "city")
+                    let state = results.string(forColumn: "state")
+                    let arr = [placeName, desc, city, state]
+                    places.append(arr)
+                }
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+                
+            }
+        }
+        return places
     }
-    */
 
 }

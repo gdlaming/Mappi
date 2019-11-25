@@ -19,13 +19,10 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       // loadDatabase(myFolders)
         myFolders.dataSource = self
         myFolders.delegate = self
-//        myFolders.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
         sharedFolders.dataSource = self
         sharedFolders.delegate = self
-//        sharedFolders.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
         self.myFolders.reloadData()
         self.sharedFolders.reloadData()
     }
@@ -65,13 +62,13 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "sharedSegue")
         {
-            print("entering segue")
+            print("entering shared segue")
             let sharedFolderVC = segue.destination as? SharedFolderViewController
-            //        sharedFolderVC?.iDLabelName = selectedFolderName
+            sharedFolderVC?.folderName = selectedFolderName
         }
         if (segue.identifier == "mySegue")
         {
-            print("entering segue")
+            print("entering my segue")
             let sharedFolderVC = segue.destination as? EditableFolderView
             sharedFolderVC?.folderName = selectedFolderName
         }
@@ -82,7 +79,6 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
         loadMyFolders(myFolders)
         myArray2 = []
         loadSharedFolders(sharedFolders)
-        //TODO: need to make these queries different so we are pulling different data
     }
 
     func loadMyFolders(_ folderView: UITableView){
