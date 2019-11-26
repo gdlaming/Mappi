@@ -10,13 +10,11 @@ import UIKit
 
 class FolderTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var colorLabel: UILabel!
-    
-    @IBOutlet weak var visitedButton: UIButton!
     @IBOutlet weak var placeTitleLabel: UILabel!
     
     @IBOutlet weak var placeDescriptionText: UITextView!
     
+    @IBOutlet weak var button: UIButton!
     
     
     override func awakeFromNib() {
