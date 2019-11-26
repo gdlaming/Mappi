@@ -13,6 +13,7 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var placesTable: UITableView!
     @IBOutlet weak var nameOfFolderLabel: UILabel!
     var folderName = ""
+    var folderColor = UIColor()
     var places = [[String?]]()
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -24,6 +25,7 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
 
         myCell.placeTitleLabel.text = places[indexPath.item][0]!
         myCell.placeDescriptionText.text = places[indexPath.item][1]!
+        myCell.button.tintColor = folderColor.withAlphaComponent(1.0)
         myCell.button.setTitle(places[indexPath.item][0]!, for: .normal)
         myCell.button.setTitleColor(UIColor(white: 0, alpha: 0), for: .normal)
         
@@ -45,6 +47,7 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         nameOfFolderLabel.text = folderName
+        nameOfFolderLabel.textColor = folderColor.withAlphaComponent(1.0)
         places = getPlaces()
         folderView.dataSource = self
         folderView.delegate = self

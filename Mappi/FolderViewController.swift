@@ -13,9 +13,9 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
     @IBOutlet weak var myFolders: UITableView!
     @IBOutlet weak var sharedFolders: UITableView!
     var myArray1 = [String]()
-    var myArray1IDs = [Int]()
+    var myArray1Colors = [UIColor]()
     var myArray2 = [String]()
-    var myArray2IDs = [Int]()
+    var myArray2Colors = [UIColor]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,23 +39,27 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
         if tableView == self.myFolders{
             let myCell = tableView.dequeueReusableCell(withIdentifier: "myFoldersCell")! 
             myCell.textLabel!.text = myArray1[indexPath.row]
+            myCell.backgroundColor = myArray1Colors[indexPath.row]
             return myCell
         }
         else { //sharedFolders tableview
             let myCell = tableView.dequeueReusableCell(withIdentifier: "sharedCell")! 
             myCell.textLabel!.text = myArray2[indexPath.row]
+            myCell.backgroundColor = myArray2Colors[indexPath.row]
             return myCell
         }
     }
     var selectedFolderName = ""
-
+    var selectedFolderColor = UIColor()
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.myFolders{
             selectedFolderName = myArray1[indexPath.item]
+            selectedFolderColor = myArray1Colors[indexPath.item]
             performSegue(withIdentifier: "mySegue", sender: self)
         }
         else{
             selectedFolderName = myArray2[indexPath.item]
+            selectedFolderColor = myArray2Colors[indexPath.item]
             performSegue(withIdentifier: "sharedSegue", sender: self)
         }
     }
@@ -65,19 +69,23 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
             print("entering shared segue")
             let sharedFolderVC = segue.destination as? SharedFolderViewController
             sharedFolderVC?.folderName = selectedFolderName
+            sharedFolderVC?.folderColor = selectedFolderColor
         }
         if (segue.identifier == "mySegue")
         {
             print("entering my segue")
-            let sharedFolderVC = segue.destination as? EditableFolderView
-            sharedFolderVC?.folderName = selectedFolderName
+            let myFolderVC = segue.destination as? EditableFolderView
+            myFolderVC?.folderName = selectedFolderName
+            myFolderVC?.folderColor = selectedFolderColor
         }
         
     }
     override func viewWillAppear(_ animated: Bool) {
         myArray1 = []
+        myArray1Colors = []
         loadMyFolders(myFolders)
         myArray2 = []
+        myArray2Colors = []
         loadSharedFolders(sharedFolders)
     }
 
@@ -91,16 +99,15 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
             return
         } else {
             do{
-                 let myID = UserDefaults.standard.integer(forKey: "id")
+                let myID = UserDefaults.standard.integer(forKey: "id")
                 let results = try folderDB.executeQuery("select * from folders where owner=?", values:[myID])
                 
                 while(results.next()) {
                     let someName = results.string(forColumn: "name")
-//                    let someID = results.int(forColumn: "folderID")
-                    print("location name is \(String(describing: someName));")
+                    myArray1.append(someName!)
+                    let colorString = results.string(forColumn: "color")!
                    
-                        myArray1.append(someName!)
-//                        myArray1IDs.append(Int(someID))
+                    myArray1Colors.append(getColor(colorString: colorString))
                     folderView.reloadData()
                 }
             }
@@ -108,6 +115,24 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
                 print("failed \(error)")
                 
             }
+        }
+    }
+    
+    func getColor(colorString : String) -> UIColor {
+        if (colorString == "blue"){
+            return UIColor(red: 79/255, green: 219/255, blue: 224/255, alpha: 0.3)
+        }
+        if (colorString == "red"){
+            return UIColor(red: 252/255, green: 61/255, blue: 70/255, alpha: 0.3)
+        }
+        if (colorString == "green"){
+            return UIColor(red: 190/255, green: 223/255, blue: 83/255, alpha: 0.3)
+        }
+        if (colorString == "purple"){
+            return UIColor(red: 189/255, green: 78/255, blue: 223/255, alpha: 0.3)
+        }
+        else {
+            return UIColor.white
         }
     }
     
@@ -130,9 +155,11 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
                     while(results2.next()){
                         let someName = results2.string(forColumn: "name")
                         myArray2.append(someName!)
+                        let colorString = results2.string(forColumn: "color")!
+                        
+                        myArray2Colors.append(getColor(colorString: colorString))
                     }
                     
-                    //myArray2IDs.append(Int(folderID))
                     folderView.reloadData()
                 }
             }

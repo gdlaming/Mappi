@@ -16,25 +16,35 @@ class SharedFolderViewController: UIViewController,  UITableViewDataSource, UITa
     @IBOutlet weak var folderView: UITableView!
     var places = [[String?]]()
     var folderName = ""
-  
+    var folderColor = UIColor()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         IDLabel.text = folderName
+        IDLabel.textColor = folderColor.withAlphaComponent(1.0)
         places = getPlaces()
         folderView.dataSource = self
         folderView.delegate = self
-        folderView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell") 
+        folderView.register(UITableViewCell.self, forCellReuseIdentifier: "theCell")
        
         self.folderView.reloadData()
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = placesTable.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! FriendTableViewCell
-        
-        myCell.colorLabel.backgroundColor = UIColor.blue
-        print(places)
+       
         myCell.placeTitleLabel.text = places[indexPath.item][0]!
         myCell.placeDescriptionText.text = places[indexPath.item][1]!
-
+        myCell.button.tintColor = folderColor.withAlphaComponent(1.0)
+        myCell.button.setTitle(places[indexPath.item][0]!, for: .normal)
+        myCell.button.setTitleColor(UIColor(white: 0, alpha: 0), for: .normal)
+        
+        let visited = UserDefaults.standard.stringArray(forKey: "visited") ?? [String?]()
+        if (visited.contains(places[indexPath.item][0]!)){
+            myCell.button.setImage(UIImage(named: "check.png"), for: .normal)
+        } else {
+            myCell.button.setImage(UIImage(named: "uncheck.png"), for: .normal)
+        }
+        
         return myCell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -43,6 +53,24 @@ class SharedFolderViewController: UIViewController,  UITableViewDataSource, UITa
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return places.count
     }
+    
+    @IBAction func checkClicked(_ sender: Any) {
+        // list of visited places
+        var visited = UserDefaults.standard.stringArray(forKey: "visited") ?? [String?]()
+        let thisButton = sender as! UIButton
+        let placeName = thisButton.currentTitle
+        
+        if (visited.contains(placeName)){  // uncheck
+            thisButton.setImage(UIImage(named: "uncheck.png"), for: .normal)
+            visited.removeAll { $0 == placeName }
+            UserDefaults.standard.set(visited, forKey: "visited")
+        } else {
+            thisButton.setImage(UIImage(named: "check.png"), for: .normal)
+            visited.append(placeName)
+            UserDefaults.standard.set(visited, forKey: "visited")
+        }
+    }
+    
     
     func getPlaces() -> [[String?]]{
         var places = [[String?]]()

@@ -10,9 +10,9 @@ import UIKit
 
 class FriendTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var colorLabel: UILabel!
+
+    @IBOutlet weak var button: UIButton!
     
-//    @IBOutlet weak var visitedButton: UIButton!
     @IBOutlet weak var placeTitleLabel: UILabel!
     
     @IBOutlet weak var placeDescriptionText: UITextView!
