@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1EE05075238CA4AA006B130D /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EE05074238CA4AA006B130D /* check.png */; };
-		1EE05077238CA4D4006B130D /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EE05076238CA4D3006B130D /* uncheck.png */; };
+		1E7B2D0F238F84950059825C /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E7B2D0D238F84940059825C /* uncheck.png */; };
+		1E7B2D10238F84950059825C /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E7B2D0E238F84950059825C /* check.png */; };
 		3CB2FB0E2383CE60001DA5D3 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB2FB0D2383CE60001DA5D3 /* ContainerViewController.swift */; };
 		3CB2FB102383D6C2001DA5D3 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB2FB0F2383D6C2001DA5D3 /* MenuController.swift */; };
 		3CB2FB122383D8C0001DA5D3 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB2FB112383D8C0001DA5D3 /* Protocols.swift */; };
@@ -41,8 +41,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1EE05074238CA4AA006B130D /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = ../../../../../../Downloads/check.png; sourceTree = "<group>"; };
-		1EE05076238CA4D3006B130D /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = uncheck.png; path = ../../../../../../Downloads/uncheck.png; sourceTree = "<group>"; };
+		1E7B2D0D238F84940059825C /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncheck.png; sourceTree = "<group>"; };
+		1E7B2D0E238F84950059825C /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		3CB2FB0D2383CE60001DA5D3 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		3CB2FB0F2383D6C2001DA5D3 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		3CB2FB112383D8C0001DA5D3 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
@@ -167,8 +167,8 @@
 				72B114E0236FC6E3000F7EFD /* LaunchScreen.storyboard */,
 				72B114E3236FC6E3000F7EFD /* Info.plist */,
 				72F391BB2371F70D00AE575D /* Media.xcassets */,
-				1EE05076238CA4D3006B130D /* uncheck.png */,
-				1EE05074238CA4AA006B130D /* check.png */,
+				1E7B2D0E238F84950059825C /* check.png */,
+				1E7B2D0D238F84940059825C /* uncheck.png */,
 			);
 			path = Mappi;
 			sourceTree = "<group>";
@@ -242,12 +242,12 @@
 			files = (
 				72EB6B162377312300911F02 /* mappi.db in Resources */,
 				721B688E2370D5C1006230C6 /* josefin-sans in Resources */,
-				1EE05075238CA4AA006B130D /* check.png in Resources */,
 				72B114E2236FC6E3000F7EFD /* LaunchScreen.storyboard in Resources */,
 				721B68942370D855006230C6 /* JosefinSans-Light.ttf in Resources */,
 				72F391BC2371F70D00AE575D /* Media.xcassets in Resources */,
+				1E7B2D10238F84950059825C /* check.png in Resources */,
 				72B114DD236FC6E1000F7EFD /* Main.storyboard in Resources */,
-				1EE05077238CA4D4006B130D /* uncheck.png in Resources */,
+				1E7B2D0F238F84950059825C /* uncheck.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
