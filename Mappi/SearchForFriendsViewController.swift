@@ -64,11 +64,13 @@ class SearchForFriendsViewController: UIViewController, UISearchBarDelegate, UIT
             return
         } else {
             do{
-                let friendResults = try DB.executeQuery("select * from users where firstName=?", values:[query])
+                let friendResults = try DB.executeQuery("select * from users where username=?", values:[query])
                 while(friendResults.next()){
                     let first = String(friendResults.string(forColumn: "firstName")!)
+                    let last = String(friendResults.string(forColumn: "lastName")!)
+                    let combined = first + " " + last
                     found = true;
-                    myArray.append(first)
+                    myArray.append(combined)
                 }
                 if (!found){
                     let ac = UIAlertController(title: "No results", message: "No friends found for the name entered" , preferredStyle: .alert)
