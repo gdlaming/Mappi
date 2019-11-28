@@ -33,10 +33,11 @@ class SearchForFriendsViewController: UIViewController, UISearchBarDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let myCell = friendView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! UITableViewCell
+        let myCell = friendView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! AddFriendTableViewCell
         //        let myCell = friendView.dequeueReusableCell(withIdentifier: "theCell")! as! FriendTableViewCell
        // print("setting text")
-        myCell.textLabel!.text = myArray[indexPath.row]
+        myCell.name.text = myArray[indexPath.row]
+        //myCell.textLabel!.text = myArray[indexPath.row]
         //print("set text")
         //myCell.textLabel!.text = "\(indexPath.section) Row:\(indexPath.row)"
         return myCell
