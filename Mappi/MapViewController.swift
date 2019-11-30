@@ -14,9 +14,9 @@ protocol HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark)
 }
 
-class MapViewController: UIViewController, MKMapViewDelegate {
-
-
+class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     
     let locationManager = CLLocationManager()
@@ -27,11 +27,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    //put db info into here
+    var places:[[place]] = []
+    
+    
     //hardcode array
-    var places:[[MKPointAnnotation]] = []
-    var folder1:[MKPointAnnotation] = []
-    var currentFolder:[MKPointAnnotation] = []
     var currentSearchedPin:MKPointAnnotation?
+    
+    //span
+    var avgCoord:CLLocationCoordinate2D?
+    var spanLat:CLLocationDegrees?
+    var spanLong:CLLocationDegrees?
+    var maxSpan:CLLocationDegrees?
+    
+    //picker
+    var toolBar = UIToolbar()
+    var picker  = UIPickerView()
+    var pickerFolder:String?
     
     override func viewDidLoad() {
         //will need to go into this and run some stuff in the background probably
@@ -43,8 +55,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         let searchResultsTable = storyboard!.instantiateViewController(withIdentifier: "SearchResultsTable") as! SearchResultsTable
         resultSearchController = UISearchController(searchResultsController: searchResultsTable)
-        resultSearchController?.searchResultsUpdater = searchResultsTable 
-    
+        resultSearchController?.searchResultsUpdater = searchResultsTable
+        
         //search controller
         let searchBar = resultSearchController!.searchBar
         searchBar.sizeToFit()
@@ -73,37 +85,79 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sidemenu"), style: .plain, target: self, action: #selector(handleMenuToggle))
         
     }
-   
+    
     //3 locations hardcoded into "folder1" - right now you should be able to search for another location and add it
     //right now view doesn't expand to include all pins so these just fit within view as it is. need to change this.
+    
+    
     func hardCodePins() {
-       
-        let annotation0 = MKPointAnnotation()
-        annotation0.coordinate = CLLocationCoordinate2D(latitude: 38.6476,longitude: -90.3108)
-        annotation0.title = "ann0"
-        folder1.append(annotation0)
         
-        let annotation1 = MKPointAnnotation()
-        annotation1.coordinate = CLLocationCoordinate2D(latitude: 38.6277,longitude: -90.3127)
-        annotation1.title = "ann1"
-        folder1.append(annotation1)
+        var folder0:[place] = []
+        places.append(folder0)
         
-        let annotation2 = MKPointAnnotation()
-         annotation2.coordinate = CLLocationCoordinate2D(latitude: 38.6557,longitude: -90.3022)
-        annotation2.title = "ann2"
-        folder1.append(annotation2)
+        let place0 = place(locationName: "place0", lat: 38.6476, long: -90.3108, city: "City0", state: "MO", folderID: 0)
+        places[place0.folderID].append(place0)
+        let place1 = place(locationName: "place1", lat: 38.6277, long: -90.3127, city: "City1", state: "MO", folderID: 0)
+        places[place1.folderID].append(place1)
+        let place2 = place(locationName: "place2", lat: 38.6557, long: -90.2022, city: "City1", state: "MO", folderID: 0)
+        places[place2.folderID].append(place2)
         
-        places.append(folder1)
-        currentFolder = folder1
+        for place in places[0] {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
+            annotation.title = place.locationName
+            mapView.addAnnotation(annotation)
+        }
         
-        mapView.addAnnotation(folder1[0])
-        mapView.addAnnotation(folder1[1])
-        mapView.addAnnotation(folder1[2])
+        defineSpan(folder: places[0])
+        
+    }
+    
+    func defineSpan(folder:[place]) {
+        var lats = [Double]()
+        var longs = [Double]()
+        var difsLats = [Double]()
+        var difsLongs = [Double]()
+        
+        for place in folder {
+            lats.append(place.lat)
+            longs.append(place.long)
+        }
+        
+        let sumLats = lats.reduce(0,+)
+        let avgLats = sumLats/Double(lats.count)
+        
+        let sumLongs = longs.reduce(0,+)
+        let avgLongs = sumLongs/Double(longs.count)
+        
+        avgCoord = CLLocationCoordinate2D(latitude: CLLocationDegrees(avgLats), longitude: CLLocationDegrees(avgLongs))
+        print("\(avgLats) and \(avgLongs)") // should be 38.6436, -90.275233333333333
+        
+        for lat in lats {
+            difsLats.append(abs(avgLats-lat))
+        }
+        for long in longs {
+            difsLongs.append(abs(avgLongs-long))
+        }
+        
+        
+        
+        spanLat = difsLats.max()
+        print(spanLat)
+        spanLong = difsLongs.max()
+        print(spanLong)
+        
+        if spanLat! > spanLong! {
+            maxSpan = spanLat
+        }
+        else {
+            maxSpan = spanLong
+        }
         
     }
     
     
-    
+    //desc: modifies appearance of pins
     //more editing on creating the pin, all other pin content should be put in here i think
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is MKPointAnnotation else { return nil }
@@ -118,20 +172,65 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             annotationView!.annotation = annotation
         }
         
-        //adds button, clicking this should prompt some kind of way to add to existing list or start new list. right now it just adds to the existing hardcoded list. maybe put button in menu view to add new folder?
+        //adds button to annotation view
         annotationView?.rightCalloutAccessoryView = btnAdd
         btnAdd.addTarget(self, action: #selector(clickBtnAdd), for: .touchUpInside)
         
         return annotationView
     }
     
-    //adds searched location to array, need to account for trying to add same location multiple times
+    //desc: adds searched location to array
+    //TO-DO:account for trying to add same location multiple times
     @objc
     func clickBtnAdd(sender: UIButton!) {
-        folder1.append(currentSearchedPin!)
-        for point in folder1 {
-            print(point.title)
-        }
+        picker = UIPickerView.init()
+        self.picker.delegate = self as UIPickerViewDelegate
+        self.picker.dataSource = self as UIPickerViewDataSource
+        picker.backgroundColor = UIColor.white
+        picker.setValue(UIColor.black, forKey: "textColor")
+        picker.autoresizingMask = .flexibleWidth
+        picker.contentMode = .center
+        picker.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
+        self.view.addSubview(picker)
+        
+        toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50))
+        toolBar.barStyle = .default
+        toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(onDoneButtonTapped)),UIBarButtonItem.init(title: "Add to Folder", style: .plain, target: self, action: #selector(onAddButtonTapped))]
+        self.view.addSubview(toolBar)
+    }
+    @objc func onDoneButtonTapped() {
+        toolBar.removeFromSuperview()
+        picker.removeFromSuperview()
+    }
+    //TO-DO: add to actual folder, check if already in folder, maybe add remove from folder? remove force unwraps, using for testing
+    @objc func onAddButtonTapped() {
+        print("current pin added to \(pickerFolder)")
+        let span:MKCoordinateSpan
+        
+        span = MKCoordinateSpan(latitudeDelta: maxSpan! + 0.03, longitudeDelta: maxSpan! + 0.03)
+        
+        let region = MKCoordinateRegion(center: avgCoord!, span: span)
+        mapView.setRegion(region, animated: true)
+    }
+    
+    //replace this with array of place objects pulled from db
+    var pickerTest = ["one", "two"]
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerTest.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerTest[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        pickerFolder = pickerTest[row]
+        print(pickerFolder)
     }
     
 }
@@ -144,6 +243,7 @@ extension MapViewController: CLLocationManagerDelegate {
         }
     }
     
+    //this is where zoom occurs for current location. want to update location it uses as to center span as center of all locations with span being max lat or long
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
@@ -178,7 +278,7 @@ extension MapViewController: HandleMapSearch {
             let state = placemark.administrativeArea {
             annotation.subtitle = "\(city) \(state)"
         }
-
+        
         currentSearchedPin = annotation
         //adds annotation to map
         mapView.addAnnotation(annotation)
