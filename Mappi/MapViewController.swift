@@ -16,10 +16,7 @@ protocol HandleMapSearch {
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
-//    @IBOutlet weak var dimView: UIView!
-//    @IBOutlet weak var menuView: UITableView!
-    
-//    @IBOutlet weak var sideMenuButton: UIBarButtonItem!
+
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     
     let locationManager = CLLocationManager()
@@ -35,7 +32,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var folder1:[MKPointAnnotation] = []
     var currentFolder:[MKPointAnnotation] = []
     var currentSearchedPin:MKPointAnnotation?
-//    var places:[[MKPointAnnotation]] = []
     
     override func viewDidLoad() {
         //will need to go into this and run some stuff in the background probably
@@ -62,18 +58,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         searchResultsTable.handleMapSearchDelegate = self
         
-        //hamburger menu
-//        menuView.isHidden = true
-//        dimView.alpha = 0
-//        dimView.isHidden = true
-//        dimView.addGestureRecognizer(tapGestureRecognizer)
-        
-       //puts the table view in front of the search bar
-        // need to figure out how to do that for dimView
         
         hardCodePins()
-//        self.navigationController?.navigationBar.addSubview(menuView)
-       
         configureNavBar()
     }
     
@@ -116,36 +102,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-//hamburger menu functions - need to make class for these functions so open and close can be called in multiple instances (touch search bar should close menu)
-//    @IBAction func sideButtonPressed(_ sender: Any) {
-//
-//
-//        self.dimView.isHidden = false
-////        self.navigationController?.isNavigationBarHidden = true
-//
-//        UIView.animate(withDuration: 0.3, animations: {
-//            self.view.layoutIfNeeded()
-//            self.dimView.alpha = 0.9
-//            self.menuView.isHidden = false
-//
-//        }, completion: { (complete) in
-////            self.panGesture.isEnabled = false
-//        })
-//    }
-//
-//    @IBAction func closeMenu(_ sender: Any) {
-//        menuView.isHidden = true
-////        self.navigationController?.isNavigationBarHidden = false
-//
-//        UIView.animate(withDuration: 0.5, animations: {
-//            self.view.layoutIfNeeded()
-//            self.dimView.alpha = 0
-//
-//        }, completion: { (complete) in
-////            self.panGesture.isEnabled = true
-//            self.dimView.isHidden = true
-//        })
-//    }
+    
     
     //more editing on creating the pin, all other pin content should be put in here i think
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
