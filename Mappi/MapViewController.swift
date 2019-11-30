@@ -14,9 +14,9 @@ protocol HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark)
 }
 
-class MapViewController: UIViewController, MKMapViewDelegate {
-
-
+class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     
     let locationManager = CLLocationManager()
@@ -33,9 +33,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var currentFolder:[MKPointAnnotation] = []
     var currentSearchedPin:MKPointAnnotation?
     
+    //picker
+    var toolBar = UIToolbar()
+    var picker  = UIPickerView()
+    var pickerFolder:String?
+    
     override func viewDidLoad() {
         //will need to go into this and run some stuff in the background probably
         super.viewDidLoad()
+        
+        //        self.picker.delegate = self
+        //        self.picker.dataSource = self as? UIPickerViewDataSource
+        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -43,8 +52,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         let searchResultsTable = storyboard!.instantiateViewController(withIdentifier: "SearchResultsTable") as! SearchResultsTable
         resultSearchController = UISearchController(searchResultsController: searchResultsTable)
-        resultSearchController?.searchResultsUpdater = searchResultsTable 
-    
+        resultSearchController?.searchResultsUpdater = searchResultsTable
+        
         //search controller
         let searchBar = resultSearchController!.searchBar
         searchBar.sizeToFit()
@@ -73,11 +82,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sidemenu"), style: .plain, target: self, action: #selector(handleMenuToggle))
         
     }
-   
+    
     //3 locations hardcoded into "folder1" - right now you should be able to search for another location and add it
     //right now view doesn't expand to include all pins so these just fit within view as it is. need to change this.
     func hardCodePins() {
-       
+        
         let annotation0 = MKPointAnnotation()
         annotation0.coordinate = CLLocationCoordinate2D(latitude: 38.6476,longitude: -90.3108)
         annotation0.title = "ann0"
@@ -89,7 +98,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         folder1.append(annotation1)
         
         let annotation2 = MKPointAnnotation()
-         annotation2.coordinate = CLLocationCoordinate2D(latitude: 38.6557,longitude: -90.3022)
+        annotation2.coordinate = CLLocationCoordinate2D(latitude: 38.6557,longitude: -90.3022)
         annotation2.title = "ann2"
         folder1.append(annotation2)
         
@@ -128,10 +137,51 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //adds searched location to array, need to account for trying to add same location multiple times
     @objc
     func clickBtnAdd(sender: UIButton!) {
-        folder1.append(currentSearchedPin!)
-        for point in folder1 {
-            print(point.title)
-        }
+        picker = UIPickerView.init()
+        self.picker.delegate = self as UIPickerViewDelegate
+        self.picker.dataSource = self as UIPickerViewDataSource
+        picker.backgroundColor = UIColor.white
+        picker.setValue(UIColor.black, forKey: "textColor")
+        picker.autoresizingMask = .flexibleWidth
+        picker.contentMode = .center
+        picker.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
+        self.view.addSubview(picker)
+        
+        toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50))
+        toolBar.barStyle = .default
+        toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(onDoneButtonTapped)),UIBarButtonItem.init(title: "Add to Folder", style: .plain, target: self, action: #selector(onAddButtonTapped))]
+        self.view.addSubview(toolBar)
+        //        folder1.append(currentSearchedPin!)
+        //        for point in folder1 {
+        //            print(point.title)
+        
+    }
+    @objc func onDoneButtonTapped() {
+        toolBar.removeFromSuperview()
+        picker.removeFromSuperview()
+    }
+    
+    @objc func onAddButtonTapped() {
+        print("current pin added to \(pickerFolder)")
+    }
+    
+    var pickerTest = ["one", "two"]
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerTest.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerTest[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        pickerFolder = pickerTest[row]
+        print(pickerFolder)
     }
     
 }
@@ -178,7 +228,7 @@ extension MapViewController: HandleMapSearch {
             let state = placemark.administrativeArea {
             annotation.subtitle = "\(city) \(state)"
         }
-
+        
         currentSearchedPin = annotation
         //adds annotation to map
         mapView.addAnnotation(annotation)
