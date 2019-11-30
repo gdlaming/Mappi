@@ -68,8 +68,8 @@ class AddFriendTableViewCell: UITableViewCell {
             print("Unable to open database")
         } else {
             do{
-                var query = "insert into friends(userID, friendID) values (3,1)"
-                let q = try DB.executeQuery(query,values: nil)
+                var query = "INSERT INTO friends (userID, friendID) VALUES (?, ?)"
+                let q = try DB.executeQuery(query,values:[3, friendID])
                 var query2 = "select * from friends where userID=?"
                 let p = try DB.executeQuery(query2, values: [id])
                 while (p.next()){
