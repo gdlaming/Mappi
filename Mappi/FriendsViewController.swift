@@ -48,11 +48,9 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = friendView.dequeueReusableCell(withIdentifier: "theCell", for: indexPath) as! FriendTableViewCell
         print("entered method")
-//        let myCell = friendView.dequeueReusableCell(withIdentifier: "theCell")! as! FriendTableViewCell
-        print("setting text")
+
         myCell.textLabel!.text = myArray[indexPath.row]
-        print("set text")
-        //myCell.textLabel!.text = "\(indexPath.section) Row:\(indexPath.row)"
+
         return myCell
     }
     override func viewWillAppear(_ animated: Bool) {
