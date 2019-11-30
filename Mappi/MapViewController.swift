@@ -21,7 +21,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     
     let locationManager = CLLocationManager()
     var resultSearchController:UISearchController? = nil
-    
+   
     var selectedPin:MKPlacemark? = nil
     let btnAdd = UIButton(type: .contactAdd)
     
@@ -202,7 +202,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         toolBar.removeFromSuperview()
         picker.removeFromSuperview()
     }
-    //TO-DO: add to actual folder, check if already in folder, maybe add remove from folder? remove force unwraps, using for testing
+    //TODO: add to actual folder, check if already in folder, maybe add remove from folder? remove force unwraps, using for testing
     @objc func onAddButtonTapped() {
         print("current pin added to \(pickerFolder)")
         let span:MKCoordinateSpan
@@ -212,9 +212,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         let region = MKCoordinateRegion(center: avgCoord!, span: span)
         mapView.setRegion(region, animated: true)
     }
-    
-    //replace this with array of place objects pulled from db
-    var pickerTest = ["one", "two"]
+    //TODO: GILLIAN AND LEELA
+    //grab all folders for current user
+    var pickerTest = grabFolders()
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -234,6 +234,34 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     }
     
 }
+
+    func grabFolders() -> [String]{
+        var retArray = [""]
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
+        
+        if !(folderDB.open()) {
+            print("Unable to open database")
+            return [""]
+        } else {
+            do{
+                let myID = UserDefaults.standard.integer(forKey: "id")
+                let results = try folderDB.executeQuery("select * from folders where owner=?", values:[myID])
+                
+                while(results.next()) {
+                    let someName = results.string(forColumn: "name")
+                    retArray.append(someName!)
+                }
+                
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+                
+            }
+        }
+        return retArray
+    }
+
 
 //current location
 extension MapViewController: CLLocationManagerDelegate {
