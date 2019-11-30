@@ -20,7 +20,6 @@ class SearchForFriendsViewController: UIViewController, UISearchBarDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        myArray.append("Gillian")
         self.searchBar.delegate = self
         friendView.dataSource = self
         friendView.delegate = self
@@ -30,14 +29,15 @@ class SearchForFriendsViewController: UIViewController, UISearchBarDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1;
+        return myArray.count;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let myCell = friendView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! UITableViewCell
+        let myCell = friendView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! AddFriendTableViewCell
         //        let myCell = friendView.dequeueReusableCell(withIdentifier: "theCell")! as! FriendTableViewCell
        // print("setting text")
-        myCell.textLabel!.text = myArray[indexPath.row]
+        myCell.name.text = myArray[indexPath.row]
+        //myCell.textLabel!.text = myArray[indexPath.row]
         //print("set text")
         //myCell.textLabel!.text = "\(indexPath.section) Row:\(indexPath.row)"
         return myCell
@@ -45,8 +45,8 @@ class SearchForFriendsViewController: UIViewController, UISearchBarDelegate, UIT
     
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        //let query = searchBar.text!
-        print("hello, world!")
+        query = searchBar.text!
+        print(query)
         fetchDataFromSearch()
     }
     
@@ -57,7 +57,39 @@ class SearchForFriendsViewController: UIViewController, UISearchBarDelegate, UIT
 //    }
     
     func fetchDataFromSearch(){
-        print(query)
+        var found=false;
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let DB = FMDatabase(path: thepath)
+        if !(DB.open()) {
+            print("Unable to open database")
+            return
+        } else {
+            do{
+                let friendResults = try DB.executeQuery("select * from users where username=?", values:[query])
+                while(friendResults.next()){
+                    let first = String(friendResults.string(forColumn: "firstName")!)
+                    let last = String(friendResults.string(forColumn: "lastName")!)
+                    let combined = first + " " + last
+                    found = true;
+                    myArray.append(combined)
+                }
+                if (!found){
+                    let ac = UIAlertController(title: "No results", message: "No friends found for the name entered" , preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title:"Return", style: .default, handler:nil))
+                    present(ac, animated:true, completion:nil)
+                }
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+                
+            }
+        }
+        friendView.reloadData()
+        for item in myArray{
+            print(item)
+        }
+        }
+        
     }
 
     /*
@@ -70,4 +102,4 @@ class SearchForFriendsViewController: UIViewController, UISearchBarDelegate, UIT
     }
     */
 
-}
+

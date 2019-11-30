@@ -15,6 +15,7 @@
 		3CB2FB162383DDDD001DA5D3 /* SideMenuOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB2FB152383DDDD001DA5D3 /* SideMenuOptionCell.swift */; };
 		721B688E2370D5C1006230C6 /* josefin-sans in Resources */ = {isa = PBXBuildFile; fileRef = 721B688D2370D5C1006230C6 /* josefin-sans */; };
 		721B68942370D855006230C6 /* JosefinSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721B68932370D855006230C6 /* JosefinSans-Light.ttf */; };
+		7247F8EE2390519B004B4964 /* AddFriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7247F8ED2390519B004B4964 /* AddFriendTableViewCell.swift */; };
 		72B114D8236FC6E1000F7EFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114D7236FC6E1000F7EFD /* AppDelegate.swift */; };
 		72B114DA236FC6E1000F7EFD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B114D9236FC6E1000F7EFD /* LoginViewController.swift */; };
 		72B114DD236FC6E1000F7EFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72B114DB236FC6E1000F7EFD /* Main.storyboard */; };
@@ -50,6 +51,7 @@
 		3CB2FB152383DDDD001DA5D3 /* SideMenuOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuOptionCell.swift; sourceTree = "<group>"; };
 		721B688D2370D5C1006230C6 /* josefin-sans */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "josefin-sans"; sourceTree = "<group>"; };
 		721B68932370D855006230C6 /* JosefinSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Light.ttf"; path = "josefin-sans/JosefinSans-Light.ttf"; sourceTree = SOURCE_ROOT; };
+		7247F8ED2390519B004B4964 /* AddFriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendTableViewCell.swift; sourceTree = "<group>"; };
 		72B114D4236FC6E1000F7EFD /* Mappi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mappi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72B114D7236FC6E1000F7EFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72B114D9236FC6E1000F7EFD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				ED089E452382411500EF54A9 /* FolderTableViewCell.swift */,
 				72B114EF23708FE0000F7EFD /* EditableFolderView.swift */,
 				ED089E4B2383564600EF54A9 /* SearchForFriendsViewController.swift */,
+				7247F8ED2390519B004B4964 /* AddFriendTableViewCell.swift */,
 				ED089E432381B60000EF54A9 /* FriendTableViewCell.swift */,
 				72B114ED23708D84000F7EFD /* FriendsViewController.swift */,
 				72B114E923708C8C000F7EFD /* MapViewController.swift */,
@@ -262,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				72B114EC23708D31000F7EFD /* FolderViewController.swift in Sources */,
+				7247F8EE2390519B004B4964 /* AddFriendTableViewCell.swift in Sources */,
 				3CB2FB162383DDDD001DA5D3 /* SideMenuOptionCell.swift in Sources */,
 				3CB2FB102383D6C2001DA5D3 /* MenuController.swift in Sources */,
 				72B114EE23708D84000F7EFD /* FriendsViewController.swift in Sources */,
