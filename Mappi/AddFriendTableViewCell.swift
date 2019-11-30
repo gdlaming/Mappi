@@ -60,6 +60,23 @@ class AddFriendTableViewCell: UITableViewCell {
     }
     
     func addFriendship(_ friendID: Int, _ id: String){
-        print("adding friendship")
+       
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let DB = FMDatabase(path: thepath)
+        
+        if !(DB.open()) {
+            print("Unable to open database")
+        } else {
+            do{
+                var query = "insert into friends (userID, friendID) values(?,?)"
+                try DB.executeQuery(query, values: [id, friendID])
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+                
+            }
+        }
     }
+    
+
 }
