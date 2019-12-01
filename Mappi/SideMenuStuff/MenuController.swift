@@ -166,7 +166,7 @@ extension MenuController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let menuOption = MenuOption(rawValue: indexPath.row)
-        /*TODO: pass array of MKPointAnnotation, need to update delegate definition in MapViewController*/ delegate?.handleMenuToggle(forMKArray: places[0]) //passes menuOption to be used in animatePanel
+        /*TODO: pass array of MKPointAnnotation, need to update delegate definition in MapViewController*/ delegate?.handleMenuToggle(forPlaceArray: places[0]) //passes menuOption to be used in animatePanel
         
     } 
 }
