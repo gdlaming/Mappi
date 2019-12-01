@@ -16,6 +16,8 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
     var menuController: MenuController!
     var centerController: UIViewController!
     var isExpanded = false
+    var currentArr: [MKPointAnnotation] = []
+    let empty: [MKPointAnnotation] = []
     
     //MARK: - Init
     override func viewDidLoad() {
@@ -80,7 +82,7 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func animatePanel(shouldExpand: Bool/*, menuOption: MenuOption?*/){
+    func animatePanel(shouldExpand: Bool, pins: [MKPointAnnotation]/*, menuOption: MenuOption?*/){
         if shouldExpand{
              //show menu
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
@@ -113,8 +115,9 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
 //        }
 //    }
     
-    func didSelectMenuOption() {
-        
+    //TODO: update to receive array MKPointAnnotation
+    func didSelectMenuOption(ann: [MKPointAnnotation]) {
+        return
     }
     
     func animateStatusBar() {
@@ -124,13 +127,18 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
     }
 }
 
+//TODO: update to receive array of MKPointAnnotation
 extension ContainerViewController: MapControllerDelegate{
-    func handleMenuToggle(/*forMenuOption menuOption: MenuOption?*/) {
+    func handleMenuToggle(forMKArray annArr: [MKPointAnnotation]?) {
         if !isExpanded{
             configureMenuController()
         }
+        
+        
+        currentArr = annArr ?? empty
+
         isExpanded = !isExpanded
-        animatePanel(shouldExpand: isExpanded/*, menuOption: menuOption*/)
+        animatePanel(shouldExpand: isExpanded, pins: currentArr)
     }
     
     

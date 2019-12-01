@@ -103,7 +103,7 @@ extension MenuController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let menuOption = MenuOption(rawValue: indexPath.row)
-        delegate?.handleMenuToggle(/*forMenuOption: menuOption*/) //passes menuOption to be used in animatePanel
+        /*TODO: pass array of MKPointAnnotation, need to update delegate definition in MapViewController*/ delegate?.handleMenuToggle(/*[MKPointAnnotation]*//*forMenuOption: menuOption*/) //passes menuOption to be used in animatePanel
         
     } 
 }

@@ -6,8 +6,10 @@
 //  Copyright © 2019 cse438. All rights reserved.
 //
 
+import MapKit
+
 protocol MapControllerDelegate {
     
-    func handleMenuToggle(/*forMenuOption menuOption: MenuOption?*/)
+    func handleMenuToggle(forMKArray annArr: [MKPointAnnotation]?)
     
 }
