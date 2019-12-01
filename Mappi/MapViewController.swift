@@ -226,6 +226,33 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
             }
     }
     }
+    func addLoc(_ xCoord: Float, _ yCoord: Float, _ locationName: String, _ city: String, _ state: String){
+        //addLoc(xCoord, yCoord, locationName, city, state)
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
+        var folderID = -1
+        if !(folderDB.open()) {
+            print("Unable to open database")
+            return
+        } else {
+            do{
+                let query = "select folderID from folders where name=?"
+                let f = try folderDB.executeQuery(query, values: [pickerFolder])
+                while(f.next()){
+                    folderID = Int(f.int(forColumn: "folderID"))
+                    print("folder id: \(folderID)")
+                }
+                let query1 = "insert into places (locationName, xcoord, ycoord, city, state, folderID) values (?, ?, ?, ?, ?, ?)"
+                //TODO: need to grab the name and lat/long from the user inputs
+                //then, update the ?'s in the line below with the correct values
+                let g = try folderDB.executeUpdate(query1, values: [locationName, xCoord, yCoord, city, state, folderID])
+                print("sucessfully added location")
+                
+            } catch let error as NSError {
+                print("failed \(error)")
+            }
+        }
+    }
     
     //desc: adds searched location to array
     @objc
@@ -242,7 +269,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         let alertController = UIAlertController(title: "New Folder", message: "Enter Folder Name", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
             let folderName = alertController.textFields?[0].text
-            //DB TODO: add this folder name to db with corresponding folderID
             self.addFolderToDB(folderName!);
             let newFolder:[place] = []
             self.places.append(newFolder)
@@ -280,6 +306,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         print(city)
         let state = cityState?[1] ?? "unknown"
         print(state)
+        addLoc(xCoord, yCoord, locationName!, city, state)
+
         
         //these are just tests, eventually won't go here
         let span:MKCoordinateSpan
