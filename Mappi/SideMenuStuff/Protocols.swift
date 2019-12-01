@@ -8,6 +8,6 @@
 
 protocol MapControllerDelegate {
     
-    func handleMenuToggle(forMenuOption menuOption: MenuOption?)
+    func handleMenuToggle(/*forMenuOption menuOption: MenuOption?*/)
     
 }
