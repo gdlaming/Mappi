@@ -81,6 +81,6 @@ extension SearchResultsTable: UISearchResultsUpdating {
     }
 }
 
-extension SearchResultsTable {
-  
-}
+//extension SearchResultsTable {
+//  
+//}

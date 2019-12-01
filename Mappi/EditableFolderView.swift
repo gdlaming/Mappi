@@ -24,7 +24,7 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
         let myCell = placesTable.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! FolderTableViewCell
 
         myCell.placeTitleLabel.text = places[indexPath.item][0]!
-        myCell.placeDescriptionText.text = places[indexPath.item][1]!
+        myCell.placeDescriptionText.text = places[indexPath.item][1] ?? " "
         myCell.button.tintColor = folderColor.withAlphaComponent(1.0)
         myCell.button.setTitle(places[indexPath.item][0]!, for: .normal)
         myCell.button.setTitleColor(UIColor(white: 0, alpha: 0), for: .normal)
