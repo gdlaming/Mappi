@@ -209,11 +209,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
             print("Unable to open database")
         } else {
             do{
-                let unique = try DB.executeQuery("select * from folders where folderName=?", values:[folderName])
+                let unique = try DB.executeQuery("select * from folders where name=?", values:[folderName])
                 if (unique.next() == false){
-                    print("username unique")
+                    print("folder name unique unique")
                     let myID = UserDefaults.standard.integer(forKey: "id")
-                    try DB.executeUpdate("INSERT INTO folders (folderName, color, owner) VALUES (?, ?, ?)", values:[folderName, "blue", myID])
+                    try DB.executeUpdate("INSERT INTO folders (name, color, owner) VALUES (?, ?, ?)", values:[folderName, "blue", myID])
                 }
                 else {
                     print("folder name not unique")
