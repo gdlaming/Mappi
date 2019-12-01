@@ -34,7 +34,7 @@ class AddFolderViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     
     @IBAction func createButton(_ sender: Any) {
         let thisColor = colorArray[colorPicker.selectedRow(inComponent: 0)]
-        let thisName = folderName.text!
+        let thisName = folderName.text ?? ""
         
         addFolderToDB(folderName : thisName, color : thisColor)
         let fac = UIAlertController(title: "Successfully created folder", message: "now you can add places from the map", preferredStyle: .alert)

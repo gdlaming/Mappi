@@ -265,7 +265,7 @@
         <!--AddFolderViewController-->
         <scene sceneID="1TB-6y-5l2">
             <objects>
-                <viewController storyboardIdentifier="AddFolderViewController" title="AddFolderViewController" id="5yP-rm-KYH" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddFolderViewController" title="AddFolderViewController" id="5yP-rm-KYH" customClass="AddFolderViewController" customModule="Mappi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BW9-f6-kcY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -292,6 +292,7 @@
                                 <state key="normal" title="create"/>
                                 <connections>
                                     <action selector="createButton:" destination="mCX-F0-6o9" eventType="touchUpInside" id="4Vp-Zx-S82"/>
+                                    <action selector="createButton:" destination="5yP-rm-KYH" eventType="touchUpInside" id="KYB-QO-N0w"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="folder color" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z0r-zu-IgR">
@@ -310,11 +311,15 @@
                         <viewLayoutGuide key="safeArea" id="lac-eA-Kjs"/>
                     </view>
                     <navigationItem key="navigationItem" title="back" id="tRr-TF-P9a"/>
+                    <connections>
+                        <outlet property="colorPicker" destination="UHP-7S-oya" id="uez-cg-CR6"/>
+                        <outlet property="folderName" destination="wxP-CH-RdQ" id="wzY-dn-BD0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OCZ-i7-EZh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="mCX-F0-6o9" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4452" y="888"/>
+            <point key="canvasLocation" x="3948" y="948"/>
         </scene>
         <!--Friend Folder-->
         <scene sceneID="deL-2i-dIZ">
