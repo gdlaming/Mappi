@@ -75,7 +75,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     var delegate: MapControllerDelegate?
     
     @objc func handleMenuToggle(){
-    delegate?.handleMenuToggle(forPlaceArray: places)
+    delegate?.handleMenuToggle()
     }
     
     func configureNavBar() {
