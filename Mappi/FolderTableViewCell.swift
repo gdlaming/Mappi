@@ -16,6 +16,7 @@ class FolderTableViewCell: UITableViewCell {
     
     @IBOutlet weak var button: UIButton!
     
+    @IBOutlet weak var editButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,6 +29,23 @@ class FolderTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    @IBAction func editButton(_ sender: Any) {
+        if editButtonActive == false{
+                descriptionText.isEditable = true
+            placeDescriptionText.backgroundColor = UIColor.lightGray
+            editButton.titleLabel?.text = "done"
+            editButtonActive = true
+        }
+        if editButtonActive == true{
+            placeDescriptionText.backgroundColor = UIColor.white
+            editButton.titleLabel?.text = "edit"
+            descriptionText.isEditable = false
+        }
     
-
+        
+    }
+    
+    @IBOutlet weak var descriptionText: UITextView!
+    var editButtonActive = false
+    
 }
