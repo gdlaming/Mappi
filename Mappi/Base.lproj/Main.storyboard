@@ -240,9 +240,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="add folder"/>
                                 <connections>
-                                    <segue destination="5yP-rm-KYH" kind="popoverPresentation" popoverAnchorView="n3d-hN-nl8" id="A6b-6r-SFK">
-                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                    </segue>
+                                    <segue destination="5yP-rm-KYH" kind="show" id="A6b-6r-SFK"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -319,7 +317,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OCZ-i7-EZh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="mCX-F0-6o9" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3948" y="948"/>
+            <point key="canvasLocation" x="3922" y="882"/>
         </scene>
         <!--Friend Folder-->
         <scene sceneID="deL-2i-dIZ">
