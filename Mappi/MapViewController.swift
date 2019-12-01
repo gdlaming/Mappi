@@ -187,6 +187,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         }
     }
     
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        toolBar.removeFromSuperview()
+        picker.removeFromSuperview()
+    }
+    
     func callPickerView() {
         picker = UIPickerView.init()
         self.picker.delegate = self as UIPickerViewDelegate
@@ -231,6 +236,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
             }
         }
     }
+    
+    //DB TODO: adds items to folder successfully but they dont stay b/w builds
     func addLoc(_ xCoord: Float, _ yCoord: Float, _ locationName: String, _ city: String, _ state: String){
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
         let folderDB = FMDatabase(path: thepath)
@@ -265,11 +272,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         callPickerView()
         
     }
+    
+    //Jane TODO: figure out why this sometimes doesn't work
     @objc func onDoneButtonTapped() {
         toolBar.removeFromSuperview()
         picker.removeFromSuperview()
     }
-    
+
+    //DB TODO: not saving folders b/w builds
     @objc func onNewFolderTapped() {
         let alertController = UIAlertController(title: "New Folder", message: "Enter Folder Name", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
@@ -279,7 +289,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
             self.places.append(newFolder)
             if folderName != nil {
                 self.pickerTest.append(folderName!)
-                //this may cause duplicate new folders in picker view once connected to db
+                self.onDoneButtonTapped()
                 self.callPickerView()
             }
         }
@@ -295,7 +305,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         self.present(alertController, animated: true, completion: nil)
     }
     //TODO: add to actual folder, check if already in folder, maybe add remove from folder? remove force unwraps, using for testing
-    //DB TODO:account for trying to add same location multiple times
+    //DB TODO: account for trying to add same location multiple times, make added pin stay b/w builds
+        // right now not staying b/w builds but if location searched and checked off before, adding it again will add it as a checked off location (aka user defaults remebers it)
     @objc func onAddButtonTapped() {
         print("current pin added to \(pickerFolder)")
         
@@ -314,6 +325,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         addLoc(xCoord, yCoord, locationName!, city, state)
         
     }
+    
+    //Jane TODO: idt we actually need this, will remove
     @objc func onRemoveTapped() {
         //right now just testing span but eventually remove selected pin from folder if it exists there
         let span:MKCoordinateSpan
