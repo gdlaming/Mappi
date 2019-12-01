@@ -44,6 +44,7 @@ class FolderTableViewCell: UITableViewCell {
             editButtonActive = false
             return
         }
+        //TODO write edits to userDefaults
 
         
     }
