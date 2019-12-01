@@ -202,6 +202,31 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         self.view.addSubview(toolBar)
     }
     
+    func addFolderToDB(_ folderName: String){
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let DB = FMDatabase(path: thepath)
+        if !(DB.open()) {
+            print("Unable to open database")
+        } else {
+            do{
+                let unique = try DB.executeQuery("select * from folders where folderName=?", values:[folderName])
+                if (unique.next() == false){
+                    print("username unique")
+                    let myID = UserDefaults.standard.integer(forKey: "id")
+                    try DB.executeUpdate("INSERT INTO folders (folderName, color, owner) VALUES (?, ?, ?)", values:[folderName, "blue", myID])
+                }
+                else {
+                    print("folder name not unique")
+                    let fac = UIAlertController(title: "folder name not unique", message: "Please try again" , preferredStyle: .alert)
+                    fac.addAction(UIAlertAction(title:"Return", style: .default, handler:nil))
+                    present(fac, animated:true, completion: nil)
+                }
+            } catch let error as NSError {
+                print("failed \(error)")
+            }
+    }
+    }
+    
     //desc: adds searched location to array
     @objc
     func clickBtnAdd(sender: UIButton!) {
@@ -218,6 +243,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
             let folderName = alertController.textFields?[0].text
             //DB TODO: add this folder name to db with corresponding folderID
+            self.addFolderToDB(folderName!);
             let newFolder:[place] = []
             self.places.append(newFolder)
             if folderName != nil {
