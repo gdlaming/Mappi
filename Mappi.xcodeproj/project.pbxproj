@@ -62,7 +62,7 @@
 		72B114EB23708D31000F7EFD /* FolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 		72B114ED23708D84000F7EFD /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		72B114EF23708FE0000F7EFD /* EditableFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableFolderView.swift; sourceTree = "<group>"; };
-		72EB6B152377312300911F02 /* mappi.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = mappi.db; sourceTree = "<group>"; };
+		72EB6B152377312300911F02 /* mappi.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = mappi.db; sourceTree = SOURCE_ROOT; };
 		72EB6B1723773AEF00911F02 /* Mappi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mappi-Bridging-Header.h"; sourceTree = "<group>"; };
 		72EB6B1823773AF000911F02 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		72EB6B1923773AF000911F02 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
