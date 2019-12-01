@@ -17,20 +17,53 @@ class MenuController: UIViewController, MKMapViewDelegate{
     var tableView: UITableView!
     var delegate: MapControllerDelegate?
     
-        //hardcoding folder
-    var places:[[MKPointAnnotation]] = []
-    var folder1:[MKPointAnnotation] = []
-    var currentFolder:[MKPointAnnotation] = []
-    var currentSearchedPin:MKPointAnnotation?
+//         //hardcoding folder
+//    var places:[[MKPointAnnotation]] = []
+//    var folder1:[MKPointAnnotation] = []
+//    var currentFolder:[MKPointAnnotation] = []
+//    var currentSearchedPin:MKPointAnnotation?
+    
+    var myArray = [String]()
     
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        hardCodePins()
+ 
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        myArray = []
+        loadMyFolders(tableView)
     }
     
     //MARK: - Handlers
+    
+    func loadMyFolders(_ folderView: UITableView){
+        folderView.reloadData()
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
+        
+        if !(folderDB.open()) {
+            print("Unable to open database")
+            return
+        } else {
+            do{
+                let myID = UserDefaults.standard.integer(forKey: "id")
+                let results = try folderDB.executeQuery("select * from folders where owner=?", values:[myID])
+                
+                while(results.next()) {
+                    let someName = results.string(forColumn: "name")
+                    myArray.append(someName!)
+                    
+                    folderView.reloadData()
+                }
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+                
+            }
+        }
+    }
     
     func configureTableView(){
         tableView = UITableView()
@@ -47,47 +80,30 @@ class MenuController: UIViewController, MKMapViewDelegate{
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        
+        self.tableView.reloadData()
     }
     
-        //hardcoding folder
-    func hardCodePins() {
-        
-        let annotation0 = MKPointAnnotation()
-        annotation0.coordinate = CLLocationCoordinate2D(latitude: 38.6476,longitude: -90.3108)
-        annotation0.title = "ann0"
-        folder1.append(annotation0)
-        
-        let annotation1 = MKPointAnnotation()
-        annotation1.coordinate = CLLocationCoordinate2D(latitude: 38.6277,longitude: -90.3127)
-        annotation1.title = "ann1"
-        folder1.append(annotation1)
-        
-        let annotation2 = MKPointAnnotation()
-        annotation2.coordinate = CLLocationCoordinate2D(latitude: 38.6557,longitude: -90.3022)
-        annotation2.title = "ann2"
-        folder1.append(annotation2)
-        
-        places.append(folder1)
-        currentFolder = folder1
-        
-    }
+
     
 }
 
 extension MenuController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return myArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier , for: indexPath) as! SideMenuOptionCell
-        let menuOption = MenuOption(rawValue: indexPath.row)
-        cell.folderLabel.text = menuOption?.description
+//        let menuOption = MenuOption(rawValue: indexPath.row)
+//        cell.folderLabel.text = menuOption?.description
+        cell.textLabel!.text = myArray[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let menuOption = MenuOption(rawValue: indexPath.row)
-        delegate?.handleMenuToggle(forMenuOption: menuOption)
+//        let menuOption = MenuOption(rawValue: indexPath.row)
+        delegate?.handleMenuToggle(/*forMenuOption: menuOption*/) //passes menuOption to be used in animatePanel
+        
     } 
 }
