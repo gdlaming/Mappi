@@ -10,7 +10,6 @@ import UIKit
 
 class FriendsViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
     
-//    var friends: [String] = ["todd","cole","janegor","leela201","caleb","GILLIAN!!!!!!!!!8734832393023u7SSSSAAAAAAAAAAA"]
      var myArray = [String]()
     
     @IBOutlet weak var friendView: UITableView!
@@ -47,8 +46,7 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = friendView.dequeueReusableCell(withIdentifier: "theCell", for: indexPath) as! FriendTableViewCell
-        print("entered method")
-
+       
         myCell.textLabel!.text = myArray[indexPath.row]
 
         return myCell
@@ -60,15 +58,15 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
     
     func findFriends(_ friendArray: [Int]){
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
-        let folderDB = FMDatabase(path: thepath)
-        if !(folderDB.open()) {
+        let DB = FMDatabase(path: thepath)
+        if !(DB.open()) {
             print("Unable to open database")
             return
         } else {
             do{
                 for friendID in friendArray{
                     let query = "select * from users where userID=?"
-                    let f = try folderDB.executeQuery(query, values: [friendID])
+                    let f = try DB.executeQuery(query, values: [friendID])
                     while(f.next()){
                         let first = f.string(forColumn: "firstName")
                         let last = f.string(forColumn: "lastName")
@@ -76,8 +74,8 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
                         let name: String = first! + " " + last!
                             myArray.append(name)
                     }
-                  
                 }
+                DB.close()
             }
             catch let error as NSError {
                 print("failed \(error)")
@@ -92,25 +90,24 @@ class FriendsViewController: UIViewController,  UITableViewDataSource, UITableVi
         friendView.reloadData()
         
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
-        let folderDB = FMDatabase(path: thepath)
+        let DB = FMDatabase(path: thepath)
         
-        if !(folderDB.open()) {
+        if !(DB.open()) {
             print("Unable to open database")
             return
         } else {
             do{
-                let results = try folderDB.executeQuery("select * from friends", values:nil)
+                let results = try DB.executeQuery("select * from friends", values:nil)
                 
                 while(results.next()) {
-
                     let curUserID = results.string(forColumn: "userID")
                     let id = UserDefaults.standard.string(forKey: "id")!
                     if (curUserID == id){
                         let friendID = results.int(forColumn: "friendID")
                         friendArray.append(Int(friendID))
                     }
-
                 }
+                DB.close()
                 findFriends(friendArray)
             }
             catch let error as NSError {

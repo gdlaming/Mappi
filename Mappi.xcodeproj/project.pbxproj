@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E0C86452394342C00F98FD2 /* AddFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C86442394342C00F98FD2 /* AddFolderViewController.swift */; };
 		1E7B2D0F238F84950059825C /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E7B2D0D238F84940059825C /* uncheck.png */; };
 		1E7B2D10238F84950059825C /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E7B2D0E238F84950059825C /* check.png */; };
 		3CB2FB0E2383CE60001DA5D3 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB2FB0D2383CE60001DA5D3 /* ContainerViewController.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E0C86442394342C00F98FD2 /* AddFolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderViewController.swift; sourceTree = "<group>"; };
 		1E7B2D0D238F84940059825C /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncheck.png; sourceTree = "<group>"; };
 		1E7B2D0E238F84950059825C /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		3CB2FB0D2383CE60001DA5D3 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				72B114DB236FC6E1000F7EFD /* Main.storyboard */,
 				ED089E412381B22C00EF54A9 /* FriendViewController.swift */,
 				8C44A36923738AD8001A4AB0 /* SearchResultsTable.swift */,
+				1E0C86442394342C00F98FD2 /* AddFolderViewController.swift */,
 				72B114E0236FC6E3000F7EFD /* LaunchScreen.storyboard */,
 				72B114E3236FC6E3000F7EFD /* Info.plist */,
 				72F391BB2371F70D00AE575D /* Media.xcassets */,
@@ -280,6 +283,7 @@
 				72B114DA236FC6E1000F7EFD /* LoginViewController.swift in Sources */,
 				ED089E462382411500EF54A9 /* FolderTableViewCell.swift in Sources */,
 				72B114EA23708C8C000F7EFD /* MapViewController.swift in Sources */,
+				1E0C86452394342C00F98FD2 /* AddFolderViewController.swift in Sources */,
 				ED089E422381B22C00EF54A9 /* FriendViewController.swift in Sources */,
 				72EB6B2C2377AEEE00911F02 /* RegisterViewController.swift in Sources */,
 				72B114D8236FC6E1000F7EFD /* AppDelegate.swift in Sources */,

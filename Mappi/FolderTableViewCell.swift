@@ -31,22 +31,42 @@ class FolderTableViewCell: UITableViewCell {
     
     @IBAction func editButton(_ sender: Any) {
         if editButtonActive == false{
-                descriptionText.isEditable = true
+            descriptionText.isEditable = true
             placeDescriptionText.backgroundColor = UIColor.lightGray
             editButton.setTitle ("done", for: .normal)
             editButtonActive = true
             return
         }
         if editButtonActive == true{
+            updateDB()
             descriptionText.isEditable = false
             placeDescriptionText.backgroundColor = UIColor.white
             editButton.setTitle ("edit", for: .normal)
             editButtonActive = false
             return
         }
-        //TODO write edits to userDefaults
-
+    }
+    
+    func updateDB(){
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let DB = FMDatabase(path: thepath)
+        let placeName = placeTitleLabel.text!
+        let description = placeDescriptionText.text!
         
+        if !(DB.open()) {
+            print("Unable to open database")
+        } else {
+            do{
+                let results = try DB.executeQuery("select * from places where locationName=?", values:[placeName])
+                while (results.next()){
+                    // insert all info into db
+                    try DB.executeUpdate("UPDATE places SET description=? WHERE locationName=?", values:[description, placeName])
+                    print("updated desc in db")
+                }
+            } catch let error as NSError {
+                print("failed \(error)")
+            }
+        }
     }
     
     @IBOutlet weak var descriptionText: UITextView!
