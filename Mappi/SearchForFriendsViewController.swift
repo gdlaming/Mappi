@@ -76,6 +76,7 @@ class SearchForFriendsViewController: UIViewController, UISearchBarDelegate, UIT
                     ac.addAction(UIAlertAction(title:"Return", style: .default, handler:nil))
                     present(ac, animated:true, completion:nil)
                 }
+                DB.close()
             }
             catch let error as NSError {
                 print("failed \(error)")
