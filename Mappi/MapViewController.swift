@@ -227,7 +227,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     }
     }
     func addLoc(_ xCoord: Float, _ yCoord: Float, _ locationName: String, _ city: String, _ state: String){
-        //addLoc(xCoord, yCoord, locationName, city, state)
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
         let folderDB = FMDatabase(path: thepath)
         var folderID = -1
@@ -236,6 +235,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
             return
         } else {
             do{
+                //TODO: first check to make sure the xcoord and ycoord are not already in the folder
                 let query = "select folderID from folders where name=?"
                 let f = try folderDB.executeQuery(query, values: [pickerFolder])
                 while(f.next()){
@@ -243,8 +243,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
                     print("folder id: \(folderID)")
                 }
                 let query1 = "insert into places (locationName, xcoord, ycoord, city, state, folderID) values (?, ?, ?, ?, ?, ?)"
-                //TODO: need to grab the name and lat/long from the user inputs
-                //then, update the ?'s in the line below with the correct values
+                
                 let g = try folderDB.executeUpdate(query1, values: [locationName, xCoord, yCoord, city, state, folderID])
                 print("sucessfully added location")
                 
