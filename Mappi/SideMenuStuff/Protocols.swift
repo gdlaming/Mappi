@@ -10,6 +10,6 @@ import MapKit
 
 protocol MapControllerDelegate {
     
-    func handleMenuToggle(forPlaceArray places: [place]?)
+    func handleMenuToggle()
     
 }

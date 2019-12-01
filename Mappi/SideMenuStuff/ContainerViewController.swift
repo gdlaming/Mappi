@@ -40,7 +40,7 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
     //MARK: - Handlers
     
     
-    func configureMapController(ann: place?){
+    func configureMapController(){
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         if let mapController = storyboard.instantiateViewController(withIdentifier: "Map")
             as? MapViewController {
@@ -51,33 +51,33 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
             view.addSubview(centerController.view)
             centerController.didMove(toParent: self)
             
-            if ann != nil {
-                for place in ann[0] {
-                    let annotation = MKPointAnnotation()
-                    annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
-                    annotation.title = place.locationName
-                    annotation.subtitle = "\(place.city) \(place.state)"
-                    mapView.addAnnotation(annotation)
-            }
-            
-//            if add {
-//
-//                let annotation0 = MKPointAnnotation()
-//                annotation0.coordinate = CLLocationCoordinate2D(latitude: 37.77083025, longitude: -122.419498322)
-//                annotation0.title = "ann0"
-//
-//                let annotation1 = MKPointAnnotation()
-//                annotation1.coordinate = CLLocationCoordinate2D(latitude: 37.7922,longitude: -122.432)
-//                annotation1.title = "ann1"
-//
-//                let annotation2 = MKPointAnnotation()
-//                annotation2.coordinate = CLLocationCoordinate2D(latitude: 37.761,longitude: -122.422)
-//                annotation2.title = "ann2"
-//
-////                mapController.mapView.addAnnotation(annotation0)
-////                mapController.mapView.addAnnotation(annotation1)
-////                mapController.mapView.addAnnotation(annotation2)
+//            if ann != nil {
+//                for place in ann[0] {
+//                    let annotation = MKPointAnnotation()
+//                    annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
+//                    annotation.title = place.locationName
+//                    annotation.subtitle = "\(place.city) \(place.state)"
+//                    mapView.addAnnotation(annotation)
 //            }
+//            
+////            if add {
+////
+////                let annotation0 = MKPointAnnotation()
+////                annotation0.coordinate = CLLocationCoordinate2D(latitude: 37.77083025, longitude: -122.419498322)
+////                annotation0.title = "ann0"
+////
+////                let annotation1 = MKPointAnnotation()
+////                annotation1.coordinate = CLLocationCoordinate2D(latitude: 37.7922,longitude: -122.432)
+////                annotation1.title = "ann1"
+////
+////                let annotation2 = MKPointAnnotation()
+////                annotation2.coordinate = CLLocationCoordinate2D(latitude: 37.761,longitude: -122.422)
+////                annotation2.title = "ann2"
+////
+//////                mapController.mapView.addAnnotation(annotation0)
+//////                mapController.mapView.addAnnotation(annotation1)
+//////                mapController.mapView.addAnnotation(annotation2)
+////            }
         }
     }
     
@@ -91,7 +91,7 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func animatePanel(shouldExpand: Bool, pins: [MKPointAnnotation]/*, menuOption: MenuOption?*/){
+    func animatePanel(shouldExpand: Bool/*, menuOption: MenuOption?*/){
         if shouldExpand{
              //show menu
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
@@ -125,8 +125,8 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
 //    }
     
     //TODO: update to receive array MKPointAnnotation
-    func didSelectMenuOption(ann: [MKPointAnnotation]) {
-        return
+    func didSelectMenuOption() {
+        
     }
     
     func animateStatusBar() {
@@ -138,17 +138,18 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
 
 //TODO: update to receive array of MKPointAnnotation
 extension ContainerViewController: MapControllerDelegate{
-    func handleMenuToggle(forMKArray annArr: [MKPointAnnotation]?) {
+    
+    func handleMenuToggle() {
         if !isExpanded{
             configureMenuController()
         }
         
         
-        currentArr = annArr ?? empty
 
         isExpanded = !isExpanded
-        animatePanel(shouldExpand: isExpanded, pins: currentArr)
+        animatePanel(shouldExpand: isExpanded)
     }
     
     
 }
+

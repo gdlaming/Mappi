@@ -6,6 +6,9 @@
 //  Copyright © 2019 cse438. All rights reserved.
 //
 
+//test commit from jane 12/1
+//test commit from caleb
+
 import UIKit
 import MapKit
 
@@ -75,7 +78,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     var delegate: MapControllerDelegate?
     
     @objc func handleMenuToggle(){
-    delegate?.handleMenuToggle(forPlaceArray: places)
+    delegate?.handleMenuToggle()
     }
     
     func configureNavBar() {
