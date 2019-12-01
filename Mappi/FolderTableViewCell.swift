@@ -33,15 +33,18 @@ class FolderTableViewCell: UITableViewCell {
         if editButtonActive == false{
                 descriptionText.isEditable = true
             placeDescriptionText.backgroundColor = UIColor.lightGray
-            editButton.titleLabel?.text = "done"
+            editButton.setTitle ("done", for: .normal)
             editButtonActive = true
+            return
         }
         if editButtonActive == true{
-            placeDescriptionText.backgroundColor = UIColor.white
-            editButton.titleLabel?.text = "edit"
             descriptionText.isEditable = false
+            placeDescriptionText.backgroundColor = UIColor.white
+            editButton.setTitle ("edit", for: .normal)
+            editButtonActive = false
+            return
         }
-    
+
         
     }
     
