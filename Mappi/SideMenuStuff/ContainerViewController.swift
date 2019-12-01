@@ -40,7 +40,7 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
     //MARK: - Handlers
     
     
-    func configureMapController(){
+    func configureMapController(ann: place?){
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         if let mapController = storyboard.instantiateViewController(withIdentifier: "Map")
             as? MapViewController {
@@ -50,6 +50,15 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
             addChild(centerController)
             view.addSubview(centerController.view)
             centerController.didMove(toParent: self)
+            
+            if ann != nil {
+                for place in ann[0] {
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
+                    annotation.title = place.locationName
+                    annotation.subtitle = "\(place.city) \(place.state)"
+                    mapView.addAnnotation(annotation)
+            }
             
 //            if add {
 //
