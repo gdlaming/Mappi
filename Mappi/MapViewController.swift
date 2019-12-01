@@ -44,6 +44,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     override func viewDidLoad() {
         //will need to go into this and run some stuff in the background probably
         super.viewDidLoad()
+        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -74,7 +75,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     var delegate: MapControllerDelegate?
     
     @objc func handleMenuToggle(){
-        delegate?.handleMenuToggle(forMenuOption: nil)
+       // delegate?.handleMenuToggle(forMenuOption: nil)
     }
     
     func configureNavBar() {

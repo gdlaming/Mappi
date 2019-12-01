@@ -26,7 +26,21 @@ class AddFriendTableViewCell: UITableViewCell {
 
     @IBAction func addFriend(_ sender: Any) {
         print("adding friend")
-        var friendID: Int
+       let friendID = getFriendID()
+        print("friendID = \(friendID)")
+        if (friendID != 0){
+            addFriendship(friendID)
+             print("successfully added friend")
+//            let alertVC = UIAlertController(title: "Successfullly added!", message: "return to friends to share folders with them.", preferredStyle: .alert)
+//            alertVC.addAction(UIAlertAction(title:"Return", style: .default, handler:nil))
+//            self.inputViewController?.present(alertVC, animated: true, completion: nil)
+        }
+        else {
+            print("error getting friendID")
+        }
+    }
+    
+    func getFriendID() -> Int{
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
         let DB = FMDatabase(path: thepath)
         
@@ -34,47 +48,41 @@ class AddFriendTableViewCell: UITableViewCell {
             print("Unable to open database")
         } else {
             do{
-                let id = UserDefaults.standard.string(forKey: "id")!
-                //print("my id \(id)")
                 let names = name.text!.split(separator: " ")
                 let first = names[0]
-                let last = names[1]
-                var query = "select userID from users where firstName=?"
+                //                let last = names[1]
+                let query = "select userID from users where firstName=?"
                 let f = try DB.executeQuery(query, values: [first])
-                while(f.next()){
-                    friendID = Int(f.int(forColumn: "userID"))
-                    print("friend id: \(friendID)")
-                    addFriendship(friendID, id)
+                if(f.next()){
+                    let friendID = Int(f.int(forColumn: "userID"))
+                    DB.close()
+                    return friendID
                 }
-                
             }
             catch let error as NSError {
                 print("failed \(error)")
-                
             }
         }
-        //now, just need to
-       
- 
-
+        return 0
     }
     
-    func addFriendship(_ friendID: Int, _ id: String){
-       
+    func addFriendship(_ friendID: Int){
+       print("adding friendship")
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
         let DB = FMDatabase(path: thepath)
+        let myID = UserDefaults.standard.string(forKey: "id")!
         
         if !(DB.open()) {
             print("Unable to open database")
         } else {
             do{
-                var query = "INSERT INTO friends (userID, friendID) VALUES (?, ?)"
-                let q = try DB.executeQuery(query,values:[3, friendID])
-                var query2 = "select * from friends where userID=?"
-                let p = try DB.executeQuery(query2, values: [id])
-                while (p.next()){
-                    print(p.int(forColumn: "friendID"))
-                }
+               try DB.executeUpdate("INSERT INTO friends (userID, friendID) VALUES (?, ?)",values:[myID, friendID])
+
+//                let p = try DB.executeQuery("select * from friends where userID=?", values: [myID])
+//                while (p.next()){
+//                    print("I am friends with user: \(p.int(forColumn: "friendID"))")
+//                }
+                DB.close()
             }
             catch let error as NSError {
                 print("failed \(error)")
@@ -82,6 +90,4 @@ class AddFriendTableViewCell: UITableViewCell {
             }
         }
     }
-    
-
 }

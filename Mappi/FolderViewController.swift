@@ -140,6 +140,7 @@ class FolderViewController: UIViewController,  UITableViewDataSource, UITableVie
         folderView.reloadData()
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
         let folderDB = FMDatabase(path: thepath)
+    
         
         if !(folderDB.open()) {
             print("Unable to open database")
