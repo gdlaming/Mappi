@@ -16,7 +16,6 @@ protocol HandleMapSearch {
 
 class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     
     let locationManager = CLLocationManager()
@@ -27,12 +26,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     
     @IBOutlet weak var mapView: MKMapView!
     
-    //put db info into here
     var places:[[place]] = []
     
-    
-    //hardcode array
-    var currentSearchedPin:MKPointAnnotation?
+    var currentPin:MKPointAnnotation?
     
     //span
     var avgCoord:CLLocationCoordinate2D?
@@ -106,6 +102,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
             annotation.title = place.locationName
+            annotation.subtitle = "\(place.city) \(place.state)"
             mapView.addAnnotation(annotation)
         }
         
@@ -139,8 +136,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         for long in longs {
             difsLongs.append(abs(avgLongs-long))
         }
-        
-        
         
         spanLat = difsLats.max()
         print(spanLat)
@@ -179,10 +174,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         return annotationView
     }
     
-    //desc: adds searched location to array
-    //TO-DO:account for trying to add same location multiple times
-    @objc
-    func clickBtnAdd(sender: UIButton!) {
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let selectedAnn = view.annotation
+        {
+            currentPin = selectedAnn as? MKPointAnnotation
+            print("User tapped on annotation with title: \(selectedAnn.title)")
+        }
+    }
+    
+    func callPickerView() {
         picker = UIPickerView.init()
         self.picker.delegate = self as UIPickerViewDelegate
         self.picker.dataSource = self as UIPickerViewDataSource
@@ -191,20 +191,71 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         picker.autoresizingMask = .flexibleWidth
         picker.contentMode = .center
         picker.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
+        
         self.view.addSubview(picker)
         
         toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50))
         toolBar.barStyle = .default
-        toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(onDoneButtonTapped)),UIBarButtonItem.init(title: "Add to Folder", style: .plain, target: self, action: #selector(onAddButtonTapped))]
+        toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(onDoneButtonTapped)),UIBarButtonItem.init(title: "New Folder", style: .plain, target: self, action: #selector(onNewFolderTapped)),UIBarButtonItem.init(title: "Add", style: .plain, target: self, action: #selector(onAddButtonTapped)),
+                         //decide if we want to remove pins
+                         UIBarButtonItem.init(title: "Remove", style: .plain, target: self, action: #selector(onDoneButtonTapped))]
         self.view.addSubview(toolBar)
+    }
+    
+    //desc: adds searched location to array
+    @objc
+    func clickBtnAdd(sender: UIButton!) {
+        callPickerView()
+       
     }
     @objc func onDoneButtonTapped() {
         toolBar.removeFromSuperview()
         picker.removeFromSuperview()
     }
+    
+    @objc func onNewFolderTapped() {
+        let alertController = UIAlertController(title: "New Folder", message: "Enter Folder Name", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
+            let folderName = alertController.textFields?[0].text
+            //DB TODO: add this folder name to db with corresponding folderID
+            let newFolder:[place] = []
+            self.places.append(newFolder)
+            if folderName != nil {
+                self.pickerTest.append(folderName!)
+                //this may cause duplicate new folders in picker view once connected to db
+                self.callPickerView()
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Enter Folder Name"
+        }
+        
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
     //TODO: add to actual folder, check if already in folder, maybe add remove from folder? remove force unwraps, using for testing
+    //DB TODO:account for trying to add same location multiple times
     @objc func onAddButtonTapped() {
         print("current pin added to \(pickerFolder)")
+        
+        //DB TODO: push this data into db based on pickerFolder, make sure force unwraps don't crash
+        let xCoord = Float((currentPin?.coordinate.longitude)!)
+        print(xCoord)
+        let yCoord = Float((currentPin?.coordinate.latitude)!)
+        print(yCoord)
+        let locationName = currentPin!.title
+        print(locationName)
+        let cityState = currentPin?.subtitle?.components(separatedBy: " ")
+        let city = cityState?[0] ?? "unknown"
+        print(city)
+        let state = cityState?[1] ?? "unknown"
+        print(state)
+        
+        //these are just tests, eventually won't go here
         let span:MKCoordinateSpan
         
         span = MKCoordinateSpan(latitudeDelta: maxSpan! + 0.03, longitudeDelta: maxSpan! + 0.03)
@@ -307,7 +358,8 @@ extension MapViewController: HandleMapSearch {
             annotation.subtitle = "\(city) \(state)"
         }
         
-        currentSearchedPin = annotation
+        //this is temporary, need to find way to set existing pin in folder to currentPin
+//        currentPin = annotation
         //adds annotation to map
         mapView.addAnnotation(annotation)
         
