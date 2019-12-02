@@ -77,9 +77,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         
         searchResultsTable.handleMapSearchDelegate = self
         
-        if currentID != nil {
-            dropPinsfromSide()
-        }
+        dropPinsfromSide()
         
         hardCodePins()
         configureNavBar()

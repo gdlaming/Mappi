@@ -54,7 +54,7 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
             as? MapViewController {
             // Add the view controller to the container.
             mapController.delegate = self
-//            mapController.currentID = ID ?? currentID
+            mapController.currentID = ID ?? currentID
             centerController = UINavigationController(rootViewController: mapController)
             addChild(centerController)
             view.addSubview(centerController.view)
@@ -85,8 +85,7 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.centerController.view.frame.origin.x = 0
             }) { (_) in
-//                guard let menuOption = menuOption else { return }
-//                self.didSelectMenuOption(menuOption: menuOption)
+                self.configureMapController(ID: ID)
                 self.didSelectMenuOption(ID: ID)
             }
         }
@@ -98,6 +97,8 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
     func didSelectMenuOption(ID: Int) {
 //        print("in didselect")
 //            delegate?.passID(forID: ID)
+        print(ID)
+        currentID = ID
     }
     
     func animateStatusBar() {
@@ -111,12 +112,12 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
 extension ContainerViewController: MapControllerDelegate{
     func handleMenuToggle(forID id: Int?) {
         if !isExpanded{
-            print("in handlemenu")
+
             configureMenuController()
+            delegate?.passID(forID: id)
         }
         
-        
-            print("in handlemenu again")
+
         isExpanded = !isExpanded
         animatePanel(shouldExpand: isExpanded, ID: id ?? currentID)
     }
