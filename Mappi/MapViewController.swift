@@ -415,7 +415,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     //TODO: add to actual folder, check if already in folder, maybe add remove from folder? remove force unwraps, using for testing
     //DB TODO: account for trying to add same location multiple times, make added pin stay b/w builds
         // right now not staying b/w builds but if location searched and checked off before, adding it again will add it as a checked off location (aka user defaults remebers it)
-    @objc func onAddButtonTapped() {
+    @objc func onAddButtonTapped() -> Bool {
+        if String(describing: pickerFolder) == "nil" {
+            print ("it is nil")
+            let fac = UIAlertController(title: "Please select a folder", message: "Please try again" , preferredStyle: .alert)
+            fac.addAction(UIAlertAction(title:"Return", style: .default, handler:nil))
+            present(fac, animated:true, completion: nil)
+            return false
+        }
         print("current pin added to \(String(describing: pickerFolder))")
         
         //DB TODO: push this data into db based on pickerFolder, make sure force unwraps don't crash
@@ -431,7 +438,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         let state = cityState?[1] ?? "unknown"
         print(state)
         addLoc(xCoord, yCoord, locationName!, city, state)
-        
+        return true;
     }
     
 
