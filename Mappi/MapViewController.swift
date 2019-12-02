@@ -322,8 +322,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     }
     
     func addLoc(_ xCoord: Double, _ yCoord: Double, _ locationName: String, _ city: String, _ state: String){
-        let xCoord = String(xCoord)
-        let yCoord = String(yCoord)
+        let xCoord1 = String(xCoord)
+        let yCoord1 = String(yCoord)
         
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
         let folderDB = FMDatabase(path: thepath)
@@ -341,7 +341,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
                 }
                 let query1 = "insert into places (locationName, xcoord, ycoord, city, state, folderID) values (?, ?, ?, ?, ?, ?)"
                 
-                try folderDB.executeUpdate(query1, values: [locationName, xCoord, yCoord, city, state, folderID])
+                try folderDB.executeUpdate(query1, values: [locationName, xCoord1, yCoord1, city, state, folderID])
+                let newPlace = place(locationName: locationName, lat: xCoord, long: yCoord, city: city, state: state, folderID: folderID)
+                //places[folderID].append(newPlace)
                 print("sucessfully added location")
                 
             } catch let error as NSError {
