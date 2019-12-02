@@ -160,6 +160,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
                 print("failed \(error)")
             }
         }
+        defineSpan(folder: places)
         return places
     }
     
@@ -342,7 +343,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         }
     }
     
-    //DB TODO: adds items to folder successfully but they dont stay b/w builds
     func addLoc(_ xCoord: Double, _ yCoord: Double, _ locationName: String, _ city: String, _ state: String){
         let xCoord = String(xCoord)
         let yCoord = String(yCoord)
@@ -387,7 +387,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         picker.removeFromSuperview()
     }
 
-    //DB TODO: not saving folders b/w builds
     @objc func onNewFolderTapped() {
         let alertController = UIAlertController(title: "New Folder", message: "Enter Folder Name", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
@@ -426,10 +425,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         print("current pin added to \(String(describing: pickerFolder))")
         
         //DB TODO: push this data into db based on pickerFolder, make sure force unwraps don't crash
-        let xCoord = Double((currentPin?.coordinate.longitude)!)
-        print(xCoord)
-        let yCoord = Double((currentPin?.coordinate.latitude)!)
+        let yCoord = Double((currentPin?.coordinate.longitude)!)
         print(yCoord)
+        let xCoord = Double((currentPin?.coordinate.latitude)!)
+        print(xCoord)
         let locationName = currentPin!.title
         print(locationName)
         let cityState = currentPin?.subtitle?.components(separatedBy: " ")
@@ -451,7 +450,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         for place in places[pickerID] {
            // print(place)
             let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
+            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.long), longitude: CLLocationDegrees(place.lat))
             annotation.title = place.locationName
             annotation.subtitle = "\(place.city) \(place.state)"
             mapView.addAnnotation(annotation)
