@@ -98,7 +98,7 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
         print(ID)
         currentID = ID
         let defaults = UserDefaults.standard
-        var folderID = defaults.integer(forKey: "id")
+        var folderID = defaults.integer(forKey: "ids")
     }
     
     func animateStatusBar() {

@@ -80,13 +80,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         dropPinsfromSide()
 
         if currentID == nil {
+            let defaults = UserDefaults.standard
+            let empty: Int = 0
+            defaults.set(empty, forKey: "ids")
             currentID = 0
         }
         else {
-            currentID = UserDefaults.standard.integer(forKey: "id")
+            currentID = UserDefaults.standard.integer(forKey: "ids")
             //call func to drop pins according to ID
+            hardCodePins()
         }
-        hardCodePins()
+ 
         configureNavBar()
     }
     
@@ -138,6 +142,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         }
         
         defineSpan(folder: places[0])
+        
+//        let defaults = UserDefaults.standard
+//        let empty: Int = 0
+//        defaults.set(empty, forKey: "ids")
         
     }
     
