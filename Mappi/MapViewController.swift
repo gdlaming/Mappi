@@ -17,6 +17,11 @@ protocol HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark)
 }
 
+protocol MenuControllerDelegate {
+    
+    func passID(forID id: Int?)
+}
+
 class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
@@ -44,6 +49,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     var picker  = UIPickerView()
     var pickerFolder:String?
     
+    var currentID: Int?
+    
     override func viewDidLoad() {
         //will need to go into this and run some stuff in the background probably
         super.viewDidLoad()
@@ -70,6 +77,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         
         searchResultsTable.handleMapSearchDelegate = self
         
+        if currentID != nil {
+            dropPinsfromSide()
+        }
         
         hardCodePins()
         configureNavBar()
@@ -78,12 +88,21 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     var delegate: MapControllerDelegate?
     
     @objc func handleMenuToggle(){
-    delegate?.handleMenuToggle()
+        delegate?.handleMenuToggle(forID: nil)
     }
+    
     
     func configureNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sidemenu"), style: .plain, target: self, action: #selector(handleMenuToggle))
+        print("to handlemenu")
         
+    }
+    
+
+    
+    func dropPinsfromSide(){
+        print("hi")
+        print(currentID)
     }
     
     //3 locations hardcoded into "folder1" - right now you should be able to search for another location and add it
@@ -448,6 +467,12 @@ extension MapViewController: HandleMapSearch {
         
         let region = MKCoordinateRegion(center: placemark.coordinate, span: span)
         mapView.setRegion(region, animated: true)
+    }
+}
+extension MapViewController: MenuControllerDelegate{
+    func passID(forID id: Int?) {
+        print("in menudelegate")
+        currentID = id ?? 0
     }
 }
 

@@ -16,7 +16,7 @@ class MenuController: UIViewController, MKMapViewDelegate{
     
     var tableView: UITableView!
     var delegate: MapControllerDelegate?
-    
+    var delegate2: MenuControllerDelegate?
     var places:[[place]] = []
     //span
     var avgCoord:CLLocationCoordinate2D?
@@ -39,66 +39,30 @@ class MenuController: UIViewController, MKMapViewDelegate{
     
     //MARK: - Handlers
     
-    func hardCodePins() {
-        
-        var folder0:[place] = []
-        places.append(folder0)
-        
-        //        lat: 38.6476, long: -90.3108
-        let place0 = place(locationName: "place0", lat: 38.7476, long: -90.3108, city: "City0", state: "MO", folderID: 0)
-        places[place0.folderID].append(place0)
-        //        lat: 38.6277, long: -90.3127
-        let place1 = place(locationName: "place1", lat: 38.6277, long: -90.3147, city: "City1", state: "MO", folderID: 0)
-        places[place1.folderID].append(place1)
-        //        lat: 38.6557, long: -90.2022
-        let place2 = place(locationName: "place2", lat: 38.6557, long: -90.2022, city: "City1", state: "MO", folderID: 0)
-        places[place2.folderID].append(place2)
-        
-        defineSpan(folder: places[0])
-        
-    }
+
+
     
-    func defineSpan(folder:[place]) {
-        var lats = [Double]()
-        var longs = [Double]()
-        var difsLats = [Double]()
-        var difsLongs = [Double]()
+    func getFolderID(folderName : String) -> Int{
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
         
-        for place in folder {
-            lats.append(place.lat)
-            longs.append(place.long)
+        if !(folderDB.open()) {
+            print("Unable to open database")
+        } else {
+            do{
+                let results = try folderDB.executeQuery("select * from folders where name=?", values:[folderName])
+                
+                while(results.next()) {
+                    let folderID = Int(results.int(forColumn: "folderID"))
+                    folderDB.close()
+                    return folderID
+                }
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+            }
         }
-        
-        let sumLats = lats.reduce(0,+)
-        let avgLats = sumLats/Double(lats.count)
-        
-        let sumLongs = longs.reduce(0,+)
-        let avgLongs = sumLongs/Double(longs.count)
-        
-        avgCoord = CLLocationCoordinate2D(latitude: CLLocationDegrees(avgLats), longitude: CLLocationDegrees(avgLongs))
-        print("\(avgLats) and \(avgLongs)")
-        
-        for lat in lats {
-            difsLats.append(abs(avgLats-lat))
-            print(abs(avgLats-lat))
-        }
-        for long in longs {
-            difsLongs.append(abs(avgLongs-long))
-            print(abs(avgLongs-long))
-        }
-        
-        spanLat = difsLats.max()
-        print(spanLat)
-        spanLong = difsLongs.max()
-        print(spanLong)
-        
-        if spanLat! > spanLong! {
-            maxSpan = spanLat
-        }
-        else {
-            maxSpan = spanLong
-        }
-        
+        return 0
     }
     
     func loadMyFolders(_ folderView: UITableView){
@@ -148,6 +112,7 @@ class MenuController: UIViewController, MKMapViewDelegate{
     }
     
 
+
     
 }
 
@@ -165,8 +130,15 @@ extension MenuController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let menuOption = MenuOption(rawValue: indexPath.row)
-        /*TODO: pass array of MKPointAnnotation, need to update delegate definition in MapViewController*/ delegate?.handleMenuToggle() //passes menuOption to be used in animatePanel
+
+        let folderID = getFolderID(folderName : myArray[indexPath.row])
+        if (folderID != 12489128931){
+            delegate2?.passID(forID: folderID)
+            delegate?.handleMenuToggle(forID: folderID)
+        } else {
+            print("failed to get folderID")
+        }
+
         
     } 
 }

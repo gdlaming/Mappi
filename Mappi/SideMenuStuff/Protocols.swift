@@ -10,6 +10,8 @@ import MapKit
 
 protocol MapControllerDelegate {
     
-    func handleMenuToggle()
-    
+    func handleMenuToggle(forID id: Int?)
+
 }
+
+
