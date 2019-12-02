@@ -34,6 +34,11 @@ class AddFriendTableViewCell: UITableViewCell {
 //            let alertVC = UIAlertController(title: "Successfullly added!", message: "return to friends to share folders with them.", preferredStyle: .alert)
 //            alertVC.addAction(UIAlertAction(title:"Return", style: .default, handler:nil))
 //            self.inputViewController?.present(alertVC, animated: true, completion: nil)
+      
+            addFriendButton.titleLabel?.text = "Added!"
+                    addFriendButton.isEnabled = false
+            return
+          
         }
         else {
             print("error getting friendID")
