@@ -76,10 +76,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         searchResultsTable.mapView = mapView
         
         searchResultsTable.handleMapSearchDelegate = self
-        
-        dropPinsfromSide()
-
-       
  
         configureNavBar()
     }
@@ -92,24 +88,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     
     
     func configureNavBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sidemenu"), style: .plain, target: self, action: #selector(handleMenuToggle))
-        print("to handlemenu")
-        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "folder"), style: .plain, target: self, action: #selector(callPickerViewFolderView))
     }
-    
-
-    
-    func dropPinsfromSide(){
-        print("hi")
-        print(currentID)
-    }
-    
-    //3 locations hardcoded into "folder1" - right now you should be able to search for another location and add it
-    //right now view doesn't expand to include all pins so these just fit within view as it is. need to change this.
-    
     
     func hardCodePins() {
-        
+        //FINAL DB TODO: replace code in here with the pull from the db, basically needs to do exactly the same thing as these hardcoded values. not sure if folderID system here fits w/ the database but even if it doesn't, make sure
         var folder0:[place] = []
         var folder1:[place] = []
         places.append(folder0)
@@ -229,10 +212,34 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         
         toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50))
         toolBar.barStyle = .default
-        toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(onDoneButtonTapped)),UIBarButtonItem.init(title: "New Folder", style: .plain, target: self, action: #selector(onNewFolderTapped)),UIBarButtonItem.init(title: "Add", style: .plain, target: self, action: #selector(onAddButtonTapped)),
-                         //decide if we want to remove pins
-            UIBarButtonItem.init(title: "Remove", style: .plain, target: self, action: #selector(onRemoveTapped))]
+        toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(onDoneButtonTapped)),UIBarButtonItem.init(title: "New Folder", style: .plain, target: self, action: #selector(onNewFolderTapped)),UIBarButtonItem.init(title: "Add", style: .plain, target: self, action: #selector(onAddButtonTapped))]
         self.view.addSubview(toolBar)
+    }
+    
+    @objc func callPickerViewFolderView() {
+        print(self.view.subviews.count)
+        var count = self.view.subviews.count
+        if count == 1 {
+            picker = UIPickerView.init()
+            self.picker.delegate = self as UIPickerViewDelegate
+            self.picker.dataSource = self as UIPickerViewDataSource
+            picker.backgroundColor = UIColor.white
+            picker.setValue(UIColor.black, forKey: "textColor")
+            picker.autoresizingMask = .flexibleWidth
+            picker.contentMode = .center
+            picker.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
+            
+            self.view.addSubview(picker)
+            print(self.view.subviews.count)
+            toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50))
+            toolBar.barStyle = .default
+            toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(onDoneButtonTapped)),UIBarButtonItem.init(title: "Drop Pins", style: .plain, target: self, action: #selector(onDropPinsTapped))]
+            self.view.addSubview(toolBar)
+        }
+       else {
+            toolBar.removeFromSuperview()
+            picker.removeFromSuperview()
+        }
     }
     
     func addFolderToDB(_ folderName: String){
@@ -349,10 +356,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         
     }
     
-    //Jane TODO: idt we actually need this, will remove
-    //right now just testing span but eventually remove selected pin from folder if it exists there
+
     var pickerID:Int = 0
-    @objc func onRemoveTapped() {
+    @objc func onDropPinsTapped() {
         mapView.removeAnnotations(mapView.annotations)
         hardCodePins()
                 for place in places[pickerID] {
