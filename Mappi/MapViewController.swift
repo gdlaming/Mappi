@@ -91,22 +91,22 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "folder"), style: .plain, target: self, action: #selector(callPickerViewFolderView))
     }
     
-    func hardCodePins() {
-        //FINAL DB TODO: replace code in here with the pull from the db, basically needs to do exactly the same thing as these hardcoded values aka save place objects into places. index should match index of that folder in pickerFolder (aka right now "best places to cry on campus" is pickerFolder index 1 so only place 2 is dropped when selecting that folder)
-        var folder0:[place] = []
-        var folder1:[place] = []
-        places.append(folder0)
-        places.append(folder1)
-        //        lat: 38.6476, long: -90.3108
-        let place0 = place(locationName: "place0", lat: 38.7476, long: -90.3108, city: "City0", state: "MO", folderID: 0)
-        places[place0.folderID].append(place0)
-        //        lat: 38.6277, long: -90.3127
-        let place1 = place(locationName: "place1", lat: 38.6277, long: -90.3147, city: "City1", state: "MO", folderID: 0)
-        places[place1.folderID].append(place1)
-        //        lat: 38.6557, long: -90.2022
-        let place2 = place(locationName: "place2", lat: 38.6557, long: -90.2022, city: "City1", state: "MO", folderID: 1)
-        places[place2.folderID].append(place2)
-        
+    func getPins() {
+        //FINAL DB TODO: replace code in here with the pull from the db, basically needs to do exactly the same thing as these hardcoded values. not sure if folderID system here fits w/ the database but even if it doesn't, make sure
+//        var folder0:[place] = []
+//        var folder1:[place] = []
+//        places.append(folder0)
+//        places.append(folder1)
+//        //        lat: 38.6476, long: -90.3108
+//        let place0 = place(locationName: "place0", lat: 38.7476, long: -90.3108, city: "City0", state: "MO", folderID: 0)
+//        places[place0.folderID].append(place0)
+//        //        lat: 38.6277, long: -90.3127
+//        let place1 = place(locationName: "place1", lat: 38.6277, long: -90.3147, city: "City1", state: "MO", folderID: 0)
+//        places[place1.folderID].append(place1)
+//        //        lat: 38.6557, long: -90.2022
+//        let place2 = place(locationName: "place2", lat: 38.6557, long: -90.2022, city: "City1", state: "MO", folderID: 1)
+//        places[place2.folderID].append(place2)
+//
 //        for place in places[0] {
 //            let annotation = MKPointAnnotation()
 //            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
@@ -115,8 +115,83 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
 //            mapView.addAnnotation(annotation)
 //        }
     
+       
+        // grab from db all folderID with owner = myID or sharedUserID = myID
+        let folderList = loadAllFolders()
+        if folderList.count > 0{
+            // for each folder id, grab all places and append to places[folderID]
+            for folderID in folderList{
+//                print("getting places in folder \(folderID)")
+                let placesInFolder = getPlaces(folderID : folderID)
+                places.append(placesInFolder)
+//                print("done with places in \(folderID)")
+            }
+        } else {
+            print("couldn't get list of folderIDs")
+        }
+    }
+    
+    // create place objects from db data
+    func getPlaces(folderID : Int) -> [place]{
+        var places : [place] = []
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let DB = FMDatabase(path: thepath)
         
+        if !(DB.open()) {
+            print("Unable to open database")
+        } else {
+            do{
+                let results = try DB.executeQuery("select * from places where folderID=?", values:[folderID])
+                
+                while(results.next()) {
+                    let xcoord = Double(results.string(forColumn: "xcoord") ?? "0.0")
+                    let ycoord = Double(results.string(forColumn: "ycoord") ?? "0.0")
+                    let ln = results.string(forColumn: "locationName") ?? ""
+                    let c = results.string(forColumn: "city") ?? ""
+                    let s = results.string(forColumn: "state") ?? ""
+                    let thisPlace = place(locationName: ln, lat: xcoord!, long: ycoord!, city: c, state: s, folderID: folderID)
+//                    print("added \(thisPlace.locationName)")
+                    places.append(thisPlace)
+                }
+                
+                return places
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+            }
+        }
+        return places
+    }
+    
+    func loadAllFolders() -> [Int]{
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
+        var folderIDs : [Int] = []
         
+        if !(folderDB.open()) {
+            print("Unable to open database")
+        } else {
+            do{
+                let myID = UserDefaults.standard.integer(forKey: "id")
+                let results = try folderDB.executeQuery("select * from folders where owner=?", values:[myID])
+                
+                while(results.next()) {
+                    let folderID = Int(results.int(forColumn: "folderID"))
+                    folderIDs.append(folderID)
+                }
+                
+                let results2 = try folderDB.executeQuery("select * from sharedFolders where sharedUserID=?", values:[myID])
+                while(results2.next()) {
+                    let folderID = Int(results2.int(forColumn: "folderID"))
+                    folderIDs.append(folderID)
+                }
+                return folderIDs
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+            }
+        }
+        return folderIDs
     }
     
     func defineSpan(folder:[place]) {
@@ -137,8 +212,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         let avgLongs = sumLongs/Double(longs.count)
         
         avgCoord = CLLocationCoordinate2D(latitude: CLLocationDegrees(avgLats), longitude: CLLocationDegrees(avgLongs))
-        print("\(avgLats) and \(avgLongs)")
-        
+       
         for lat in lats {
             difsLats.append(abs(avgLats-lat))
             print(abs(avgLats-lat))
@@ -148,10 +222,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
             print(abs(avgLongs-long))
         }
         
+        // THIS RESETS VALUES TO 0.0 ??
         spanLat = difsLats.max()
-        print(spanLat)
+       // print("latitude = \(String(describing: spanLat))")
         spanLong = difsLongs.max()
-        print(spanLong)
+      //  print("longitude = \(String(describing: spanLong))")
         
         if spanLat! > spanLong! {
             maxSpan = spanLat
@@ -189,7 +264,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         if let selectedAnn = view.annotation
         {
             currentPin = selectedAnn as? MKPointAnnotation
-            print("User tapped on annotation with title: \(selectedAnn.title)")
+            print("User tapped on annotation with title: \(String(describing: selectedAnn.title))")
         }
     }
     
@@ -218,7 +293,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     
     @objc func callPickerViewFolderView() {
         print(self.view.subviews.count)
-        var count = self.view.subviews.count
+        let count = self.view.subviews.count
         if count == 1 {
             picker = UIPickerView.init()
             self.picker.delegate = self as UIPickerViewDelegate
@@ -268,7 +343,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     }
     
     //DB TODO: adds items to folder successfully but they dont stay b/w builds
-    func addLoc(_ xCoord: Float, _ yCoord: Float, _ locationName: String, _ city: String, _ state: String){
+    func addLoc(_ xCoord: Double, _ yCoord: Double, _ locationName: String, _ city: String, _ state: String){
+        let xCoord = String(xCoord)
+        let yCoord = String(yCoord)
+        
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
         let folderDB = FMDatabase(path: thepath)
         var folderID = -1
@@ -287,7 +365,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
                 }
                 let query1 = "insert into places (locationName, xcoord, ycoord, city, state, folderID) values (?, ?, ?, ?, ?, ?)"
                 
-                let g = try folderDB.executeUpdate(query1, values: [locationName, xCoord, yCoord, city, state, folderID])
+                try folderDB.executeUpdate(query1, values: [locationName, xCoord, yCoord, city, state, folderID])
                 print("sucessfully added location")
                 
             } catch let error as NSError {
@@ -338,12 +416,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     //DB TODO: account for trying to add same location multiple times, make added pin stay b/w builds
         // right now not staying b/w builds but if location searched and checked off before, adding it again will add it as a checked off location (aka user defaults remebers it)
     @objc func onAddButtonTapped() {
-        print("current pin added to \(pickerFolder)")
+        print("current pin added to \(String(describing: pickerFolder))")
         
         //DB TODO: push this data into db based on pickerFolder, make sure force unwraps don't crash
-        let xCoord = Float((currentPin?.coordinate.longitude)!)
+        let xCoord = Double((currentPin?.coordinate.longitude)!)
         print(xCoord)
-        let yCoord = Float((currentPin?.coordinate.latitude)!)
+        let yCoord = Double((currentPin?.coordinate.latitude)!)
         print(yCoord)
         let locationName = currentPin!.title
         print(locationName)
@@ -360,14 +438,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     var pickerID:Int = 0
     @objc func onDropPinsTapped() {
         mapView.removeAnnotations(mapView.annotations)
-        hardCodePins()
-                for place in places[pickerID] {
-                    let annotation = MKPointAnnotation()
-                    annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
-                    annotation.title = place.locationName
-                    annotation.subtitle = "\(place.city) \(place.state)"
-                    mapView.addAnnotation(annotation)
-                }
+        getPins()
+        pickerID = pickerID - 1
+
+        for place in places[pickerID] {
+           // print(place)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
+            annotation.title = place.locationName
+            annotation.subtitle = "\(place.city) \(place.state)"
+            mapView.addAnnotation(annotation)
+        }
 
         defineSpan(folder: places[pickerID])
             let span:MKCoordinateSpan
@@ -377,7 +458,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
             let region = MKCoordinateRegion(center: avgCoord!, span: span)
             mapView.setRegion(region, animated: true)
     }
-    //TODO: GILLIAN AND LEELA
+  
     //grab all folders for current user
     var pickerTest = grabFolders()
     
@@ -396,8 +477,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         pickerFolder = pickerTest[row]
         pickerID = row
-        print(row)
-        print(pickerFolder)
+        print("chosen folder = \(String(describing: pickerFolder))")
     }
     
 }
@@ -419,7 +499,16 @@ func grabFolders() -> [String]{
                 let someName = results.string(forColumn: "name")
                 retArray.append(someName!)
             }
+            let results2 = try folderDB.executeQuery("select * from sharedFolders where sharedUserID=?", values:[myID])
             
+            while(results2.next()) {
+                let folderID = Int(results2.int(forColumn: "folderID"))
+                let results3 = try folderDB.executeQuery("select * from folders where folderID=?", values: [folderID])
+                while(results3.next()){
+                    let someName = results3.string(forColumn: "name")
+                    retArray.append(someName!)
+                }
+            }
         }
         catch let error as NSError {
             print("failed \(error)")
