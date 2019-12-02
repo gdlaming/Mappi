@@ -85,20 +85,20 @@ class ContainerViewController: UIViewController, MKMapViewDelegate {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.centerController.view.frame.origin.x = 0
             }) { (_) in
-                self.configureMapController(ID: ID)
                 self.didSelectMenuOption(ID: ID)
             }
         }
         
         animateStatusBar()
     }
-    
 
     func didSelectMenuOption(ID: Int) {
 //        print("in didselect")
 //            delegate?.passID(forID: ID)
         print(ID)
         currentID = ID
+        let defaults = UserDefaults.standard
+        var folderID = defaults.integer(forKey: "id")
     }
     
     func animateStatusBar() {

@@ -49,7 +49,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     var picker  = UIPickerView()
     var pickerFolder:String?
     
-    var currentID: Int?
+    var currentID: Int? = nil
     
     override func viewDidLoad() {
         //will need to go into this and run some stuff in the background probably
@@ -78,7 +78,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         searchResultsTable.handleMapSearchDelegate = self
         
         dropPinsfromSide()
-        
+
+        if currentID == nil {
+            currentID = 0
+        }
+        else {
+            currentID = UserDefaults.standard.integer(forKey: "id")
+            //call func to drop pins according to ID
+        }
         hardCodePins()
         configureNavBar()
     }
@@ -473,4 +480,5 @@ extension MapViewController: MenuControllerDelegate{
         currentID = id ?? 0
     }
 }
+
 
