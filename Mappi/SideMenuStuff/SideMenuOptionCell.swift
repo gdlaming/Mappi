@@ -9,22 +9,6 @@
 import UIKit
 import MapKit
 
-enum MenuOption: Int, CustomStringConvertible {
-    
-    case Option1
-    case Option2
-    case Option3
-    
-    var description: String{
-        switch self{
-        case .Option1: return "best places to cry on campus"
-        case .Option2: return "cute coffee shops"
-        case .Option3: return "fun date locations"
-        }
-    }
-    
- }
-
 class SideMenuOptionCell: UITableViewCell {
     //MARK: Properties
     

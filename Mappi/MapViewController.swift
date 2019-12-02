@@ -17,6 +17,11 @@ protocol HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark)
 }
 
+protocol MenuControllerDelegate {
+    
+    func passID(forID id: Int?)
+}
+
 class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
@@ -44,6 +49,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     var picker  = UIPickerView()
     var pickerFolder:String?
     
+    var currentID: Int? = nil
+    
     override func viewDidLoad() {
         //will need to go into this and run some stuff in the background probably
         super.viewDidLoad()
@@ -69,52 +76,122 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         searchResultsTable.mapView = mapView
         
         searchResultsTable.handleMapSearchDelegate = self
-        
-        
-        hardCodePins()
+ 
         configureNavBar()
     }
     
     var delegate: MapControllerDelegate?
     
     @objc func handleMenuToggle(){
-    delegate?.handleMenuToggle()
+        delegate?.handleMenuToggle(forID: nil)
     }
+    
     
     func configureNavBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sidemenu"), style: .plain, target: self, action: #selector(handleMenuToggle))
-        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "folder"), style: .plain, target: self, action: #selector(callPickerViewFolderView))
     }
     
-    //3 locations hardcoded into "folder1" - right now you should be able to search for another location and add it
-    //right now view doesn't expand to include all pins so these just fit within view as it is. need to change this.
+    func getPins() {
+        //FINAL DB TODO: replace code in here with the pull from the db, basically needs to do exactly the same thing as these hardcoded values. not sure if folderID system here fits w/ the database but even if it doesn't, make sure
+//        var folder0:[place] = []
+//        var folder1:[place] = []
+//        places.append(folder0)
+//        places.append(folder1)
+//        //        lat: 38.6476, long: -90.3108
+//        let place0 = place(locationName: "place0", lat: 38.7476, long: -90.3108, city: "City0", state: "MO", folderID: 0)
+//        places[place0.folderID].append(place0)
+//        //        lat: 38.6277, long: -90.3127
+//        let place1 = place(locationName: "place1", lat: 38.6277, long: -90.3147, city: "City1", state: "MO", folderID: 0)
+//        places[place1.folderID].append(place1)
+//        //        lat: 38.6557, long: -90.2022
+//        let place2 = place(locationName: "place2", lat: 38.6557, long: -90.2022, city: "City1", state: "MO", folderID: 1)
+//        places[place2.folderID].append(place2)
+//
+//        for place in places[0] {
+//            let annotation = MKPointAnnotation()
+//            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
+//            annotation.title = place.locationName
+//            annotation.subtitle = "\(place.city) \(place.state)"
+//            mapView.addAnnotation(annotation)
+//        }
     
-    
-    func hardCodePins() {
-        
-        var folder0:[place] = []
-        places.append(folder0)
-        
-        //        lat: 38.6476, long: -90.3108
-        let place0 = place(locationName: "place0", lat: 38.7476, long: -90.3108, city: "City0", state: "MO", folderID: 0)
-        places[place0.folderID].append(place0)
-        //        lat: 38.6277, long: -90.3127
-        let place1 = place(locationName: "place1", lat: 38.6277, long: -90.3147, city: "City1", state: "MO", folderID: 0)
-        places[place1.folderID].append(place1)
-        //        lat: 38.6557, long: -90.2022
-        let place2 = place(locationName: "place2", lat: 38.6557, long: -90.2022, city: "City1", state: "MO", folderID: 0)
-        places[place2.folderID].append(place2)
-        
-        for place in places[0] {
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
-            annotation.title = place.locationName
-            annotation.subtitle = "\(place.city) \(place.state)"
-            mapView.addAnnotation(annotation)
+       
+        // grab from db all folderID with owner = myID or sharedUserID = myID
+        let folderList = loadAllFolders()
+        if folderList.count > 0{
+            // for each folder id, grab all places and append to places[folderID]
+            for folderID in folderList{
+//                print("getting places in folder \(folderID)")
+                let placesInFolder = getPlaces(folderID : folderID)
+                places.append(placesInFolder)
+//                print("done with places in \(folderID)")
+            }
+        } else {
+            print("couldn't get list of folderIDs")
         }
+    }
+    
+    // create place objects from db data
+    func getPlaces(folderID : Int) -> [place]{
+        var places : [place] = []
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let DB = FMDatabase(path: thepath)
         
-        defineSpan(folder: places[0])
+        if !(DB.open()) {
+            print("Unable to open database")
+        } else {
+            do{
+                let results = try DB.executeQuery("select * from places where folderID=?", values:[folderID])
+                
+                while(results.next()) {
+                    let xcoord = Double(results.string(forColumn: "xcoord") ?? "0.0")
+                    let ycoord = Double(results.string(forColumn: "ycoord") ?? "0.0")
+                    let ln = results.string(forColumn: "locationName") ?? ""
+                    let c = results.string(forColumn: "city") ?? ""
+                    let s = results.string(forColumn: "state") ?? ""
+                    let thisPlace = place(locationName: ln, lat: xcoord!, long: ycoord!, city: c, state: s, folderID: folderID)
+//                    print("added \(thisPlace.locationName)")
+                    places.append(thisPlace)
+                }
+                
+                return places
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+            }
+        }
+        return places
+    }
+    
+    func loadAllFolders() -> [Int]{
+        let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
+        let folderDB = FMDatabase(path: thepath)
+        var folderIDs : [Int] = []
         
+        if !(folderDB.open()) {
+            print("Unable to open database")
+        } else {
+            do{
+                let myID = UserDefaults.standard.integer(forKey: "id")
+                let results = try folderDB.executeQuery("select * from folders where owner=?", values:[myID])
+                
+                while(results.next()) {
+                    let folderID = Int(results.int(forColumn: "folderID"))
+                    folderIDs.append(folderID)
+                }
+                
+                let results2 = try folderDB.executeQuery("select * from sharedFolders where sharedUserID=?", values:[myID])
+                while(results2.next()) {
+                    let folderID = Int(results2.int(forColumn: "folderID"))
+                    folderIDs.append(folderID)
+                }
+                return folderIDs
+            }
+            catch let error as NSError {
+                print("failed \(error)")
+            }
+        }
+        return folderIDs
     }
     
     func defineSpan(folder:[place]) {
@@ -135,8 +212,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         let avgLongs = sumLongs/Double(longs.count)
         
         avgCoord = CLLocationCoordinate2D(latitude: CLLocationDegrees(avgLats), longitude: CLLocationDegrees(avgLongs))
-        print("\(avgLats) and \(avgLongs)")
-        
+       
         for lat in lats {
             difsLats.append(abs(avgLats-lat))
             print(abs(avgLats-lat))
@@ -146,10 +222,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
             print(abs(avgLongs-long))
         }
         
+        // THIS RESETS VALUES TO 0.0 ??
         spanLat = difsLats.max()
-        print(spanLat)
+       // print("latitude = \(String(describing: spanLat))")
         spanLong = difsLongs.max()
-        print(spanLong)
+      //  print("longitude = \(String(describing: spanLong))")
         
         if spanLat! > spanLong! {
             maxSpan = spanLat
@@ -187,7 +264,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         if let selectedAnn = view.annotation
         {
             currentPin = selectedAnn as? MKPointAnnotation
-            print("User tapped on annotation with title: \(selectedAnn.title)")
+            print("User tapped on annotation with title: \(String(describing: selectedAnn.title))")
         }
     }
     
@@ -210,10 +287,34 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         
         toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50))
         toolBar.barStyle = .default
-        toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(onDoneButtonTapped)),UIBarButtonItem.init(title: "New Folder", style: .plain, target: self, action: #selector(onNewFolderTapped)),UIBarButtonItem.init(title: "Add", style: .plain, target: self, action: #selector(onAddButtonTapped)),
-                         //decide if we want to remove pins
-            UIBarButtonItem.init(title: "Remove", style: .plain, target: self, action: #selector(onRemoveTapped))]
+        toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(onDoneButtonTapped)),UIBarButtonItem.init(title: "New Folder", style: .plain, target: self, action: #selector(onNewFolderTapped)),UIBarButtonItem.init(title: "Add", style: .plain, target: self, action: #selector(onAddButtonTapped))]
         self.view.addSubview(toolBar)
+    }
+    
+    @objc func callPickerViewFolderView() {
+        print(self.view.subviews.count)
+        let count = self.view.subviews.count
+        if count == 1 {
+            picker = UIPickerView.init()
+            self.picker.delegate = self as UIPickerViewDelegate
+            self.picker.dataSource = self as UIPickerViewDataSource
+            picker.backgroundColor = UIColor.white
+            picker.setValue(UIColor.black, forKey: "textColor")
+            picker.autoresizingMask = .flexibleWidth
+            picker.contentMode = .center
+            picker.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
+            
+            self.view.addSubview(picker)
+            print(self.view.subviews.count)
+            toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50))
+            toolBar.barStyle = .default
+            toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(onDoneButtonTapped)),UIBarButtonItem.init(title: "Drop Pins", style: .plain, target: self, action: #selector(onDropPinsTapped))]
+            self.view.addSubview(toolBar)
+        }
+       else {
+            toolBar.removeFromSuperview()
+            picker.removeFromSuperview()
+        }
     }
     
     func addFolderToDB(_ folderName: String){
@@ -242,7 +343,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     }
     
     //DB TODO: adds items to folder successfully but they dont stay b/w builds
-    func addLoc(_ xCoord: Float, _ yCoord: Float, _ locationName: String, _ city: String, _ state: String){
+    func addLoc(_ xCoord: Double, _ yCoord: Double, _ locationName: String, _ city: String, _ state: String){
+        let xCoord = String(xCoord)
+        let yCoord = String(yCoord)
+        
         let thepath = Bundle.main.path(forResource: "mappi", ofType: "db")
         let folderDB = FMDatabase(path: thepath)
         var folderID = -1
@@ -261,7 +365,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
                 }
                 let query1 = "insert into places (locationName, xcoord, ycoord, city, state, folderID) values (?, ?, ?, ?, ?, ?)"
                 
-                let g = try folderDB.executeUpdate(query1, values: [locationName, xCoord, yCoord, city, state, folderID])
+                try folderDB.executeUpdate(query1, values: [locationName, xCoord, yCoord, city, state, folderID])
                 print("sucessfully added location")
                 
             } catch let error as NSError {
@@ -312,12 +416,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     //DB TODO: account for trying to add same location multiple times, make added pin stay b/w builds
         // right now not staying b/w builds but if location searched and checked off before, adding it again will add it as a checked off location (aka user defaults remebers it)
     @objc func onAddButtonTapped() {
-        print("current pin added to \(pickerFolder)")
+        print("current pin added to \(String(describing: pickerFolder))")
         
         //DB TODO: push this data into db based on pickerFolder, make sure force unwraps don't crash
-        let xCoord = Float((currentPin?.coordinate.longitude)!)
+        let xCoord = Double((currentPin?.coordinate.longitude)!)
         print(xCoord)
-        let yCoord = Float((currentPin?.coordinate.latitude)!)
+        let yCoord = Double((currentPin?.coordinate.latitude)!)
         print(yCoord)
         let locationName = currentPin!.title
         print(locationName)
@@ -330,17 +434,31 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         
     }
     
-    //Jane TODO: idt we actually need this, will remove
-    @objc func onRemoveTapped() {
-        //right now just testing span but eventually remove selected pin from folder if it exists there
-        let span:MKCoordinateSpan
-        //for some reason it's slightly off center but this zooms to always fit
-        span = MKCoordinateSpan(latitudeDelta: maxSpan! + 0.1, longitudeDelta: maxSpan! + 0.1)
+
+    var pickerID:Int = 0
+    @objc func onDropPinsTapped() {
+        mapView.removeAnnotations(mapView.annotations)
+        getPins()
+        pickerID = pickerID - 1
+
+        for place in places[pickerID] {
+           // print(place)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
+            annotation.title = place.locationName
+            annotation.subtitle = "\(place.city) \(place.state)"
+            mapView.addAnnotation(annotation)
+        }
+
+        defineSpan(folder: places[pickerID])
+            let span:MKCoordinateSpan
+            //for some reason it's slightly off center but this zooms to always fit
+            span = MKCoordinateSpan(latitudeDelta: maxSpan! + 0.1, longitudeDelta: maxSpan! + 0.1)
         
-        let region = MKCoordinateRegion(center: avgCoord!, span: span)
-        mapView.setRegion(region, animated: true)
+            let region = MKCoordinateRegion(center: avgCoord!, span: span)
+            mapView.setRegion(region, animated: true)
     }
-    //TODO: GILLIAN AND LEELA
+  
     //grab all folders for current user
     var pickerTest = grabFolders()
     
@@ -358,7 +476,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         pickerFolder = pickerTest[row]
-        print(pickerFolder)
+        pickerID = row
+        print("chosen folder = \(String(describing: pickerFolder))")
     }
     
 }
@@ -380,7 +499,16 @@ func grabFolders() -> [String]{
                 let someName = results.string(forColumn: "name")
                 retArray.append(someName!)
             }
+            let results2 = try folderDB.executeQuery("select * from sharedFolders where sharedUserID=?", values:[myID])
             
+            while(results2.next()) {
+                let folderID = Int(results2.int(forColumn: "folderID"))
+                let results3 = try folderDB.executeQuery("select * from folders where folderID=?", values: [folderID])
+                while(results3.next()){
+                    let someName = results3.string(forColumn: "name")
+                    retArray.append(someName!)
+                }
+            }
         }
         catch let error as NSError {
             print("failed \(error)")
@@ -450,4 +578,11 @@ extension MapViewController: HandleMapSearch {
         mapView.setRegion(region, animated: true)
     }
 }
+extension MapViewController: MenuControllerDelegate{
+    func passID(forID id: Int?) {
+        print("in menudelegate")
+        currentID = id ?? 0
+    }
+}
+
 

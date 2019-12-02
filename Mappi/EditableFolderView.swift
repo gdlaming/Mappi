@@ -46,6 +46,7 @@ class EditableFolderView: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = folderName
         nameOfFolderLabel.text = folderName
         nameOfFolderLabel.textColor = folderColor.withAlphaComponent(1.0)
         places = getPlaces()
