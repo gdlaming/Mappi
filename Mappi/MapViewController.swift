@@ -79,17 +79,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         
         dropPinsfromSide()
 
-        if currentID == nil {
-            let defaults = UserDefaults.standard
-            let empty: Int = 0
-            defaults.set(empty, forKey: "ids")
-            currentID = 0
-        }
-        else {
-            currentID = UserDefaults.standard.integer(forKey: "ids")
-            //call func to drop pins according to ID
-            hardCodePins()
-        }
+       
  
         configureNavBar()
     }
@@ -121,8 +111,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     func hardCodePins() {
         
         var folder0:[place] = []
+        var folder1:[place] = []
         places.append(folder0)
-        
+        places.append(folder1)
         //        lat: 38.6476, long: -90.3108
         let place0 = place(locationName: "place0", lat: 38.7476, long: -90.3108, city: "City0", state: "MO", folderID: 0)
         places[place0.folderID].append(place0)
@@ -130,22 +121,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         let place1 = place(locationName: "place1", lat: 38.6277, long: -90.3147, city: "City1", state: "MO", folderID: 0)
         places[place1.folderID].append(place1)
         //        lat: 38.6557, long: -90.2022
-        let place2 = place(locationName: "place2", lat: 38.6557, long: -90.2022, city: "City1", state: "MO", folderID: 0)
+        let place2 = place(locationName: "place2", lat: 38.6557, long: -90.2022, city: "City1", state: "MO", folderID: 1)
         places[place2.folderID].append(place2)
         
-        for place in places[0] {
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
-            annotation.title = place.locationName
-            annotation.subtitle = "\(place.city) \(place.state)"
-            mapView.addAnnotation(annotation)
-        }
+//        for place in places[0] {
+//            let annotation = MKPointAnnotation()
+//            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
+//            annotation.title = place.locationName
+//            annotation.subtitle = "\(place.city) \(place.state)"
+//            mapView.addAnnotation(annotation)
+//        }
+    
         
-        defineSpan(folder: places[0])
-        
-//        let defaults = UserDefaults.standard
-//        let empty: Int = 0
-//        defaults.set(empty, forKey: "ids")
         
     }
     
@@ -363,14 +350,26 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     }
     
     //Jane TODO: idt we actually need this, will remove
+    //right now just testing span but eventually remove selected pin from folder if it exists there
+    var pickerID:Int = 0
     @objc func onRemoveTapped() {
-        //right now just testing span but eventually remove selected pin from folder if it exists there
-        let span:MKCoordinateSpan
-        //for some reason it's slightly off center but this zooms to always fit
-        span = MKCoordinateSpan(latitudeDelta: maxSpan! + 0.1, longitudeDelta: maxSpan! + 0.1)
+        mapView.removeAnnotations(mapView.annotations)
+        hardCodePins()
+                for place in places[pickerID] {
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
+                    annotation.title = place.locationName
+                    annotation.subtitle = "\(place.city) \(place.state)"
+                    mapView.addAnnotation(annotation)
+                }
+
+        defineSpan(folder: places[pickerID])
+            let span:MKCoordinateSpan
+            //for some reason it's slightly off center but this zooms to always fit
+            span = MKCoordinateSpan(latitudeDelta: maxSpan! + 0.1, longitudeDelta: maxSpan! + 0.1)
         
-        let region = MKCoordinateRegion(center: avgCoord!, span: span)
-        mapView.setRegion(region, animated: true)
+            let region = MKCoordinateRegion(center: avgCoord!, span: span)
+            mapView.setRegion(region, animated: true)
     }
     //TODO: GILLIAN AND LEELA
     //grab all folders for current user
@@ -390,6 +389,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         pickerFolder = pickerTest[row]
+        pickerID = row
+        print(row)
         print(pickerFolder)
     }
     
