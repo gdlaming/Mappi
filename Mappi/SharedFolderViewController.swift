@@ -32,8 +32,8 @@ class SharedFolderViewController: UIViewController,  UITableViewDataSource, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = placesTable.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! FriendTableViewCell
        
-        myCell.placeTitleLabel.text = places[indexPath.item][0]!
-        myCell.placeDescriptionText.text = places[indexPath.item][1]!
+        myCell.placeTitleLabel.text = places[indexPath.item][0] ?? ""
+        myCell.placeDescriptionText.text = places[indexPath.item][1] ?? ""
         myCell.button.tintColor = folderColor.withAlphaComponent(1.0)
         myCell.button.setTitle(places[indexPath.item][0]!, for: .normal)
         myCell.button.setTitleColor(UIColor(white: 0, alpha: 0), for: .normal)
