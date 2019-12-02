@@ -93,35 +93,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     
     func getPins() {
         //FINAL DB TODO: replace code in here with the pull from the db, basically needs to do exactly the same thing as these hardcoded values. not sure if folderID system here fits w/ the database but even if it doesn't, make sure
-//        var folder0:[place] = []
-//        var folder1:[place] = []
-//        places.append(folder0)
-//        places.append(folder1)
-//        //        lat: 38.6476, long: -90.3108
-//        let place0 = place(locationName: "place0", lat: 38.7476, long: -90.3108, city: "City0", state: "MO", folderID: 0)
-//        places[place0.folderID].append(place0)
-//        //        lat: 38.6277, long: -90.3127
-//        let place1 = place(locationName: "place1", lat: 38.6277, long: -90.3147, city: "City1", state: "MO", folderID: 0)
-//        places[place1.folderID].append(place1)
-//        //        lat: 38.6557, long: -90.2022
-//        let place2 = place(locationName: "place2", lat: 38.6557, long: -90.2022, city: "City1", state: "MO", folderID: 1)
-//        places[place2.folderID].append(place2)
-//
-//        for place in places[0] {
-//            let annotation = MKPointAnnotation()
-//            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
-//            annotation.title = place.locationName
-//            annotation.subtitle = "\(place.city) \(place.state)"
-//            mapView.addAnnotation(annotation)
-//        }
-    
-       
+
         // grab from db all folderID with owner = myID or sharedUserID = myID
         let folderList = loadAllFolders()
         if folderList.count > 0{
             // for each folder id, grab all places and append to places[folderID]
             for folderID in folderList{
-//                print("getting places in folder \(folderID)")
+                print("getting places in folder \(folderID)")
                 let placesInFolder = getPlaces(folderID : folderID)
                 places.append(placesInFolder)
 //                print("done with places in \(folderID)")
@@ -243,7 +221,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     //more editing on creating the pin, all other pin content should be put in here i think
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is MKPointAnnotation else { return nil }
-        
+        print ("dropping pins 1")
         let identifier = "Annotation"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
         
@@ -355,8 +333,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
             return
         } else {
             do{
-                //TODO: first check to make sure the xcoord and ycoord are not already in the folder
-                //also added pins not saving b/w uses?
                 let query = "select folderID from folders where name=?"
                 let f = try folderDB.executeQuery(query, values: [pickerFolder])
                 while(f.next()){
@@ -413,7 +389,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     }
     //TODO: add to actual folder, check if already in folder, maybe add remove from folder? remove force unwraps, using for testing
     //DB TODO: account for trying to add same location multiple times, make added pin stay b/w builds
-        // right now not staying b/w builds but if location searched and checked off before, adding it again will add it as a checked off location (aka user defaults remebers it)
     @objc func onAddButtonTapped() -> Bool {
         if String(describing: pickerFolder) == "nil" {
             print ("it is nil")
@@ -448,9 +423,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         pickerID = pickerID - 1
 
         for place in places[pickerID] {
-           // print(place)
+            print("number of place \(places[pickerID].count)")
             let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.long), longitude: CLLocationDegrees(place.lat))
+            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(place.lat), longitude: CLLocationDegrees(place.long))
             annotation.title = place.locationName
             annotation.subtitle = "\(place.city) \(place.state)"
             mapView.addAnnotation(annotation)
