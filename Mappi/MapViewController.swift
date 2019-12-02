@@ -207,7 +207,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         spanLong = difsLongs.max()
       //  print("longitude = \(String(describing: spanLong))")
         
-        if spanLat! > spanLong! {
+        if (spanLat ?? 0) > (spanLong ?? 0) {
             maxSpan = spanLat
         }
         else {
@@ -423,7 +423,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
         mapView.removeAnnotations(mapView.annotations)
         getPins()
         pickerID = pickerID - 1
-
+        //let size = places.count
+        if (pickerID < 0){
+            let fac = UIAlertController(title: "Please select a folder", message: "Try again" , preferredStyle: .alert)
+            fac.addAction(UIAlertAction(title:"Return", style: .default, handler:nil))
+            present(fac, animated:true, completion: nil)
+            return
+        }
         for place in places[pickerID] {
             print("number of place \(places[pickerID].count)")
             let annotation = MKPointAnnotation()
