@@ -92,7 +92,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPickerViewDelega
     }
     
     func hardCodePins() {
-        //FINAL DB TODO: replace code in here with the pull from the db, basically needs to do exactly the same thing as these hardcoded values. not sure if folderID system here fits w/ the database but even if it doesn't, make sure
+        //FINAL DB TODO: replace code in here with the pull from the db, basically needs to do exactly the same thing as these hardcoded values aka save place objects into places. index should match index of that folder in pickerFolder (aka right now "best places to cry on campus" is pickerFolder index 1 so only place 2 is dropped when selecting that folder)
         var folder0:[place] = []
         var folder1:[place] = []
         places.append(folder0)
